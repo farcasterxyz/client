@@ -1,0 +1,8 @@
+{
+  "name": "farcaster-babel-plugins",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@babel/types": "^7.24.0"
+  }
+}

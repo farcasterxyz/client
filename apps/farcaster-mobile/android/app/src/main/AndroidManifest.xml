@@ -1,0 +1,207 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+  <uses-permission android:name="android.permission.CAMERA"/>
+  <uses-permission android:name="android.permission.INTERNET"/>
+  <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"/>
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE"/>
+  <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+  <uses-permission android:name="android.permission.READ_CONTACTS"/>
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" tools:replace="android:maxSdkVersion"/>
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+  <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+  <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+  <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+  <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+  <uses-permission android:name="android.permission.VIBRATE"/>
+  <uses-permission android:name="android.permission.WRITE_CONTACTS"/>
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="32" tools:replace="android:maxSdkVersion"/>
+  <uses-feature android:name="android.hardware.telephony" android:required="false"/>
+  <uses-feature android:name="android.hardware.bluetooth" android:required="false"/>
+  <uses-feature android:name="android.hardware.bluetooth_le" android:required="false"/>
+  <queries>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <category android:name="android.intent.category.BROWSABLE"/>
+      <data android:scheme="http"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <category android:name="android.intent.category.BROWSABLE"/>
+      <data android:scheme="https"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="twitter"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="instagram"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="fb"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="whatsapp"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="tg"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="barcelona"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="bsky"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="youtube"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="tiktok"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="reddit"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="spotify"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="discord"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="linkedin"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="pinterest"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="snapchat"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="twitch"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="soundcloud"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="vimeo"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="medium"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="substack"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="patreon"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="music"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="behance"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="dribbble"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="flickr"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="tumblr"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="kick"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="letterboxd"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="mixcloud"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="bandcamp"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="giphy"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW"/>
+      <data android:scheme="imgur"/>
+    </intent>
+    <package android:name="org.toshi"/>
+    <package android:name="me.rainbow"/>
+  </queries>
+  <application android:name=".MainApplication" android:label="@string/app_name" android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher_round" android:allowBackup="true" android:theme="@style/AppTheme" android:supportsRtl="true" android:requestLegacyExternalStorage="true" android:fullBackupContent="@xml/secure_store_backup_rules" android:dataExtractionRules="@xml/secure_store_data_extraction_rules" android:largeHeap="true">
+    <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/notification_icon"/>
+    <meta-data android:name="expo.modules.notifications.default_notification_icon" android:resource="@drawable/notification_icon"/>
+    <meta-data android:name="expo.modules.updates.ENABLED" android:value="true"/>
+    <meta-data android:name="expo.modules.updates.EXPO_RUNTIME_VERSION" android:value="@string/expo_runtime_version"/>
+    <meta-data android:name="expo.modules.updates.EXPO_UPDATES_CHECK_ON_LAUNCH" android:value="ALWAYS"/>
+    <meta-data android:name="expo.modules.updates.EXPO_UPDATES_LAUNCH_WAIT_MS" android:value="0"/>
+    <meta-data android:name="expo.modules.updates.EXPO_UPDATE_URL" android:value="https://u.expo.dev/REPLACE_ME"/>
+    <activity android:name=".MainActivity" android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode|locale|layoutDirection|density|fontScale|navigation|smallestScreenSize" android:launchMode="singleTask" android:windowSoftInputMode="adjustResize" android:theme="@style/Theme.App.SplashScreen" android:exported="true" android:screenOrientation="portrait" android:supportsPictureInPicture="true">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="farcaster"/>
+        <data android:scheme="com.farcaster.mobile"/>
+      </intent-filter>
+      <intent-filter android:autoVerify="true">
+        <action android:name="android.intent.action.VIEW"/>
+        <data android:scheme="https" android:host="warpcast.com"/>
+        <data android:scheme="https" android:host="farcaster.xyz"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+      </intent-filter>
+    </activity>
+    <receiver android:name="com.farcaster.mobile.notifications.service.NotificationsService" android:enabled="true" android:exported="false">
+      <intent-filter android:priority="100">
+        <action android:name="expo.modules.notifications.NOTIFICATION_EVENT"/>
+        <action android:name="android.intent.action.BOOT_COMPLETED"/>
+        <action android:name="android.intent.action.REBOOT"/>
+        <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
+        <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
+        <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+      </intent-filter>
+    </receiver>
+    <service android:name=".spaces.SpaceForegroundService" android:enabled="true" android:exported="false" android:foregroundServiceType="mediaPlayback|microphone"/>
+    <service android:name="com.farcaster.mobile.profiling.ProfilerService" android:enabled="true" android:exported="true"/>
+  </application>
+</manifest>

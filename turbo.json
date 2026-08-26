@@ -1,0 +1,59 @@
+{
+  "$schema": "https://turborepo.org/schema.json",
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**", "lib/**"]
+    },
+    "pnpm:sync": {
+      "dependsOn": ["build"],
+      "cache": false
+    },
+    "buildAndSync": {
+      "dependsOn": ["build", "pnpm:sync"]
+    },
+    "lint": {
+      "dependsOn": ["^buildAndSync"],
+      "outputs": []
+    },
+    "lint:fix": {
+      "dependsOn": ["^buildAndSync"],
+      "outputs": []
+    },
+    "format": {
+      "outputs": []
+    },
+    "test": {
+      "dependsOn": ["^buildAndSync"],
+      "outputs": []
+    },
+    "typecheck": {
+      "dependsOn": ["^buildAndSync"],
+      "outputs": []
+    },
+    "dev": {
+      "cache": false
+    }
+  },
+  "globalEnv": [
+    "AI_GATEWAY_API_KEY",
+    "AZURE_OPENAI_API_KEY",
+    "AZURE_OPENAI_ENDPOINT",
+    "AZURE_OPENAI_GPT_5_4_DEPLOYMENT",
+    "AZURE_OPENAI_GPT_5_4_MINI_DEPLOYMENT",
+    "AZURE_OPENAI_GPT_5_5_DEPLOYMENT",
+    "AZURE_OPENAI_GPT_5_6_LUNA_DEPLOYMENT",
+    "AZURE_OPENAI_GPT_5_6_SOL_DEPLOYMENT",
+    "AZURE_OPENAI_GPT_5_6_TERRA_DEPLOYMENT",
+    "AZURE_OPENAI_RESOURCE_NAME",
+    "CLANKER_WORLD_OPENAI_PROVIDER",
+    "DEBUG_PROD",
+    "ENVIRONMENT",
+    "NODE_ENV",
+    "PORT",
+    "START_MINIMIZED",
+    "UPGRADE_EXTENSIONS",
+    "VERCEL",
+    "VERCEL_OIDC_TOKEN"
+  ]
+}

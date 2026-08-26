@@ -1,0 +1,13 @@
+diff --git a/android/src/main/java/expo/modules/haptics/HapticsModule.kt b/android/src/main/java/expo/modules/haptics/HapticsModule.kt
+index 152046563b9e44a04155c4f6079556f06372aab6..6ea988a5a54da26df45d10708451a4d92a08a540 100644
+--- a/android/src/main/java/expo/modules/haptics/HapticsModule.kt
++++ b/android/src/main/java/expo/modules/haptics/HapticsModule.kt
+@@ -42,7 +42,7 @@ class HapticsModule : Module() {
+ 
+   private fun vibrate(type: HapticsVibrationType) {
+     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+-      vibrator.vibrate(VibrationEffect.createWaveform(type.timings, type.amplitudes, -1))
++      vibrator.vibrate(VibrationEffect.createWaveform(type.oldSDKPattern, intArrayOf(0, 100), -1))
+     } else {
+       @Suppress("DEPRECATION")
+       vibrator.vibrate(type.oldSDKPattern, -1)

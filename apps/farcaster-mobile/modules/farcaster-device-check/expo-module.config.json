@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["FarcasterDeviceCheckModule"]
+  },
+  "android": {
+    "modules": ["farcaster.modules.deviceCheck.DeviceCheckModule"]
+  }
+}

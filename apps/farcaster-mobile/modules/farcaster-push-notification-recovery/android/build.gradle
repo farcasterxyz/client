@@ -1,0 +1,25 @@
+plugins {
+  id 'com.android.library'
+  id 'expo-module-gradle-plugin'
+}
+
+group = 'farcaster.modules.pushNotificationRecovery'
+version = '1.0.0'
+
+android {
+  namespace 'farcaster.modules.pushNotificationRecovery'
+  defaultConfig {
+    versionCode 1
+    versionName "1.0.0"
+  }
+}
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  implementation platform('com.google.firebase:firebase-bom:34.10.0')
+  implementation 'com.google.firebase:firebase-installations'
+  implementation 'com.google.firebase:firebase-messaging'
+}

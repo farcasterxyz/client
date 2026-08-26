@@ -1,0 +1,50 @@
+# Write smoke: publish a cast from the test FID's home feed.
+#
+# Only writes to the dedicated test account (no interaction with other
+# users). The composer text embeds MAESTRO_RUN_ID so casts produced by
+# this flow can be traced back to the GHA run that created them.
+#
+# Selectors:
+#   - `floating-composer-button` testID on FloatingComposerButton
+#     (apps/farcaster-mobile/src/components/FloatingComposerButton.tsx).
+#   - `create-cast-publish-button` testID on the publish ButtonV2 in
+#     apps/farcaster-mobile/src/screens/CreateCast/CreateCastScreen.tsx.
+#
+# The composer text input takes focus on open, so `inputText` types
+# into it without an explicit field tap — same pattern the sign-in
+# flow uses for the mnemonic textarea (autoFocus).
+appId: ${APP_ID}
+tags:
+  - write
+  - feed
+---
+- launchApp
+
+- extendedWaitUntil:
+    visible:
+      text: 'Home|following|neynar'
+    timeout: 30000
+
+- tapOn:
+    id: 'floating-composer-button'
+
+# Composer presentation + autofocus settling. Without this the
+# inputText below races the keyboard mount.
+- waitForAnimationToEnd:
+    timeout: 5000
+
+- inputText: 'E2E run ${MAESTRO_RUN_ID}'
+
+- hideKeyboard
+
+- tapOn:
+    id: 'create-cast-publish-button'
+
+# Successful publish dismisses the composer and returns to the home
+# feed. The pill anchor confirms both transitions (publish completion
+# + navigation back) without depending on a toast that may have
+# already animated away by the time the assertion runs.
+- extendedWaitUntil:
+    visible:
+      text: 'Home|following|neynar'
+    timeout: 30000

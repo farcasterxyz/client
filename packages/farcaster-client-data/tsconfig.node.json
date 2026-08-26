@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "Node16",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2021",
+    "noImplicitAny": true,
+    "strict": true,
+    "moduleResolution": "Node16",
+    "noEmit": true,
+    "types": ["node"]
+  },
+  "include": ["bin/**/*.ts"]
+}

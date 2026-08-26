@@ -1,0 +1,10 @@
+export const appPathPrefixSymbol = '~';
+export const appPathPrefix = `/${appPathPrefixSymbol}`;
+export const appSettingsPathPrefix = `/${appPathPrefixSymbol}/settings`;
+export const appExplorePathPrefix = `/${appPathPrefixSymbol}/explore`;
+export const appInboxPathPrefix = `/${appPathPrefixSymbol}/inbox`;
+export const appDevelopersPathPrefix = `/${appPathPrefixSymbol}/developers`;
+export const appSearchPathPrefix = `/${appPathPrefixSymbol}/search`;
+export const appSupportPathPrefix = `/${appPathPrefixSymbol}/support`;
+export const appTermsOfUsePathPrefix = `/${appPathPrefixSymbol}/terms-of-use`;
+export const appPrivayPolicyPathPrefix = `/${appPathPrefixSymbol}/privacy-policy`;

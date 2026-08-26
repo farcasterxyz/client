@@ -1,0 +1,104 @@
+{
+  "cli": {
+    "version": ">= 7.2.0"
+  },
+  "build": {
+    "base": {
+      "node": "24.3.0",
+      "pnpm": "10.8.1",
+      "ios": {
+        "cocoapods": "1.16.2",
+        "resourceClass": "large"
+      },
+      "android": {
+        "resourceClass": "large"
+      }
+    },
+    "development": {
+      "extends": "base",
+      "environment": "development",
+      "channel": "development",
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "extends": "base",
+      "environment": "preview",
+      "channel": "preview",
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "internal": {
+      "extends": "base",
+      "environment": "preview",
+      "channel": "internal",
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_DISABLE_APPSTORE_PROMPT": "1",
+        "EXPO_PUBLIC_DISABLE_NOTIFICATION_PROMPT": "1"
+      },
+      "ios": {
+        "image": "macos-sequoia-15.6-xcode-26.2",
+        "enterpriseProvisioning": "adhoc"
+      },
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "local": {
+      "extends": "base",
+      "environment": "development",
+      "channel": "local-no-ota",
+      "distribution": "internal",
+      "ios": {
+        "buildConfiguration": "Release",
+        "simulator": false
+      },
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "production": {
+      "extends": "base",
+      "environment": "production",
+      "channel": "production",
+      "env": { "POSTHOG_CLI_PROJECT_ID": "1" },
+      "ios": {
+        "image": "macos-sequoia-15.6-xcode-26.2",
+        "applicationArchivePath": "ios/build/Farcaster.ipa",
+        "buildArtifactPaths": ["ios/build/*.dSYM.zip", "ios/build/Logs/**/*"]
+      }
+    },
+    "production-apk": {
+      "extends": "base",
+      "environment": "production",
+      "channel": "production",
+      "distribution": "internal",
+      "env": { "POSTHOG_CLI_PROJECT_ID": "1" },
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "simulator": {
+      "extends": "base",
+      "environment": "development",
+      "channel": "simulator",
+      "distribution": "internal",
+      "ios": {
+        "simulator": true
+      },
+      "android": {
+        "buildType": "apk"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "ios": {
+        "ascAppId": "1600555445"
+      }
+    }
+  }
+}

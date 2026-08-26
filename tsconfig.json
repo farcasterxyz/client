@@ -1,0 +1,10 @@
+{
+  "include": ["scripts/**/*.ts"],
+  "exclude": [],
+  "compilerOptions": {
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext",
+    "target": "ES2021",
+    "lib": ["ES2022", "DOM"]
+  }
+}

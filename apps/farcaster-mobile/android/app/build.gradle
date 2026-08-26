@@ -1,0 +1,337 @@
+apply plugin: "com.android.application"
+apply plugin: "org.jetbrains.kotlin.android"
+apply plugin: "com.facebook.react"
+
+// Source-map / symbol uploads run only when their credentials are present in the
+// build env — i.e. CI/EAS release builds (where the secrets are set), not local
+// builds, which aren't shipped to users. This keeps local release builds
+// (profiling, on-device testing) from failing at the upload step.
+//
+// Check for a non-blank value, not just non-null: an unset GitHub Actions / EAS
+// secret commonly expands to an empty string, which would otherwise enable the
+// upload task and then fail with empty credentials (matches the iOS `-n` checks).
+def hasEnv = { String name ->
+    def value = System.getenv(name)
+    value != null && !value.trim().isEmpty()
+}
+def datadogUploadsEnabled = hasEnv("DATADOG_API_KEY") || hasEnv("DD_API_KEY")
+def posthogUploadsEnabled = hasEnv("POSTHOG_CLI_API_KEY")
+
+// Datadog symbolication uploads (manual wiring — this repo commits its native
+// dirs and never runs `expo prebuild`, so the expo-datadog config plugin is
+// inert). Two uploads, both keyed to the RUM SDK so traces de-obfuscate in RUM:
+//   - dd-sdk-android-gradle-plugin: `uploadMapping<Variant>` for R8/Proguard
+//     mapping files (native Java/Kotlin crash de-obfuscation). Classpath is in
+//     the root build.gradle; the finalizedBy hook at the bottom of this file
+//     runs it after R8.
+//   - datadog-sourcemaps.gradle: uploads the Hermes-composed JS source map
+//     (carrying the per-bundle Debug ID from metro.config.js) for JS errors.
+// The datadog{} closure feeds serviceName to BOTH uploads. serviceName MUST
+// equal the RUM SDK's `service` ("farcaster-mobile") or uploads default to
+// variant.applicationId and never match reported errors. API key is read from
+// DATADOG_API_KEY/DD_API_KEY; site is US1.
+apply plugin: "com.datadoghq.dd-sdk-android-gradle-plugin"
+datadog {
+    checkProjectDependencies = "none"
+    serviceName = "farcaster-mobile"
+    site = "US1"
+}
+if (datadogUploadsEnabled) {
+    apply from: "../../node_modules/@datadog/mobile-react-native/datadog-sourcemaps.gradle"
+}
+
+apply plugin: "androidx.baselineprofile"
+
+def projectRoot = rootDir.getAbsoluteFile().getParentFile().getAbsolutePath()
+
+/**
+ * This is the configuration block to customize your React Native Android app.
+ * By default you don't need to apply any configuration, just uncomment the lines you need.
+ */
+react {
+    entryFile = file(["node", "-e", "require('expo/scripts/resolveAppEntry')", projectRoot, "android", "absolute"].execute(null, rootDir).text.trim())
+    reactNativeDir = new File(["node", "--print", "require.resolve('react-native/package.json')"].execute(null, rootDir).text.trim()).getParentFile().getAbsoluteFile()
+    hermesCommand = new File(["node", "--print", "require.resolve('hermes-compiler/package.json', { paths: [require.resolve('react-native/package.json')] })"].execute(null, rootDir).text.trim()).getParentFile().getAbsolutePath() + "/hermesc/%OS-BIN%/hermesc"
+    codegenDir = new File(["node", "--print", "require.resolve('@react-native/codegen/package.json', { paths: [require.resolve('react-native/package.json')] })"].execute(null, rootDir).text.trim()).getParentFile().getAbsoluteFile()
+    enableBundleCompression = (findProperty('android.enableBundleCompression') ?: false).toBoolean()
+    // Use Expo CLI to bundle the app, this ensures the Metro config
+    // works correctly with Expo projects.
+    cliFile = new File(["node", "--print", "require.resolve('@expo/cli', { paths: [require.resolve('expo/package.json')] })"].execute(null, rootDir).text.trim())
+    bundleCommand = "export:embed"
+
+    /* Folders */
+     //   The root of your project, i.e. where "package.json" lives. Default is '../..'
+    // root = file("../../")
+    //   The folder where the react-native NPM package is. Default is ../../node_modules/react-native
+    // reactNativeDir = file("../../node_modules/react-native")
+    //   The folder where the react-native Codegen package is. Default is ../../node_modules/@react-native/codegen
+    // codegenDir = file("../../node_modules/@react-native/codegen")
+
+    /* Variants */
+    //   The list of variants to that are debuggable. For those we're going to
+    //   skip the bundling of the JS bundle and the assets. By default is just 'debug'.
+    //   If you add flavors like lite, prod, etc. you'll have to list your debuggableVariants.
+    // debuggableVariants = ["liteDebug", "prodDebug"]
+
+    /* Bundling */
+    //   A list containing the node command and its flags. Default is just 'node'.
+    // nodeExecutableAndArgs = ["node"]
+
+    //
+    //   The path to the CLI configuration file. Default is empty.
+    // bundleConfig = file(../rn-cli.config.js)
+    //
+    //   The name of the generated asset file containing your JS bundle
+    // bundleAssetName = "MyApplication.android.bundle"
+    //
+    //   The entry file for bundle generation. Default is 'index.android.js' or 'index.js'
+    // entryFile = file("../js/MyApplication.android.js")
+    //
+    //   A list of extra flags to pass to the 'bundle' commands.
+    //   See https://github.com/react-native-community/cli/blob/main/docs/commands.md#bundle
+    // extraPackagerArgs = []
+
+    /* Hermes Commands */
+    //   The hermes compiler command to run. By default it is 'hermesc'
+    // hermesCommand = "$rootDir/my-custom-hermesc/bin/hermesc"
+    //
+    //   The list of flags to pass to the Hermes compiler. By default is "-O", "-output-source-map"
+    // hermesFlags = ["-O", "-output-source-map"]
+
+    /* Autolinking */
+    autolinkLibrariesWithApp()
+}
+
+/**
+ * Set this to true to Run Proguard on Release builds to minify the Java bytecode.
+ * Set this to true in release builds to optimize the app using R8 (https://developer.android.com/topic/performance/app-optimization/enable-app-optimization).
+ */
+def enableMinifyInReleaseBuilds = (findProperty('android.enableMinifyInReleaseBuilds') ?: false).toBoolean()
+
+/**
+ * The preferred build flavor of JavaScriptCore (JSC)
+ *
+ * For example, to use the international variant, you can use:
+ * `def jscFlavor = 'org.webkit:android-jsc-intl:+'`
+ *
+ * The international variant includes ICU i18n library and necessary data
+ * allowing to use e.g. `Date.toLocaleString` and `String.localeCompare` that
+ * give correct results when using with locales other than en-US. Note that
+ * this variant is about 6MiB larger per architecture than default.
+ */
+def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
+
+android {
+    ndkVersion rootProject.ext.ndkVersion
+
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdk rootProject.ext.compileSdkVersion
+
+    namespace 'com.farcaster.mobile'
+    defaultConfig {
+        applicationId 'com.farcaster.mobile'
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 562
+        versionName "2.1.15"
+
+        buildConfigField "String", "REACT_NATIVE_RELEASE_LEVEL", "\"${findProperty('reactNativeReleaseLevel') ?: 'stable'}\""
+
+        // React Native IAP
+        missingDimensionStrategy "store", "play"
+    }
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            // Caution! In production, you need to generate your own keystore file.
+            // see https://reactnative.dev/docs/signed-apk-android.
+            signingConfig signingConfigs.debug
+            def enableShrinkResources = findProperty('android.enableShrinkResourcesInReleaseBuilds') ?: 'false'
+            shrinkResources enableShrinkResources.toBoolean()
+            minifyEnabled enableMinifyInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            def enablePngCrunchInRelease = findProperty('android.enablePngCrunchInReleaseBuilds') ?: 'true'
+            crunchPngs enablePngCrunchInRelease.toBoolean()
+            ndk {
+                debugSymbolLevel 'FULL'
+            }
+        }
+    }
+    packagingOptions {
+        jniLibs {
+            def enableLegacyPackaging = findProperty('expo.useLegacyPackaging') ?: 'false'
+            useLegacyPackaging enableLegacyPackaging.toBoolean()
+        }
+    }
+    androidResources {
+        ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:!CVS:!thumbs.db:!picasa.ini:!*~'
+    }
+}
+
+// TODO(MOBILE-TECHDEBT-EXTERNAL-NATIVE-CLEAN): Remove this workaround once RN clean-task
+// codegen JNI handling is stable across fresh checkouts.
+// Repro (Apr 2026): `./gradlew clean && ./gradlew :app:assembleDebug` fails at
+// `:app:externalNativeBuildCleanDebug` with missing generated codegen JNI directories
+// (e.g. native module `.../build/generated/source/codegen/jni` directories).
+tasks.matching { task ->
+    task.name.startsWith("externalNativeBuildClean")
+}.configureEach {
+    enabled = false
+}
+
+// Force ML Kit barcode-scanning to 17.3.0 for 16 KB memory page size compliance.
+// expo-camera hardcodes 17.2.0 which ships libbarhopper_v3.so without 16 KB aligned ELF segments.
+configurations.configureEach {
+    resolutionStrategy {
+        force 'com.google.mlkit:barcode-scanning:17.3.0'
+    }
+}
+
+// Apply static values from `gradle.properties` to the `android.packagingOptions`
+// Accepts values in comma delimited lists, example:
+// android.packagingOptions.pickFirsts=/LICENSE,**/picasa.ini
+["pickFirsts", "excludes", "merges", "doNotStrip"].each { prop ->
+    // Split option: 'foo,bar' -> ['foo', 'bar']
+    def options = (findProperty("android.packagingOptions.$prop") ?: "").split(",");
+    // Trim all elements in place.
+    for (i in 0..<options.size()) options[i] = options[i].trim();
+    // `[] - ""` is essentially `[""].filter(Boolean)` removing all empty strings.
+    options -= ""
+
+    if (options.length > 0) {
+        println "android.packagingOptions.$prop += $options ($options.length)"
+        // Ex: android.packagingOptions.pickFirsts += '**/SCCS/**'
+        options.each {
+            android.packagingOptions[prop] += it
+        }
+    }
+}
+
+dependencies {
+    // The version of react-native is set by the React Native Gradle Plugin
+    implementation("com.facebook.react:react-android")
+    def isGifEnabled = (findProperty('expo.gif.enabled') ?: "") == "true";
+    def isWebpEnabled = (findProperty('expo.webp.enabled') ?: "") == "true";
+    def isWebpAnimatedEnabled = (findProperty('expo.webp.animated') ?: "") == "true";
+
+    if (isGifEnabled) {
+        // For animated gif support
+        implementation("com.facebook.fresco:animated-gif:${expoLibs.versions.fresco.get()}")
+    }
+
+    if (isWebpEnabled) {
+        // For webp support
+        implementation("com.facebook.fresco:webpsupport:${expoLibs.versions.fresco.get()}")
+        if (isWebpAnimatedEnabled) {
+            // Animated webp support
+            implementation("com.facebook.fresco:animated-webp:${expoLibs.versions.fresco.get()}")
+        }
+    }
+
+    if (hermesEnabled.toBoolean()) {
+        implementation("com.facebook.react:hermes-android")
+    } else {
+        implementation jscFlavor
+    }
+
+    // Installs the generated baseline profile at app launch on devices that
+    // support it (API 28+). Falls back to a no-op on older devices.
+    implementation("androidx.profileinstaller:profileinstaller:1.3.1")
+
+    baselineProfile project(":baselineProfile")
+}
+
+apply plugin: 'com.google.gms.google-services'
+
+// Upload the R8/Proguard mapping file to Datadog after minification, so native
+// (Java/Kotlin) crash stack traces de-obfuscate in RUM. Mirrors what the
+// expo-datadog config plugin injects during prebuild. No-op for variants
+// without R8 (e.g. the fast local build with minify disabled).
+if (datadogUploadsEnabled) {
+    android {
+        applicationVariants.all { variant ->
+            def variantName = variant.name.capitalize()
+            def minifyTask = project.tasks.findByName("minify${variantName}WithR8")
+            if (minifyTask != null) {
+                minifyTask.finalizedBy { tasks["uploadMapping${variantName}"] }
+                // Finalizers run even when the finalized task fails. Skip the
+                // upload when minification failed, so we never upload a stale
+                // mapping from a prior build tagged with the current version.
+                tasks.matching { it.name == "uploadMapping${variantName}" }
+                        .configureEach { onlyIf { minifyTask.state.failure == null } }
+            }
+        }
+    }
+}
+
+// datadog-sourcemaps.gradle wires its JS source-map upload via the same
+// `bundleTask.finalizedBy`, so apply the same skip-on-failure guard: don't upload
+// a stale JS source map (tagged with the current version) when bundling failed.
+if (datadogUploadsEnabled) {
+    android {
+        applicationVariants.all { variant ->
+            def variantName = variant.name.capitalize()
+            tasks.matching { it.name == "upload${variantName}Sourcemaps" }
+                    .configureEach {
+                        onlyIf {
+                            def bundle = project.tasks
+                                    .findByName("createBundle${variantName}JsAndAssets")
+                            bundle != null && bundle.state.failure == null
+                        }
+                    }
+        }
+    }
+}
+
+// Upload the Hermes JS source map to PostHog after each release bundle task, so
+// JS error stack traces de-obfuscate in PostHog error tracking — the companion
+// to Datadog's datadog-sourcemaps.gradle above. We invoke posthog-cli's modern
+// top-level `hermes upload` directly rather than the vendor posthog.gradle,
+// which calls the removed `exp hermes` API on @posthog/cli 0.7.30 (and
+// double-bundles). The composed map already carries the shared per-bundle Debug
+// ID (from metro.config.js, copied into the composed map by Datadog's gradle),
+// so no `clone` step is needed. POSTHOG_CLI_API_KEY + POSTHOG_CLI_PROJECT_ID are
+// read from the build env; the self-hosted host defaults to ph.neynar.com.
+android {
+    applicationVariants.all { variant ->
+        if (variant.buildType.name == "release" && posthogUploadsEnabled) {
+            def variantName = variant.name.capitalize()
+            def uploadTask = project.tasks.register("uploadPostHog${variantName}Sourcemaps", Exec) {
+                description = "Uploads the Hermes JS source map to PostHog for ${variantName}."
+                workingDir project.projectDir.parentFile
+                commandLine "${project.projectDir}/../../node_modules/.bin/posthog-cli",
+                        "hermes", "upload",
+                        "--directory", "${project.projectDir}/build/generated/sourcemaps/react/${variant.name}",
+                        "--release-version", variant.versionName,
+                        "--build", variant.versionCode.toString()
+                environment "POSTHOG_CLI_HOST",
+                        (System.getenv("POSTHOG_CLI_HOST") ?: "https://ph.neynar.com")
+                // Default to the dev PostHog project; production EAS profiles
+                // override POSTHOG_CLI_PROJECT_ID to the prod project in eas.json.
+                environment "POSTHOG_CLI_PROJECT_ID",
+                        (System.getenv("POSTHOG_CLI_PROJECT_ID") ?: "3")
+                // Finalizers run even when the finalized task fails. Skip the
+                // upload when bundling failed, so we never upload a stale map
+                // from a prior build tagged with the current version.
+                onlyIf {
+                    def bundle = project.tasks
+                            .findByName("createBundle${variantName}JsAndAssets")
+                    bundle == null || bundle.state.failure == null
+                }
+            }
+            project.tasks.matching {
+                it.name == "createBundle${variantName}JsAndAssets"
+            }.configureEach { finalizedBy(uploadTask) }
+        }
+    }
+}

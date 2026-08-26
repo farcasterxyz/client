@@ -1,0 +1,16 @@
+import { useQueryClient } from '@tanstack/react-query';
+import { useCallback } from 'react';
+
+import { buildUserPreferencesKey } from './buildUserPreferencesKey';
+
+const useInvalidateUserPreferences = () => {
+  const queryClient = useQueryClient();
+
+  return useCallback(() => {
+    queryClient.invalidateQueries({
+      queryKey: buildUserPreferencesKey(),
+    });
+  }, [queryClient]);
+};
+
+export { useInvalidateUserPreferences };

@@ -1,0 +1,206 @@
+diff --git a/ios/PasteTextInput.mm b/ios/PasteTextInput.mm
+index dd500532c0e8ca821c66ed6bdf448f65e06dd64f..2ed7017dd7007b537545f9b68d1fd81a2aea4c5b 100644
+--- a/ios/PasteTextInput.mm
++++ b/ios/PasteTextInput.mm
+@@ -122,8 +122,8 @@ std::int32_t convertNSDictionaryValueToStdInt(NSDictionary *dictionary, NSString
+   const auto &newTextInputProps = static_cast<const PasteTextInputProps &>(*props);
+ 
+   // Traits:
+-  if (newTextInputProps.traits.multiline != oldTextInputProps.traits.multiline) {
+-    [self _setMultiline:newTextInputProps.traits.multiline];
++  if (newTextInputProps.multiline != oldTextInputProps.multiline) {
++    [self _setMultiline:newTextInputProps.multiline];
+   }
+ 
+   if (newTextInputProps.traits.autocapitalizationType != oldTextInputProps.traits.autocapitalizationType) {
+@@ -421,7 +421,7 @@ std::int32_t convertNSDictionaryValueToStdInt(NSDictionary *dictionary, NSString
+     return;
+   }
+   const auto &props = static_cast<const PasteTextInputProps &>(*_props);
+-  if (props.traits.multiline && ![_lastStringStateWasUpdatedWith isEqual:_backedTextInputView.attributedText]) {
++  if (props.multiline && ![_lastStringStateWasUpdatedWith isEqual:_backedTextInputView.attributedText]) {
+     [self textInputDidChange];
+     _ignoreNextTextInputCall = YES;
+   }
+@@ -708,11 +708,11 @@ std::int32_t convertNSDictionaryValueToStdInt(NSDictionary *dictionary, NSString
+ - (SubmitBehavior)getSubmitBehavior
+ {
+   const auto &props = static_cast<const PasteTextInputProps &>(*_props);
+-  const SubmitBehavior submitBehaviorDefaultable = props.traits.submitBehavior;
++  const SubmitBehavior submitBehaviorDefaultable = props.submitBehavior;
+ 
+   // We should always have a non-default `submitBehavior`, but in case we don't, set it based on multiline.
+   if (submitBehaviorDefaultable == SubmitBehavior::Default) {
+-    return props.traits.multiline ? SubmitBehavior::Newline : SubmitBehavior::BlurAndSubmit;
++    return props.multiline ? SubmitBehavior::Newline : SubmitBehavior::BlurAndSubmit;
+   }
+ 
+   return submitBehaviorDefaultable;
+diff --git a/ios/PasteTextInputSpecs/Props.cpp b/ios/PasteTextInputSpecs/Props.cpp
+index 29e094f72dd1e307e4a39cd7ec17f530ccad48ce..671530889ee152fe2f1ed5bef5dc3b6841509067 100644
+--- a/ios/PasteTextInputSpecs/Props.cpp
++++ b/ios/PasteTextInputSpecs/Props.cpp
+@@ -14,6 +14,7 @@
+ 
+ #include <react/renderer/attributedstring/conversions.h>
+ #include <react/renderer/components/iostextinput/propsConversions.h>
++#include <react/renderer/components/textinput/baseConversions.h>
+ #include <react/renderer/core/graphicsConversions.h>
+ 
+ namespace facebook::react {
+@@ -104,7 +105,19 @@ PasteTextInputProps::PasteTextInputProps(
+         rawProps,
+         "inputAccessoryViewID",
+         sourceProps.inputAccessoryViewID,
+-        {})){};
++        {})),
++    submitBehavior(convertRawProp(
++        context,
++        rawProps,
++        "submitBehavior",
++        sourceProps.submitBehavior,
++        {})),
++    multiline(convertRawProp(
++        context,
++        rawProps,
++        "multiline",
++        sourceProps.multiline,
++        {false})){};
+ 
+ void PasteTextInputProps::setProp(
+     const PropsParserContext& context,
+@@ -133,7 +146,7 @@ TextAttributes PasteTextInputProps::getEffectiveTextAttributes(Float fontSizeMul
+ ParagraphAttributes PasteTextInputProps::getEffectiveParagraphAttributes() const {
+     auto result = paragraphAttributes;
+     
+-    if (!traits.multiline) {
++    if (!multiline) {
+         result.maximumNumberOfLines = 1;
+     }
+     
+diff --git a/ios/PasteTextInputSpecs/Props.h b/ios/PasteTextInputSpecs/Props.h
+index 723d00cf494f126285093d8aa5c8f4d46f66ffcf..00bb5b31621af7036d8307469bceda8f4bcdf6d5 100644
+--- a/ios/PasteTextInputSpecs/Props.h
++++ b/ios/PasteTextInputSpecs/Props.h
+@@ -15,6 +15,7 @@
+ #include <react/renderer/components/iostextinput/conversions.h>
+ #include <react/renderer/components/iostextinput/primitives.h>
+ #include <react/renderer/components/text/BaseTextProps.h>
++#include <react/renderer/components/textinput/basePrimitives.h>
+ #include <react/renderer/components/view/ViewProps.h>
+ #include <react/renderer/core/Props.h>
+ #include <react/renderer/core/PropsParserContext.h>
+@@ -70,6 +71,10 @@ public:
+ 
+     std::string const inputAccessoryViewID{};
+ 
++    SubmitBehavior submitBehavior{SubmitBehavior::Default};
++
++    bool multiline{false};
++
+     /*
+      * Accessors
+      */
+diff --git a/ios/PasteTextInputSpecs/ShadowNodes.cpp b/ios/PasteTextInputSpecs/ShadowNodes.cpp
+index 31e07e3771f89465bc4c8035a8d6cf03c6228550..9611f80dfbb9bf33b06d92465b4b9c1e57750447 100644
+--- a/ios/PasteTextInputSpecs/ShadowNodes.cpp
++++ b/ios/PasteTextInputSpecs/ShadowNodes.cpp
+@@ -49,7 +49,7 @@ AttributedStringBox PasteTextInputShadowNode::attributedStringBoxToMeasure(
+     // of T67606511
+     auto string = !placeholder.empty()
+         ? placeholder
+-        : BaseTextShadowNode::getEmptyPlaceholder();
++        : std::string(" ");
+     auto textAttributes = getConcreteProps().getEffectiveTextAttributes(
+         layoutContext.fontSizeMultiplier);
+     attributedString.appendFragment({string, textAttributes, {}});
+@@ -91,12 +91,8 @@ void PasteTextInputShadowNode::updateStateIfNeeded(
+   const auto& state = getStateData();
+ 
+   react_native_assert(textLayoutManager_);
+-  react_native_assert(
+-      (!state.layoutManager || state.layoutManager == textLayoutManager_) &&
+-      "`StateData` refers to a different `TextLayoutManager`");
+ 
+-  if (state.reactTreeAttributedString == reactTreeAttributedString &&
+-      state.layoutManager == textLayoutManager_) {
++  if (state.reactTreeAttributedString == reactTreeAttributedString) {
+     return;
+   }
+ 
+@@ -104,7 +100,6 @@ void PasteTextInputShadowNode::updateStateIfNeeded(
+   newState.attributedStringBox = AttributedStringBox{reactTreeAttributedString};
+   newState.paragraphAttributes = getConcreteProps().paragraphAttributes;
+   newState.reactTreeAttributedString = reactTreeAttributedString;
+-  newState.layoutManager = textLayoutManager_;
+   newState.mostRecentEventCount = getConcreteProps().mostRecentEventCount;
+   setStateData(std::move(newState));
+ }
+diff --git a/ios/PasteTextInputSpecs/States.h b/ios/PasteTextInputSpecs/States.h
+index 6902be2172fc2e3966da569dd4157a75a0e726d5..f6c4734c28aa69e5ed74df72002b8c85635927a0 100644
+--- a/ios/PasteTextInputSpecs/States.h
++++ b/ios/PasteTextInputSpecs/States.h
+@@ -9,7 +9,6 @@
+ 
+ #include <react/renderer/attributedstring/AttributedStringBox.h>
+ #include <react/renderer/attributedstring/ParagraphAttributes.h>
+-#include <react/renderer/textlayoutmanager/TextLayoutManager.h>
+ 
+ namespace facebook::react {
+ 
+@@ -40,14 +39,7 @@ class PasteTextInputState final {
+    */
+   ParagraphAttributes paragraphAttributes;
+ 
+-  /*
+-   * `TextLayoutManager` provides a connection to platform-specific
+-   * text rendering infrastructure which is capable to render the
+-   * `AttributedString`.
+-   */
+-  std::shared_ptr<const TextLayoutManager> layoutManager;
+-
+-  size_t mostRecentEventCount{0};
++  int64_t mostRecentEventCount{0};
+ };
+ 
+ } // namespace facebook::react
+diff --git a/src/PasteTextInput.tsx b/src/PasteTextInput.tsx
+index efb6dab861fdef16dcd11136601e6751a09d3ce0..4bce3b852145220809e6346419776f33faac0d45 100644
+--- a/src/PasteTextInput.tsx
++++ b/src/PasteTextInput.tsx
+@@ -417,15 +417,11 @@ function InternalTextInput(props: PasteInputProps): React.ReactNode {
+         />
+     );
+ 
+-    if (Platform.OS === 'ios') {
+-        return (
+-            <TextAncestor.Provider value={true}>
+-                {textInput}
+-            </TextAncestor.Provider>
+-        );
+-    }
+-
+-    return textInput;
++    return (
++        <TextAncestor.Provider value={true}>
++            {textInput}
++        </TextAncestor.Provider>
++    );
+ }
+ 
+ const enterKeyHintToReturnTypeMap: Record<string, ReturnKeyTypeOptions> = {
+diff --git a/android/src/main/java/com/mattermost/pasteinputtext/PasteTextInputManager.kt b/android/src/main/java/com/mattermost/pasteinputtext/PasteTextInputManager.kt
+index 0ad4ae6afc5f7f7fb87a8a5d487872556f7950fb..d6adf9949d76722f8da6c8c6f5f0c2a383dc55dd 100644
+--- a/android/src/main/java/com/mattermost/pasteinputtext/PasteTextInputManager.kt
++++ b/android/src/main/java/com/mattermost/pasteinputtext/PasteTextInputManager.kt
+@@ -54,8 +54,8 @@ class PasteTextInputManager(context: ReactApplicationContext) : ReactTextInputMa
+   }
+ 
+   override fun getExportedCustomBubblingEventTypeConstants(): MutableMap<String, Any> {
+-    val map = super.getExportedCustomBubblingEventTypeConstants()!!
+-    map["onPaste"] = MapBuilder.of(
++    val map = super.getExportedCustomBubblingEventTypeConstants()?.toMutableMap() ?: mutableMapOf()
++    map["onPaste"] = MapBuilder.of<String, Any>(
+       "phasedRegistrationNames",
+       MapBuilder.of("bubbled", "onPaste")
+     )

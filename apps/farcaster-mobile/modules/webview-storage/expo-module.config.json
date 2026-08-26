@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["FarcasterWebViewStorageModule"]
+  },
+  "android": {
+    "modules": ["farcaster.modules.webViewStorage.WebViewStorageModule"]
+  }
+}

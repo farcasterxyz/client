@@ -1,0 +1,21 @@
+{
+  "extends": "expo/tsconfig.base.json",
+  "compilerOptions": {
+    "incremental": true,
+    "strict": true,
+    "paths": {
+      "~/*": [
+        "./src/*"
+      ]
+    },
+    "noUncheckedSideEffectImports": false,
+    "typeRoots": [
+      "./node_modules/@types",
+      "../../node_modules/@types"
+    ],
+    "types": [
+      "jest",
+      "node"
+    ]
+  }
+}

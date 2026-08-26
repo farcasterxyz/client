@@ -1,0 +1,62 @@
+# Navigation stress: open and close the cast detail screen repeatedly.
+#
+# Exercises the stack-navigator push/pop path and the cast-detail
+# render. Same survival-based assertion as the other stress flows —
+# wedging the stack or crashing the renderer fails the post-loop
+# wait for the home-feed pill.
+#
+# Selectors:
+#   - `cast-tap-target` is on UnfocusedCast.tsx's avatar-column
+#     PressableTargetToNavigateToCast (one per visible feed cast in
+#     tree order). The flow taps `index: 1` to skip the topmost cast
+#     because index 0 has two cross-platform failure modes — see
+#     flows/feed/tap-first-cast.yaml for the full rationale (off-
+#     screen iOS RN FlatList rows + short Android casts whose avatar
+#     hitSlop swallows the tap-target).
+#   - "Go back to conversation" is the accessibilityLabel on
+#     CastScreen's back affordance; Maestro matches it via `text:`
+#     on both iOS and Android.
+appId: ${APP_ID}
+tags:
+  - smoke
+  - navigation
+---
+- launchApp
+
+- extendedWaitUntil:
+    visible:
+      text: 'Home|following|neynar'
+    timeout: 30000
+
+- repeat:
+    times: 3
+    commands:
+      - tapOn:
+          id: 'cast-tap-target'
+          index: 1
+      # Same snap-lift dismissal retry that tap-first-cast already has.
+      # The first tap inside a cast row can be consumed by
+      # consumeRecentSnapLiftDismissal() in CastContainer.tsx:189-192
+      # when an active snap-lift is being closed, leaving the press
+      # COMPLETED but no navigation. A second tap after the 500ms guard
+      # window navigates cleanly. Only fires when cast detail isn't
+      # already visible, so the happy path pays no extra latency.
+      - waitForAnimationToEnd:
+          timeout: 2000
+      - runFlow:
+          when:
+            notVisible: 'Go back to conversation'
+          commands:
+            - tapOn:
+                id: 'cast-tap-target'
+                index: 1
+      - extendedWaitUntil:
+          visible:
+            text: 'Go back to conversation'
+          timeout: 15000
+      - tapOn:
+          text: 'Go back to conversation'
+      - extendedWaitUntil:
+          visible:
+            text: 'Home|following|neynar'
+          timeout: 15000
