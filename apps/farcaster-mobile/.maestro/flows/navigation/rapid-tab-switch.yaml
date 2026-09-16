@@ -1,0 +1,42 @@
+# Navigation stress: rapid round-trips through the bottom tab bar.
+#
+# Bottom tabs are icon-only (`tabBarShowLabel: false`) with no
+# accessible text, so each tab carries a stable testID set in
+# apps/farcaster-mobile/src/navigation/BottomTabNavigator.tsx:
+#   `bottom-tab-HomeTab`, `bottom-tab-WalletTab`,
+#   `bottom-tab-NotificationsTab`, `bottom-tab-DirectCastsTab`.
+# AppsHomeTab is conditional on a user-app-context gate, so the flow
+# avoids it to stay device/account-independent.
+#
+# Three full round-trips through the four always-present tabs ending
+# back on Home. Maestro can't directly observe flicker or frame drops,
+# but a tab switch that wedges the navigator or leaks memory enough to
+# crash the app will fail the assertion at the end.
+appId: ${APP_ID}
+tags:
+  - smoke
+  - navigation
+---
+- launchApp
+
+- extendedWaitUntil:
+    visible:
+      text: 'Home|following|neynar'
+    timeout: 30000
+
+- repeat:
+    times: 3
+    commands:
+      - tapOn:
+          id: 'bottom-tab-WalletTab'
+      - tapOn:
+          id: 'bottom-tab-NotificationsTab'
+      - tapOn:
+          id: 'bottom-tab-DirectCastsTab'
+      - tapOn:
+          id: 'bottom-tab-HomeTab'
+
+- extendedWaitUntil:
+    visible:
+      text: 'Home|following|neynar'
+    timeout: 30000

@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ReferralsOverviewScreen /> renders empty state when XP rewards array is empty: empty state 1`] = `
+{
+  "children": [
+    {
+      "children": [
+        {
+          "children": [
+            "…",
+            "…",
+          ],
+          "props": {},
+          "type": "View",
+        },
+      ],
+      "props": {},
+      "type": "RCTScrollView",
+    },
+    {
+      "children": null,
+      "props": {},
+      "type": "View",
+    },
+  ],
+  "props": {},
+  "type": "View",
+}
+`;
+
+exports[`<ReferralsOverviewScreen /> renders loading state while XP rewards are loading: loading state 1`] = `
+{
+  "children": null,
+  "props": {
+    "testID": "skeleton-placeholder",
+  },
+  "type": "View",
+}
+`;
+
+exports[`<ReferralsOverviewScreen /> renders overview content when XP rewards are available: data state 1`] = `
+{
+  "children": [
+    {
+      "children": [
+        {
+          "children": [
+            "…",
+            "…",
+          ],
+          "props": {},
+          "type": "View",
+        },
+      ],
+      "props": {},
+      "type": "RCTScrollView",
+    },
+    {
+      "children": [
+        {
+          "children": [
+            "…",
+          ],
+          "props": {},
+          "type": "View",
+        },
+      ],
+      "props": {},
+      "type": "View",
+    },
+    {
+      "children": null,
+      "props": {},
+      "type": "View",
+    },
+  ],
+  "props": {},
+  "type": "View",
+}
+`;

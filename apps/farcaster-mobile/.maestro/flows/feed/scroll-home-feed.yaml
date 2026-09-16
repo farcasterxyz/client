@@ -1,0 +1,42 @@
+# Performance smoke: fast vertical scroll of the home feed.
+#
+# Inherits the signed-in app state from sign-in-with-recovery-phrase.yaml
+# (no `clearState`). Maestro cannot measure frame drops or render
+# latency directly, so the assertion here is survival-based:
+#   - 8 rapid swipe-UP gestures (200ms each) without timeout or crash,
+#   - 8 rapid swipe-DOWN gestures to scroll back to the top,
+#   - the home-feed tab pills still resolve at the end.
+#
+# A crash or freeze that exceeds the wait budget surfaces as a flow
+# failure with the maestro_log identifying which gesture didn't return.
+appId: ${APP_ID}
+tags:
+  - smoke
+  - feed
+  - perf
+---
+- launchApp
+
+- extendedWaitUntil:
+    visible:
+      text: 'Home|following|neynar'
+    timeout: 30000
+
+- repeat:
+    times: 8
+    commands:
+      - swipe:
+          direction: UP
+          duration: 200
+
+- repeat:
+    times: 8
+    commands:
+      - swipe:
+          direction: DOWN
+          duration: 200
+
+- extendedWaitUntil:
+    visible:
+      text: 'Home|following|neynar'
+    timeout: 30000

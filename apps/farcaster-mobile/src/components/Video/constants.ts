@@ -1,0 +1,2 @@
+export const BOTTOM_BAR_HEIGHT = 84;
+export const BOTTOM_EXCLUSION_HEIGHT = BOTTOM_BAR_HEIGHT + 95;

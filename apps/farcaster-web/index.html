@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="ahrefs-site-verification"
+      content="38f091146e9739ea28ca6ea0cfd077cfd3387a798283fd07c83e902c20c15379"
+    />
+    <link rel="icon" href="/favicon-v3.png" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta
+      name="theme-color"
+      content="#101010"
+      media="(prefers-color-scheme: dark)"
+    />
+    <meta
+      name="theme-color"
+      content="#ffffff"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <link rel="apple-touch-icon" href="/og-logo-v3.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <title>Farcaster</title>
+    <!-- Preconnect to image CDN for faster LCP -->
+    <link rel="preconnect" href="https://wrpcd.net" crossorigin />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <script>
+      (function() {
+        const STORAGE_KEY = 'user-saved-theme';
+        const DEFAULT_THEME = 'system';
+        
+        try {
+          const stored = localStorage.getItem(STORAGE_KEY);
+          const userSavedTheme = stored || DEFAULT_THEME;
+          
+          let effective = userSavedTheme;
+          if (userSavedTheme === 'system') {
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            effective = prefersDark ? 'dark' : 'light';
+          }
+          
+          const root = document.documentElement;
+          root.classList.toggle('dark', effective === 'dark');
+          root.classList.toggle('light', effective === 'light');
+          root.setAttribute('data-theme', userSavedTheme);
+        } catch (e) {
+          // Fallback if localStorage is unavailable
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const root = document.documentElement;
+          root.classList.toggle('dark', prefersDark);
+          root.classList.toggle('light', !prefersDark);
+        }
+      })();
+    </script>
+    <style>
+      html.dark {
+        background-color: #101010;
+        color-scheme: dark;
+      }
+      html.light {
+        background-color: #ffffff;
+        color-scheme: light;
+      }
+      body {
+        background-color: inherit;
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <div id="modal-root"></div>
+    <div id="popover-root"></div>
+    <div id="hover-popover-root"></div>
+    <script type="module" src="/src/index.jsx"></script>
+  </body>
+</html>

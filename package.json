@@ -1,0 +1,114 @@
+{
+  "name": "merkle-monorepo",
+  "description": "A monorepo for Merkle projects",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "pnpm --filter '*' build",
+    "build:packages": "pnpm --filter './packages/**' build",
+    "clean": "pnpm --filter '*' --parallel clean",
+    "check:all": "pnpm typecheck && pnpm lint && pnpm test",
+    "find:inconsistent-versions": "./node_modules/.bin/ts-node bin/findInconsistentVersions.ts",
+    "format": "pnpm --filter '*' --parallel --aggregate-output format",
+    "lint": "pnpm --filter '*' --parallel --aggregate-output lint",
+    "lint:fix": "pnpm --filter '*' --parallel --aggregate-output lint:fix",
+    "nuke": "ts-node bin/nuke.ts",
+    "pin:versions": "ts-node bin/pinVersions.ts",
+    "prepare": "[ \"$HUSKY\" != 0 ] && husky install || echo Husky disabled",
+    "postinstall": "pnpm-sync prepare -l pnpm-lock.yaml --store=node_modules/.pnpm",
+    "publish:mobile": "node_modules/.bin/ts-node bin/publishHooks.ts",
+    "test": "pnpm --filter '*' --parallel --aggregate-output test",
+    "turbo:build:packages": "turbo run build pnpm:sync --filter=./packages/**",
+    "turbo:lint": "turbo run lint",
+    "turbo:lint:fix": "turbo run lint:fix",
+    "turbo:test": "turbo run test",
+    "turbo:typecheck": "turbo run typecheck",
+    "turbo:ci": "NODE_OPTIONS=\"--max_old_space_size=8192\" turbo run typecheck lint test",
+    "typecheck": "pnpm --filter '*' --parallel --aggregate-output typecheck",
+    "watch": "ts-node bin/watch.ts"
+  },
+  "devDependencies": {
+    "@margelo/hermes-profile-transformer": "^0.0.10",
+    "@types/chokidar": "^2.1.3",
+    "@types/glob": "^8.0.0",
+    "@types/node": "^18.7.14",
+    "@types/rimraf": "^3.0.2",
+    "@types/yargs": "^17.0.33",
+    "chokidar": "^3.5.3",
+    "eslint-config-custom": "workspace:*",
+    "glob": "^8.0.3",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.4.3",
+    "playwright": "^1.58.2",
+    "pnpm-sync": "^0.3.3",
+    "prettier": "^3.2.5",
+    "ts-node": "^10.9.1",
+    "turbo": "^2.4.2",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
+    "vite-plugin-node-polyfills": "^0.25.0",
+    "yargs": "^18.0.0",
+    "@typescript/native": "npm:typescript@^7.0.2"
+  },
+  "engines": {
+    "npm": ">=9.0.0",
+    "node": ">=18.0.0",
+    "pnpm": ">=10.0.0"
+  },
+  "packageManager": "pnpm@10.8.1",
+  "dependencies": {
+    "eslint": "^9.17.0",
+    "prettier-plugin-tailwindcss": "^0.5.13"
+  },
+  "pnpm": {
+    "overrides": {
+      "query-string": "7.1.3",
+      "zod": "^4.3.6",
+      "eslint-plugin-react-hooks>zod": "3.25.76",
+      "@privy-io/public-api>zod": "3.25.76",
+      "@solana/web3.js": "1.98.4",
+      "jayson>uuid": "^11.1.1",
+      "rpc-websockets>uuid": "^11.1.1",
+      "typescript": "npm:@typescript/typescript6@^6.0.2",
+      "@types/react": "19.2.14",
+      "@types/react-dom": "19.2.3",
+      "react-native-reanimated": "4.4.1",
+      "react-native-worklets": "0.9.1",
+      "simple-git": "3.36.0",
+      "form-data": "4.0.5",
+      "axios": "1.15.2",
+      "ws@8": "^8.21.0",
+      "dompurify@3": "^3.4.12",
+      "shell-quote@1": "^1.8.5",
+      "postcss": "8.5.10",
+      "typescript-eslint>typescript": "npm:@typescript/typescript6@^6.0.2",
+      "@typescript-eslint/parser>typescript": "npm:@typescript/typescript6@^6.0.2",
+      "@typescript-eslint/typescript-estree>typescript": "npm:@typescript/typescript6@^6.0.2",
+      "@typescript-eslint/eslint-plugin>typescript": "npm:@typescript/typescript6@^6.0.2",
+      "@typescript-eslint/utils>typescript": "npm:@typescript/typescript6@^6.0.2",
+      "@typescript-eslint/type-utils>typescript": "npm:@typescript/typescript6@^6.0.2",
+      "@typescript-eslint/project-service>typescript": "npm:@typescript/typescript6@^6.0.2",
+      "@typescript-eslint/tsconfig-utils>typescript": "npm:@typescript/typescript6@^6.0.2"
+    },
+    "packageExtensions": {
+      "eslint-config-custom": {
+        "peerDependencies": {
+          "typescript": "*"
+        }
+      }
+    },
+    "patchedDependencies": {
+      "cipher-base": "patches/cipher-base.patch",
+      "@react-navigation/elements": "patches/@react-navigation__elements.patch",
+      "expo-haptics": "patches/expo-haptics.patch",
+      "expo-image@55.0.10": "patches/expo-image@55.0.10.patch",
+      "react-native-draggable-flatlist": "patches/react-native-draggable-flatlist.patch",
+      "@coinbase/wallet-mobile-sdk": "patches/@coinbase__wallet-mobile-sdk.patch",
+      "@mattermost/react-native-paste-input": "patches/@mattermost__react-native-paste-input.patch",
+      "react-native-iap@12.16.4": "patches/react-native-iap@12.16.4.patch",
+      "lucide-react-native@0.542.0": "patches/lucide-react-native@0.542.0.patch",
+      "react-native-mmkv@2.12.2": "patches/react-native-mmkv@2.12.2.patch",
+      "react-native-webview@13.16.1": "patches/react-native-webview.patch",
+      "@farcaster/snap": "patches/@farcaster__snap.patch"
+    }
+  }
+}

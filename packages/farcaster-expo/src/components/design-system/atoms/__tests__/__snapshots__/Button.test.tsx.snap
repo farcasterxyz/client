@@ -1,0 +1,1711 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AtomsButton /> renders disabled state with icon and text 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": true,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      {
+        "gap": 12,
+      },
+      {
+        "backgroundColor": "#f24822",
+      },
+      {
+        "borderRadius": 9999,
+      },
+      {
+        "paddingLeft": 8,
+        "paddingRight": 12,
+      },
+      {
+        "height": 34,
+      },
+      {
+        "flexShrink": 1,
+      },
+      {},
+      false,
+      {
+        "backgroundColor": "#fff5f5",
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "gap": 4,
+        },
+        {
+          "justifyContent": "center",
+        },
+        {
+          "alignItems": "center",
+        },
+        {
+          "flex": 1,
+        },
+        {
+          "flexDirection": "row",
+        },
+      ]
+    }
+  >
+    <View>
+      <View
+        style={
+          {
+            "backgroundColor": "#a5a5a5",
+            "height": 16,
+            "width": 16,
+          }
+        }
+        testID="mock-icon"
+      />
+    </View>
+    <Text
+      color="tertiary"
+      ellipsizeMode="tail"
+      label="Semibold/Base"
+      numberOfLines={1}
+      style={
+        [
+          {
+            "fontFamily": "farcaster-semi-bold",
+            "fontSize": 15,
+            "letterSpacing": -0.25,
+            "lineHeight": 20,
+          },
+          {
+            "color": "#a5a5a5",
+          },
+        ]
+      }
+      suppressHighlighting={true}
+    >
+      Disabled Danger Button
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`<AtomsButton /> renders hierarchy "danger" with default props 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      {
+        "gap": 12,
+      },
+      {
+        "backgroundColor": "#f24822",
+      },
+      {
+        "borderRadius": 9999,
+      },
+      {
+        "paddingHorizontal": 12,
+      },
+      {
+        "height": 34,
+      },
+      {
+        "flexShrink": 1,
+      },
+      {},
+      false,
+      false,
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "gap": 4,
+        },
+        {
+          "justifyContent": "center",
+        },
+        {
+          "alignItems": "center",
+        },
+        {
+          "flex": 1,
+        },
+        {
+          "flexDirection": "row",
+        },
+      ]
+    }
+  >
+    <Text
+      color="light"
+      ellipsizeMode="tail"
+      label="Semibold/Base"
+      numberOfLines={1}
+      style={
+        [
+          {
+            "fontFamily": "farcaster-semi-bold",
+            "fontSize": 15,
+            "letterSpacing": -0.25,
+            "lineHeight": 20,
+          },
+          {
+            "color": "#ffffff",
+          },
+        ]
+      }
+      suppressHighlighting={true}
+    >
+      Test Button
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`<AtomsButton /> renders hierarchy "overlay" with default props 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      {
+        "gap": 12,
+      },
+      {
+        "backgroundColor": "#F3F3F380",
+      },
+      {
+        "borderRadius": 9999,
+      },
+      {
+        "paddingHorizontal": 12,
+      },
+      {
+        "height": 34,
+      },
+      {
+        "flexShrink": 1,
+      },
+      {
+        "borderColor": "#f5f5f5",
+        "borderWidth": 1,
+      },
+      false,
+      false,
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "gap": 4,
+        },
+        {
+          "justifyContent": "center",
+        },
+        {
+          "alignItems": "center",
+        },
+        {
+          "flex": 1,
+        },
+        {
+          "flexDirection": "row",
+        },
+      ]
+    }
+  >
+    <Text
+      color="primary"
+      ellipsizeMode="tail"
+      label="Semibold/Base"
+      numberOfLines={1}
+      style={
+        [
+          {
+            "fontFamily": "farcaster-semi-bold",
+            "fontSize": 15,
+            "letterSpacing": -0.25,
+            "lineHeight": 20,
+          },
+          {
+            "color": "#121212",
+          },
+        ]
+      }
+      suppressHighlighting={true}
+    >
+      Test Button
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`<AtomsButton /> renders hierarchy "primary" with default props 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      {
+        "gap": 12,
+      },
+      {
+        "backgroundColor": "#7959ff",
+      },
+      {
+        "borderRadius": 9999,
+      },
+      {
+        "paddingHorizontal": 12,
+      },
+      {
+        "height": 34,
+      },
+      {
+        "flexShrink": 1,
+      },
+      {},
+      false,
+      false,
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "gap": 4,
+        },
+        {
+          "justifyContent": "center",
+        },
+        {
+          "alignItems": "center",
+        },
+        {
+          "flex": 1,
+        },
+        {
+          "flexDirection": "row",
+        },
+      ]
+    }
+  >
+    <Text
+      color="light"
+      ellipsizeMode="tail"
+      label="Semibold/Base"
+      numberOfLines={1}
+      style={
+        [
+          {
+            "fontFamily": "farcaster-semi-bold",
+            "fontSize": 15,
+            "letterSpacing": -0.25,
+            "lineHeight": 20,
+          },
+          {
+            "color": "#ffffff",
+          },
+        ]
+      }
+      suppressHighlighting={true}
+    >
+      Test Button
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`<AtomsButton /> renders hierarchy "secondary" with default props 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      {
+        "gap": 12,
+      },
+      {
+        "backgroundColor": "#f2f2f2",
+      },
+      {
+        "borderRadius": 9999,
+      },
+      {
+        "paddingHorizontal": 12,
+      },
+      {
+        "height": 34,
+      },
+      {
+        "flexShrink": 1,
+      },
+      {},
+      false,
+      false,
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "gap": 4,
+        },
+        {
+          "justifyContent": "center",
+        },
+        {
+          "alignItems": "center",
+        },
+        {
+          "flex": 1,
+        },
+        {
+          "flexDirection": "row",
+        },
+      ]
+    }
+  >
+    <Text
+      color="primary"
+      ellipsizeMode="tail"
+      label="Semibold/Base"
+      numberOfLines={1}
+      style={
+        [
+          {
+            "fontFamily": "farcaster-semi-bold",
+            "fontSize": 15,
+            "letterSpacing": -0.25,
+            "lineHeight": 20,
+          },
+          {
+            "color": "#121212",
+          },
+        ]
+      }
+      suppressHighlighting={true}
+    >
+      Test Button
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`<AtomsButton /> renders hierarchy "tertiary" with default props 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      {
+        "gap": 12,
+      },
+      {
+        "backgroundColor": "#ffffff",
+      },
+      {
+        "borderRadius": 9999,
+      },
+      {
+        "paddingHorizontal": 12,
+      },
+      {
+        "height": 34,
+      },
+      {
+        "flexShrink": 1,
+      },
+      {
+        "borderColor": "#E7E7E8",
+        "borderWidth": 1,
+      },
+      false,
+      false,
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "gap": 4,
+        },
+        {
+          "justifyContent": "center",
+        },
+        {
+          "alignItems": "center",
+        },
+        {
+          "flex": 1,
+        },
+        {
+          "flexDirection": "row",
+        },
+      ]
+    }
+  >
+    <Text
+      color="primary"
+      ellipsizeMode="tail"
+      label="Semibold/Base"
+      numberOfLines={1}
+      style={
+        [
+          {
+            "fontFamily": "farcaster-semi-bold",
+            "fontSize": 15,
+            "letterSpacing": -0.25,
+            "lineHeight": 20,
+          },
+          {
+            "color": "#121212",
+          },
+        ]
+      }
+      suppressHighlighting={true}
+    >
+      Test Button
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`<AtomsButton /> renders hierarchy "translucent" with default props 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      {
+        "gap": 12,
+      },
+      {
+        "backgroundColor": "#f8f6ff",
+      },
+      {
+        "borderRadius": 9999,
+      },
+      {
+        "paddingHorizontal": 12,
+      },
+      {
+        "height": 34,
+      },
+      {
+        "flexShrink": 1,
+      },
+      {},
+      false,
+      false,
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "gap": 4,
+        },
+        {
+          "justifyContent": "center",
+        },
+        {
+          "alignItems": "center",
+        },
+        {
+          "flex": 1,
+        },
+        {
+          "flexDirection": "row",
+        },
+      ]
+    }
+  >
+    <Text
+      color="brand"
+      ellipsizeMode="tail"
+      label="Semibold/Base"
+      numberOfLines={1}
+      style={
+        [
+          {
+            "fontFamily": "farcaster-semi-bold",
+            "fontSize": 15,
+            "letterSpacing": -0.25,
+            "lineHeight": 20,
+          },
+          {
+            "color": "#7959ff",
+          },
+        ]
+      }
+      suppressHighlighting={true}
+    >
+      Test Button
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`<AtomsButton /> renders loading state replacing content with loader 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      {
+        "gap": 12,
+      },
+      {
+        "backgroundColor": "#f2f2f2",
+      },
+      {
+        "borderRadius": 9999,
+      },
+      {
+        "paddingHorizontal": 12,
+      },
+      {
+        "height": 34,
+      },
+      {
+        "flexShrink": 1,
+      },
+      {},
+      false,
+      false,
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "gap": 4,
+        },
+        {
+          "justifyContent": "center",
+        },
+        {
+          "alignItems": "center",
+        },
+        {
+          "flex": 1,
+        },
+        {
+          "flexDirection": "row",
+        },
+      ]
+    }
+  >
+    <ActivityIndicator
+      color="primary"
+      size="small"
+    />
+  </View>
+</View>
+`;
+
+exports[`<AtomsButton /> renders size "l" with text 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      {
+        "gap": 12,
+      },
+      {
+        "backgroundColor": "#7959ff",
+      },
+      {
+        "borderRadius": 9999,
+      },
+      {
+        "paddingHorizontal": 12,
+      },
+      {
+        "height": 48,
+      },
+      {
+        "flexShrink": 1,
+      },
+      {},
+      false,
+      false,
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "gap": 4,
+        },
+        {
+          "justifyContent": "center",
+        },
+        {
+          "alignItems": "center",
+        },
+        {
+          "flex": 1,
+        },
+        {
+          "flexDirection": "row",
+        },
+      ]
+    }
+  >
+    <Text
+      color="light"
+      ellipsizeMode="tail"
+      label="Semibold/L"
+      numberOfLines={1}
+      style={
+        [
+          {
+            "fontFamily": "farcaster-semi-bold",
+            "fontSize": 18,
+            "letterSpacing": -0.25,
+            "lineHeight": 24,
+          },
+          {
+            "color": "#ffffff",
+          },
+        ]
+      }
+      suppressHighlighting={true}
+    >
+      Sized Button
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`<AtomsButton /> renders size "m" with text 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      {
+        "gap": 12,
+      },
+      {
+        "backgroundColor": "#7959ff",
+      },
+      {
+        "borderRadius": 9999,
+      },
+      {
+        "paddingHorizontal": 12,
+      },
+      {
+        "height": 40,
+      },
+      {
+        "flexShrink": 1,
+      },
+      {},
+      false,
+      false,
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "gap": 4,
+        },
+        {
+          "justifyContent": "center",
+        },
+        {
+          "alignItems": "center",
+        },
+        {
+          "flex": 1,
+        },
+        {
+          "flexDirection": "row",
+        },
+      ]
+    }
+  >
+    <Text
+      color="light"
+      ellipsizeMode="tail"
+      label="Semibold/Base"
+      numberOfLines={1}
+      style={
+        [
+          {
+            "fontFamily": "farcaster-semi-bold",
+            "fontSize": 15,
+            "letterSpacing": -0.25,
+            "lineHeight": 20,
+          },
+          {
+            "color": "#ffffff",
+          },
+        ]
+      }
+      suppressHighlighting={true}
+    >
+      Sized Button
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`<AtomsButton /> renders size "s" with text 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      {
+        "gap": 12,
+      },
+      {
+        "backgroundColor": "#7959ff",
+      },
+      {
+        "borderRadius": 9999,
+      },
+      {
+        "paddingHorizontal": 12,
+      },
+      {
+        "height": 34,
+      },
+      {
+        "flexShrink": 1,
+      },
+      {},
+      false,
+      false,
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "gap": 4,
+        },
+        {
+          "justifyContent": "center",
+        },
+        {
+          "alignItems": "center",
+        },
+        {
+          "flex": 1,
+        },
+        {
+          "flexDirection": "row",
+        },
+      ]
+    }
+  >
+    <Text
+      color="light"
+      ellipsizeMode="tail"
+      label="Semibold/Base"
+      numberOfLines={1}
+      style={
+        [
+          {
+            "fontFamily": "farcaster-semi-bold",
+            "fontSize": 15,
+            "letterSpacing": -0.25,
+            "lineHeight": 20,
+          },
+          {
+            "color": "#ffffff",
+          },
+        ]
+      }
+      suppressHighlighting={true}
+    >
+      Sized Button
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`<AtomsButton /> renders size "xs" with text 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      {
+        "gap": 12,
+      },
+      {
+        "backgroundColor": "#7959ff",
+      },
+      {
+        "borderRadius": 9999,
+      },
+      {
+        "paddingHorizontal": 12,
+      },
+      {
+        "height": 30,
+      },
+      {
+        "flexShrink": 1,
+      },
+      {},
+      false,
+      false,
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "gap": 4,
+        },
+        {
+          "justifyContent": "center",
+        },
+        {
+          "alignItems": "center",
+        },
+        {
+          "flex": 1,
+        },
+        {
+          "flexDirection": "row",
+        },
+      ]
+    }
+  >
+    <Text
+      color="light"
+      ellipsizeMode="tail"
+      label="Semibold/S"
+      numberOfLines={1}
+      style={
+        [
+          {
+            "fontFamily": "farcaster-semi-bold",
+            "fontSize": 14,
+            "letterSpacing": -0.25,
+            "lineHeight": 18,
+          },
+          {
+            "color": "#ffffff",
+          },
+        ]
+      }
+      suppressHighlighting={true}
+    >
+      Sized Button
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`<AtomsButton /> renders with an icon 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      {
+        "gap": 12,
+      },
+      {
+        "backgroundColor": "#7959ff",
+      },
+      {
+        "borderRadius": 9999,
+      },
+      {
+        "paddingLeft": 8,
+        "paddingRight": 12,
+      },
+      {
+        "height": 34,
+      },
+      {
+        "flexShrink": 1,
+      },
+      {},
+      false,
+      false,
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "gap": 4,
+        },
+        {
+          "justifyContent": "center",
+        },
+        {
+          "alignItems": "center",
+        },
+        {
+          "flex": 1,
+        },
+        {
+          "flexDirection": "row",
+        },
+      ]
+    }
+  >
+    <View>
+      <View
+        style={
+          {
+            "backgroundColor": "#ffffff",
+            "height": 16,
+            "width": 16,
+          }
+        }
+        testID="mock-icon"
+      />
+    </View>
+    <Text
+      color="light"
+      ellipsizeMode="tail"
+      label="Semibold/Base"
+      numberOfLines={1}
+      style={
+        [
+          {
+            "fontFamily": "farcaster-semi-bold",
+            "fontSize": 15,
+            "letterSpacing": -0.25,
+            "lineHeight": 20,
+          },
+          {
+            "color": "#ffffff",
+          },
+        ]
+      }
+      suppressHighlighting={true}
+    >
+      Icon Button
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`<AtomsButton /> static subcomponents composes Container, Content, Icon, and Text 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      {
+        "gap": 12,
+      },
+      {
+        "backgroundColor": "#f2f2f2",
+      },
+      {
+        "borderRadius": 9999,
+      },
+      {
+        "paddingLeft": 8,
+        "paddingRight": 12,
+      },
+      {
+        "height": 40,
+      },
+      {
+        "flexShrink": 1,
+      },
+      {},
+      false,
+      false,
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "gap": 4,
+        },
+        {
+          "justifyContent": "center",
+        },
+        {
+          "alignItems": "center",
+        },
+        {
+          "flex": 1,
+        },
+        {
+          "flexDirection": "row",
+        },
+      ]
+    }
+  >
+    <View>
+      <View
+        style={
+          {
+            "backgroundColor": "#121212",
+            "height": 20,
+            "width": 20,
+          }
+        }
+        testID="mock-icon"
+      />
+    </View>
+    <Text
+      color="primary"
+      ellipsizeMode="tail"
+      label="Semibold/Base"
+      numberOfLines={1}
+      style={
+        [
+          {
+            "fontFamily": "farcaster-semi-bold",
+            "fontSize": 15,
+            "letterSpacing": -0.25,
+            "lineHeight": 20,
+          },
+          {
+            "color": "#121212",
+          },
+        ]
+      }
+      suppressHighlighting={true}
+    >
+      Secondary Button
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`<AtomsButton /> static subcomponents renders Container subcomponent with icon-only content 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": false,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    [
+      {
+        "gap": 12,
+      },
+      {
+        "backgroundColor": "#f8f6ff",
+      },
+      {
+        "borderRadius": 9999,
+      },
+      {
+        "paddingHorizontal": 9,
+      },
+      {
+        "height": 34,
+      },
+      {
+        "flexShrink": 1,
+      },
+      {},
+      false,
+      false,
+      undefined,
+    ]
+  }
+>
+  <View
+    style={
+      [
+        {
+          "gap": 4,
+        },
+        {
+          "justifyContent": "center",
+        },
+        {
+          "alignItems": "center",
+        },
+        {
+          "flex": 1,
+        },
+        {
+          "flexDirection": "row",
+        },
+      ]
+    }
+  >
+    <View>
+      <View
+        style={
+          {
+            "backgroundColor": "#7959ff",
+            "height": 16,
+            "width": 16,
+          }
+        }
+        testID="mock-icon"
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`<AtomsButton /> static subcomponents renders Content subcomponent with children when not loading 1`] = `
+<View
+  style={
+    [
+      {
+        "gap": 4,
+      },
+      {
+        "justifyContent": "center",
+      },
+      {
+        "alignItems": "center",
+      },
+      {
+        "flex": 1,
+      },
+      {
+        "flexDirection": "row",
+      },
+    ]
+  }
+>
+  <Text
+    color="primary"
+    ellipsizeMode="tail"
+    label="Semibold/L"
+    numberOfLines={1}
+    style={
+      [
+        {
+          "fontFamily": "farcaster-semi-bold",
+          "fontSize": 18,
+          "letterSpacing": -0.25,
+          "lineHeight": 24,
+        },
+        {
+          "color": "#121212",
+        },
+      ]
+    }
+    suppressHighlighting={true}
+  >
+    Visible Text
+  </Text>
+</View>
+`;
+
+exports[`<AtomsButton /> static subcomponents renders Icon subcomponent with disabled styles 1`] = `
+<View>
+  <View
+    style={
+      {
+        "backgroundColor": "#a5a5a5",
+        "height": 16,
+        "width": 16,
+      }
+    }
+    testID="mock-icon"
+  />
+</View>
+`;
+
+exports[`<AtomsButton /> static subcomponents renders Text subcomponent with hierarchy and size 1`] = `
+<Text
+  color="primary"
+  ellipsizeMode="tail"
+  label="Semibold/S"
+  numberOfLines={1}
+  style={
+    [
+      {
+        "fontFamily": "farcaster-semi-bold",
+        "fontSize": 14,
+        "letterSpacing": -0.25,
+        "lineHeight": 18,
+      },
+      {
+        "color": "#121212",
+      },
+    ]
+  }
+  suppressHighlighting={true}
+>
+  Text Label
+</Text>
+`;
+
+exports[`<AtomsButton /> static subcomponents renders loading content via Content subcomponent 1`] = `
+<View
+  style={
+    [
+      {
+        "gap": 4,
+      },
+      {
+        "justifyContent": "center",
+      },
+      {
+        "alignItems": "center",
+      },
+      {
+        "flex": 1,
+      },
+      {
+        "flexDirection": "row",
+      },
+    ]
+  }
+>
+  <ActivityIndicator
+    color="light"
+    size="small"
+  />
+</View>
+`;

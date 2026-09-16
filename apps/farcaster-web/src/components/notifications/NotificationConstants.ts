@@ -1,0 +1,1 @@
+export const NOTIFICATION_ICON_SIZE = 24;

@@ -1,0 +1,606 @@
+@import url('draft-js/dist/Draft.css');
+
+@import 'react-toastify/dist/ReactToastify.css';
+@import '@vidstack/react/player/styles/default/theme.css';
+@import '@vidstack/react/player/styles/default/layouts/audio.css';
+@import '@vidstack/react/player/styles/default/layouts/video.css';
+
+@font-face {
+  font-family: 'SeasonMix';
+  src: url('/fonts/SeasonMix-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SeasonMix';
+  src: url('/fonts/SeasonMix-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SeasonMix';
+  src: url('/fonts/SeasonMix-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SeasonMix';
+  src: url('/fonts/SeasonMix-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SeasonMix';
+  src: url('/fonts/SeasonMix-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SeasonMix';
+  src: url('/fonts/SeasonMix-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/*
+ * React Toastify
+ */
+
+.Toastify {
+  --toastify-toast-min-height: 0;
+  --toastify-toast-bd-radius: 0.5rem;
+  --toastify-color-success: #2f855a;
+  --toastify-color-error: #d51338;
+  --toastify-color-info: #7c65c1;
+  --toastify-color-light: rgba(0, 0, 0, 0);
+  --toastify-toast-width: 382px;
+}
+
+.Toastify__toast-container--top-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Toastify__toast-container--bottom-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Toastify__toast {
+  box-shadow: none;
+  padding: 0px 10px;
+}
+
+.Toastify__toast-theme--colored.Toastify__toast--default {
+  padding: 0;
+}
+
+.Toastify__toast-theme--colored.Toastify__toast--default
+  > .Toastify__toast-body {
+  padding: 0;
+}
+
+/* End React Toastify */
+
+/*
+ * Vidstack Player
+ * See https://www.vidstack.io/docs/player/components/layouts/default-layout?styling=default-theme
+ */
+
+.video-player {
+  --video-load-button-bg: #000000aa;
+  --media-button-size: 26px;
+  --media-time-font-size: 13px;
+  --video-border-radius: 0;
+  --video-border: 0;
+  --video-bg: transparent;
+}
+
+.vds-video-layout .vds-load-container .vds-play-button:hover {
+  background-color: black;
+}
+
+:where(.vds-video-layout .vds-load-container) {
+  z-index: 5;
+}
+
+:where(.vds-video-layout .vds-controls) {
+  z-index: 4;
+}
+
+:where(.vds-video-layout .vds-controls[data-visible]) {
+  background-image: linear-gradient(
+    to top,
+    rgb(0 0 0 / 0.9),
+    20%,
+    transparent 40%
+  );
+}
+
+[data-media-player] {
+  display: flex;
+}
+
+/* End Vidstack Player */
+
+@import 'tailwindcss';
+@import '@neynar/ui/styles';
+@config '../tailwind.config.js';
+
+* {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent; /* For some Androids */
+}
+
+:root {
+  /* Required by @neynar/ui/styles which overrides --radius-* with calc(var(--radius) ± Xpx).
+     0.5rem produces the same values as Tailwind v4 defaults (xl = 0.75rem, lg = 0.5rem, etc.) */
+  --radius: 0.5rem;
+}
+
+/*
+  Do not hide scrollbars or shift content left when a dropdown menu is open,
+  which is caused by react-remove-scroll adding overflow: hidden and
+  margin-right: 15px to the body.
+  Relevant discussion: https://github.com/radix-ui/primitives/issues/1496
+*/
+html body,
+html body[data-scroll-locked] {
+  --removed-body-scroll-bar-size: 0 !important;
+  overflow: initial !important;
+  margin-right: 0 !important;
+}
+
+@layer components {
+  html,
+  body,
+  #root {
+    @apply bg-app text-default;
+    height: 100%;
+    min-height: 100%;
+    touch-action: pan-y;
+    font-size: 15px;
+    overscroll-behavior: none;
+  }
+
+  body > #root,
+  body > #modal-root,
+  body > #popover-root,
+  body > #hover-popover-root {
+    isolation: isolate;
+  }
+
+  body > #root {
+    position: relative;
+    z-index: 0;
+  }
+
+  body > #modal-root,
+  body > #popover-root,
+  body > #hover-popover-root {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  body > #modal-root > *,
+  body > #popover-root > *,
+  body > #hover-popover-root > * {
+    pointer-events: auto;
+  }
+
+  body > #modal-root {
+    z-index: 10;
+  }
+
+  body > #popover-root {
+    z-index: 20;
+  }
+
+  body > #hover-popover-root {
+    z-index: 30;
+  }
+
+  @media (min-width: theme(--breakpoint-sm)) {
+    html {
+      scrollbar-gutter: stable;
+    }
+  }
+
+  body {
+    @apply decoration-1 underline-offset-2 fade-in;
+    @apply text-default;
+
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    font-feature-settings: 'calt' 0;
+    -webkit-font-feature-settings: 'calt' 0;
+  }
+
+  @keyframes fadeInAnimation {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  b,
+  strong {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+  }
+
+  a {
+    cursor: pointer;
+    @apply text-link;
+  }
+
+  :root {
+    --composer-link-color: #7959ff;
+  }
+
+  .dark {
+    --composer-link-color: #866aff;
+  }
+
+  #webpack-dev-server-client-overlay {
+    /* display: none; */
+  }
+
+  .line-clamp-feed {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 10;
+  }
+
+  /* Admin-only feed cast highlight — keep even when no callers pass isAdminGatedFeedCast yet. */
+  .admin-gated-feed-cast {
+    background-image: repeating-linear-gradient(
+      135deg,
+      rgba(0, 0, 0, 0.03) 0 12px,
+      transparent 12px 24px
+    );
+  }
+
+  .dark .admin-gated-feed-cast {
+    background-image: repeating-linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.04) 0 12px,
+      transparent 12px 24px
+    );
+  }
+
+  .ms-popup {
+    @apply cursor-pointer;
+    @apply m-0 ml-5 mt-5 p-0;
+    @apply w-[300px];
+    @apply max-h-[400px] overflow-scroll overflow-x-hidden;
+    @apply rounded-md;
+    @apply shadow-md bg-app;
+    @apply border border-default;
+    @apply z-20;
+  }
+
+  .ms-popup-token {
+    @apply sm:w-[420px];
+  }
+
+  .ms-popup-dc {
+    @apply !transform-none;
+    @apply h-max;
+    @apply cursor-pointer;
+    @apply !bottom-0 !left-0;
+    @apply w-full;
+    @apply max-h-[200px] overflow-scroll overflow-x-hidden;
+    @apply bg-app;
+    @apply border-t border-default;
+    @apply z-70;
+    box-shadow: inset 0 -5px 7px -5px rgb(0 0 0 / 0.05);
+    margin-bottom: calc(var(--dc-editor-height) + 44px);
+  }
+
+  .blur-xs {
+    --tw-blur: blur(2px);
+    filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast)
+      var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert)
+      var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+  }
+
+  .m {
+    text-decoration: none;
+    @apply text-link;
+  }
+
+  /* For Webkit-based browsers (Chrome, Safari and Opera) */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* For IE, Edge and Firefox */
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  /* For Webkit-based browsers hide the default button */
+  input[type='search']::-webkit-search-cancel-button {
+    display: none;
+  }
+
+  /* Improve the arrow on select controls to not be as much to the right */
+  select {
+    background: url("data:image/svg+xml,<svg height='10px' width='10px' viewBox='0 0 16 16' fill='%23999999' xmlns='http://www.w3.org/2000/svg'><path d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/></svg>")
+      no-repeat;
+    background-position: calc(100% - 0.75rem) center !important;
+    -moz-appearance: none !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    padding-right: 2rem !important;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    select {
+      background: url("data:image/svg+xml,<svg height='10px' width='10px' viewBox='0 0 16 16' fill='%23AAAAAA' xmlns='http://www.w3.org/2000/svg'><path d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/></svg>")
+        no-repeat;
+    }
+  }
+
+  /* Webkit + Firefox */
+  .only-on-hover-scrollbar:hover {
+    /* Avoid content jumping left when scrollbar is shown */
+    margin-right: -6px;
+  }
+
+  .only-on-hover-scrollbar-horz:hover {
+    /* Avoid content jumping down when scrollbar is shown */
+    margin-bottom: -6px;
+  }
+  /* End Webkit + Firefox */
+
+  /*
+  Firefox-only part
+  Firefox supports only scrollbar-color and scrollbar-width, which make it tricky to only show the scrollbar on hover because content
+  shifts.
+  Chrome 121+ supports scrollbar-color and scrollbar-width but their presence disables the ::-webkit-scrollbar
+  functionality that allows us to dynamically hide the scrollbar.
+  The solution is to use scrollbar-color and scrollbar-width only for Firefox, and then show the scrollbar all the time there.
+  */
+  @-moz-document url-prefix() {
+    .only-on-hover-scrollbar,
+    .only-on-hover-scrollbar-horz,
+    .scrollbar-vert,
+    .scrollbar-horz {
+      scrollbar-color: #d1d5db99 #fff;
+      scrollbar-width: thin;
+    }
+
+    .only-on-hover-scrollbar {
+      margin-right: -7px;
+    }
+
+    .only-on-hover-scrollbar:hover {
+      margin-right: -7px;
+    }
+
+    .only-on-hover-scrollbar-horz {
+      margin-bottom: -6px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .only-on-hover-scrollbar,
+      .scrollbar-vert,
+      .scrollbar-horz {
+        scrollbar-color: #423466 #101010;
+      }
+    }
+  }
+  /* End Firefox-only part */
+
+  /* Webkit-only part */
+  .only-on-hover-scrollbar::-webkit-scrollbar {
+    display: none;
+    width: 6px;
+  }
+
+  .only-on-hover-scrollbar-horz::-webkit-scrollbar {
+    display: none;
+    height: 6px;
+  }
+
+  .scrollbar-vert::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-horz::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .only-on-hover-scrollbar:hover::-webkit-scrollbar,
+  .only-on-hover-scrollbar-horz:hover::-webkit-scrollbar {
+    display: block !important;
+  }
+
+  .only-on-hover-scrollbar::-webkit-scrollbar-thumb,
+  .only-on-hover-scrollbar-horz:hover::-webkit-scrollbar-thumb,
+  .scrollbar-vert::-webkit-scrollbar-thumb,
+  .scrollbar-horz::-webkit-scrollbar-thumb {
+    @apply bg-overlay-medium;
+    border-radius: 12px;
+  }
+  /* End Webkit-only part */
+
+  table.table-with-borders {
+    @apply mb-3;
+  }
+  table.table-with-borders td {
+    @apply border;
+    @apply py-1;
+    @apply px-2;
+    @apply border-default;
+  }
+
+  ul.bullets {
+    @apply list-disc;
+    @apply pl-4;
+  }
+}
+
+.HoverCardContent {
+  @apply fade-in-slower;
+}
+
+/* Speaking ring pulse for Space speaker tiles (matches mobile SpeakerTile) */
+@keyframes speakerPulseRing {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scale(1.25);
+    opacity: 0;
+  }
+}
+
+.animate-speakerPulseRing {
+  animation: speakerPulseRing 1.4s ease-in-out infinite;
+}
+
+/* Floating reaction animation for Spaces */
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) scale(0.6);
+    opacity: 0;
+  }
+  15% {
+    transform: translateY(-20px) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-280px) scale(1.15);
+    opacity: 0;
+  }
+}
+
+@keyframes scrollIntoViewAnimation {
+  0% {
+    filter: none;
+  }
+  33% {
+    filter: brightness(75%);
+  }
+  66% {
+    filter: brightness(75%);
+  }
+  100% {
+    filter: none;
+  }
+}
+
+.scroll-into-view-animated {
+  animation: scrollIntoViewAnimation 1.2s cubic-bezier(0.17, 0.17, 0, 1);
+}
+
+em-emoji-picker {
+  height: 300px;
+}
+
+.blowfish-ui-content {
+  @apply bg-overlay-light;
+  @apply rounded-t;
+}
+
+.blowfish-ui-content > div {
+  padding: 8px;
+  gap: 4px;
+}
+
+.blowfish-ui-content .jhfYMI {
+  align-items: center;
+  line-height: 12px;
+  gap: 4px;
+}
+
+.blowfish-ui-content .jhfYMI svg {
+  display: none;
+}
+
+.blowfish-ui-content .tQFTe {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.blowfish-ui-content .tQFTe > a .sc-hIjSRL {
+  display: flex;
+}
+
+.landing-bg {
+  background: linear-gradient(180deg, #361aac 0%, #080418 100%);
+  background-blend-mode: overlay, normal, normal;
+  background-size:
+    cover,
+    100px 100px,
+    cover;
+  background-repeat: no-repeat, repeat, no-repeat;
+  background-position:
+    center,
+    0 0,
+    center;
+}
+
+.landing-btn-primary-bg {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.landing-btn-secondary-bg {
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0);
+}
+
+.landing-btn-secondary-bg:hover {
+  border-radius: 300px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 12px 0 rgba(139, 124, 255, 0.4);
+}
+
+.glass-landing-bg {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(24px);
+}
+
+@media (min-width: 768px) {
+  .engagement-ring-seed-grid {
+    grid-template-columns: 48px minmax(420px, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .engagement-ring-candidate-grid {
+    grid-template-columns:
+      48px
+      minmax(420px, 2fr)
+      minmax(0, 1fr)
+      minmax(0, 1fr)
+      minmax(0, 1fr)
+      minmax(0, 1fr)
+      minmax(0, 1fr)
+      minmax(0, 1.2fr);
+  }
+}

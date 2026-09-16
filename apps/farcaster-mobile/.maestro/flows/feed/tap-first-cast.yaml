@@ -1,0 +1,94 @@
+# Smoke test: relies on the preceding sign-in flow to have left the app
+# signed in (see executionOrder in ../../config.yaml). Launches the app
+# without clearing state, taps a visible cast in the home feed, and
+# asserts the cast detail screen renders.
+#
+# The detail-screen assertion anchors on the accessibilityLabel
+# "Go back to conversation" defined in
+# apps/farcaster-mobile/src/screens/Cast/CastScreen.tsx — Maestro matches
+# accessibilityLabel via `text:` on both iOS and Android.
+appId: ${APP_ID}
+tags:
+  - smoke
+  - feed
+---
+# No `clearState` — inherits the signed-in app state from
+# sign-in-with-recovery-phrase.yaml. Bare `launchApp` is idempotent: it
+# brings the app to the foreground without restarting if it is already
+# running.
+- launchApp
+
+# Wait until the feed has had a chance to render. Cast action icons
+# on this build carry no visible text (verified in run 26905182797),
+# so anchor on the home-feed header / tab pills, which are stable
+# text nodes regardless of feed contents.
+- extendedWaitUntil:
+    visible:
+      text: 'Home|following|neynar'
+    timeout: 30000
+
+# Settle pause before the first tap. Run 27177336868 / BS build
+# a07ae86fc1eba1efa showed Maestro reporting "Tap on id: cast-row,
+# Index: 0" as succeeded while the video showed no navigation —
+# the freshly-mounted home feed hadn't quite finished laying out and
+# the first tap was absorbed.
+- waitForAnimationToEnd:
+    timeout: 5000
+
+# Tap `cast-tap-target` index 1 — the second cast in tree order —
+# instead of index 0. Index 0 has two failure modes that both kept
+# this flow flaky:
+#   - On iOS, the RN FlatList that backs the home feed keeps cast
+#     rows that have scrolled above the viewport rendered in the
+#     XCUI hierarchy with negative Y bounds. After launchApp + sign-
+#     in, run 27383828244 picked `cast-tap-target` index 0 with
+#     bounds [12,-417][60,188]; Maestro's bounds-center tap landed
+#     at (36, -115), off-screen, and nothing navigated.
+#   - On Android, when the topmost visible cast is short enough
+#     that the avatar Pressable's hitSlop (14dp via
+#     constants/Pressable.ts) overlaps the avatar-column tap
+#     target's bounds, Android touch dispatch routes the tap to
+#     the avatar's onPress and opens the author's user profile
+#     instead of the cast detail (run 27383828244 open-close-cast
+#     iter 0; same risk applies here on a fresh launch).
+# `cast-tap-target` is tagged only on UnfocusedCast.tsx's avatar-
+# column instance of PressableTargetToNavigateToCast (one per
+# visible feed cast in tree order), so `index: 1` is the cast just
+# below whichever cast index 0 happens to be — almost always a
+# genuinely visible cast on iOS, and almost always not ntestn's
+# own short cast on Android. The Pressable's onPress goes straight
+# to push('Cast', ...), so a bounds-center tap navigates regardless
+# of cast content (mention/URL/embed) or device proportions.
+- tapOn:
+    id: 'cast-tap-target'
+    index: 1
+
+# Conditional retry. CastContainer.tsx:189-192's onPress early-returns
+# when consumeRecentSnapLiftDismissal() reports a snap-lift was
+# dismissed in the last 500ms (snapLiftState.ts:97-113). If a Snap
+# embed near the top of the feed auto-lifts during initial layout,
+# the very tap that would navigate also counts as the "outside touch"
+# that dismisses the lift — RN swallows the onPress while Maestro
+# logs the tap as successful. The consume call also resets the guard
+# window, so the next tap fires cleanly. BrowserStack real-device
+# tap dispatch lag (run 27155808286) can also drop the first press
+# entirely; a second tap covers both. The retry only fires when the
+# detail back-affordance isn't already visible, so the happy path
+# pays no extra latency.
+- waitForAnimationToEnd:
+    timeout: 2000
+- runFlow:
+    when:
+      notVisible: 'Go back to conversation'
+    commands:
+      - tapOn:
+          id: 'cast-tap-target'
+          index: 1
+
+# Maestro's YAML schema only accepts `timeout:` on extendedWaitUntil,
+# not on assertVisible. Use extendedWaitUntil to wait for the cast
+# detail screen's back-affordance to appear.
+- extendedWaitUntil:
+    visible:
+      text: 'Go back to conversation'
+    timeout: 15000

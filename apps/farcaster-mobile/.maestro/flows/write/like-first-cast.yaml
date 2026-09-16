@@ -1,0 +1,39 @@
+# Write smoke: tap the like control on the topmost visible cast.
+#
+# Only mutates state on the test FID — no interaction with other
+# accounts beyond the implicit like target (any cast in the test
+# account's home feed). The flow is intentionally tolerant of the
+# pre-existing like state: if the first cast is already liked, the
+# tap unlikes; either direction exercises the reaction RPC + the
+# optimistic UI update.
+#
+# Selector: `cast-like-button` testID on the Likes Pressable in
+# apps/farcaster-mobile/src/components/casts/CastActions/Likes.tsx,
+# indexed at 0 to target the first visible cast row.
+appId: ${APP_ID}
+tags:
+  - write
+  - feed
+---
+- launchApp
+
+- extendedWaitUntil:
+    visible:
+      text: 'Home|following|neynar'
+    timeout: 30000
+
+- tapOn:
+    id: 'cast-like-button'
+    index: 0
+
+# Optimistic state flip + heart animation. There's no always-visible
+# "liked" text we can anchor on without further app-side
+# instrumentation, so the post-tap assertion is just that the feed
+# tab pills still render — survival of the tap.
+- waitForAnimationToEnd:
+    timeout: 3000
+
+- extendedWaitUntil:
+    visible:
+      text: 'Home|following|neynar'
+    timeout: 30000

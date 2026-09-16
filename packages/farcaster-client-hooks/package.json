@@ -1,0 +1,49 @@
+{
+  "name": "farcaster-client-hooks",
+  "version": "0.0.0",
+  "main": "./dist/index.js",
+  "license": "MIT",
+  "sideEffects": false,
+  "files": [
+    "src/**/*"
+  ],
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "tsc",
+    "format": "prettier --write \"**/*.{ts,tsx,js,json}\" --config ../../.prettierrc.js --ignore-path ../../.prettierignore",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@farcaster/miniapp-core": "0.6.0",
+    "@tanstack/react-query": "5.59.11",
+    "date-fns": "^2.30.0",
+    "farcaster-analytics": "workspace:*",
+    "farcaster-client-data": "workspace:*",
+    "farcaster-cryptography": "workspace:*",
+    "lodash": "4.18.1",
+    "millify": "6.1.0",
+    "react": "19.0.0",
+    "tus-js-client": "^4.0.1",
+    "zustand": "^5.0.8"
+  },
+  "peerDependencies": {
+    "viem": "2.x",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/flatbuffers": "1.10.1",
+    "@types/lodash": "4.14.199",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.1.11",
+    "eslint-config-custom": "workspace:*",
+    "tsconfig": "workspace:*",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
+    "viem": "2.39.3",
+    "vitest": "^3.1.1",
+    "zod": "^4.3.6",
+    "@typescript/native": "npm:typescript@^7.0.2"
+  }
+}

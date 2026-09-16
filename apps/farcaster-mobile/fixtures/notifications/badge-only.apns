@@ -1,0 +1,6 @@
+{
+  "Simulator Target Bundle": "com.farcaster.mobile-client",
+  "aps": {
+    "badge": 0
+  }
+}

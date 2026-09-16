@@ -1,0 +1,33 @@
+# 1. Primary Search Engines
+User-agent: Googlebot
+Allow: /
+Disallow: /~/compose
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+Disallow: /~/compose
+
+User-agent: DuckDuckBot
+Allow: /
+Disallow: /~/compose
+
+# 2. Major AI/LLM Crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# 3. Fallback for All Other Crawlers
+User-agent: *
+Allow: /
+Disallow: /~/compose
+
+# 4. Sitemap Location
+Sitemap: https://farcaster.xyz/sitemap.xml

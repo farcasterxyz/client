@@ -1,0 +1,8 @@
+# Local secret fixtures — never commit a real recovery phrase.
+fixtures/test-account.env
+fixtures/*.env
+!fixtures/*.env.example
+
+# Maestro run artifacts when invoked from this directory.
+.maestro/
+artifacts/

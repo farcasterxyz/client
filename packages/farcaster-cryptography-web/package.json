@@ -1,0 +1,38 @@
+{
+  "name": "farcaster-cryptography-web",
+  "version": "0.0.0",
+  "private": true,
+  "main": "dist/index.js",
+  "license": "MIT",
+  "files": [
+    "src/**/*"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "format": "prettier --write \"**/*.{ts,tsx,js,json}\" --config ../../.prettierrc.js --ignore-path ../../.prettierignore",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "@types/lodash": "4.14.199",
+    "@types/qs": "6.9.8",
+    "@types/sjcl": "1.0.34",
+    "eslint-config-custom": "workspace:*",
+    "fake-indexeddb": "4.0.2",
+    "prettier": "3.0.3",
+    "tsconfig": "workspace:*",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
+    "vitest": "^3.2.4",
+    "@typescript/native": "npm:typescript@^7.0.2"
+  },
+  "dependencies": {
+    "@noble/ed25519": "^1.7.4",
+    "@noble/hashes": "^2.0.1",
+    "farcaster-cryptography": "workspace:*",
+    "futoin-hkdf": "1.5.3",
+    "sjcl": "1.0.8"
+  }
+}

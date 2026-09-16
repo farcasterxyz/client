@@ -1,0 +1,92 @@
+{
+  "name": "farcaster-cryptography-react-native",
+  "version": "0.0.0",
+  "private": true,
+  "root": true,
+  "description": "test",
+  "main": "lib/commonjs/index",
+  "module": "lib/module/index",
+  "types": "lib/typescript/index.d.ts",
+  "source": "src/index",
+  "files": [
+    "src",
+    "lib",
+    "android",
+    "ios",
+    "cpp",
+    "farcaster-cryptography-react-native.podspec",
+    "!lib/typescript/example",
+    "!android/build",
+    "!ios/build",
+    "!**/__tests__",
+    "!**/__fixtures__",
+    "!**/__mocks__"
+  ],
+  "scripts": {
+    "clean": "rm -rf lib",
+    "build": "bob build",
+    "postbuild": "pnpm pnpm:sync",
+    "test": "vitest run",
+    "typescript": "tsc --noEmit",
+    "format": "prettier --write \"**/*.{ts,tsx,js,json}\" --config ../../.prettierrc.js --ignore-path ../../.prettierignore",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "pnpm:sync": "pnpm-sync copy",
+    "release": "release-it",
+    "example": "pnpm --cwd example",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "keywords": [
+    "react-native",
+    "ios",
+    "android"
+  ],
+  "author": "Merkle Manufactory",
+  "homepage": "https://github.com/merkle-manufactory/monorepo",
+  "license": "MIT",
+  "dependencies": {
+    "farcaster-cryptography": "workspace:*"
+  },
+  "peerDependencies": {
+    "@react-native-async-storage/async-storage": "2.x",
+    "react": "*",
+    "react-native": "*"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "7.22.15",
+    "@commitlint/config-conventional": "17.7.0",
+    "@react-native-async-storage/async-storage": "2.1.2",
+    "@react-native/babel-preset": "^0.74.89",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.1.11",
+    "commitlint": "17.7.1",
+    "eslint-config-custom": "workspace:*",
+    "pod-install": "0.1.39",
+    "prettier": "3.0.3",
+    "react": "19.0.0",
+    "react-native": "0.79.4",
+    "react-native-builder-bob": "0.22.0",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
+    "vitest": "^3.1.1",
+    "@typescript/native": "npm:typescript@^7.0.2"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      "commonjs",
+      "module",
+      [
+        "typescript",
+        {
+          "project": "tsconfig.build.json"
+        }
+      ]
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "extends": "tsconfig/javascript-library.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "dist",
+    "build",
+    "node_modules",
+    "**/__tests__/*",
+    "**/*.test.ts"
+  ]
+}

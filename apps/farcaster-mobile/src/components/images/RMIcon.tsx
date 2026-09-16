@@ -1,0 +1,27 @@
+import React, { FC, memo } from 'react';
+import { View, ViewStyle } from 'react-native';
+import Svg, { Path } from 'react-native-svg';
+
+import { sizes } from '~/contexts/ThemeProvider';
+
+type RMIconProps = {
+  color: string;
+  width: number;
+  height: number;
+  style?: ViewStyle[];
+};
+
+const RMIcon: FC<RMIconProps> = memo(({ color, width, height, style }) => {
+  return (
+    <View style={[style, { marginBottom: -sizes.s1 }]}>
+      <Svg width={width} height={height} viewBox="0 0 18 18" fill={color}>
+        <Path d="M0 10.5625V4H2.91818C3.41995 4 3.859 4.08865 4.23532 4.26596C4.61165 4.44327 4.90435 4.69855 5.11342 5.0318C5.32249 5.36505 5.42702 5.76453 5.42702 6.23022C5.42702 6.7002 5.31919 7.09647 5.10351 7.41904C4.89004 7.74161 4.58964 7.98514 4.20231 8.14963C3.81718 8.31412 3.36713 8.39636 2.85216 8.39636H1.10917V7.01209H2.48243C2.69811 7.01209 2.88187 6.98645 3.03372 6.93518C3.18777 6.88177 3.30551 6.79739 3.38694 6.68204C3.47057 6.56668 3.51238 6.41608 3.51238 6.23022C3.51238 6.04224 3.47057 5.8895 3.38694 5.772C3.30551 5.65237 3.18777 5.56479 3.03372 5.50925C2.88187 5.45157 2.69811 5.42273 2.48243 5.42273H1.83542V10.5625H0ZM3.96133 7.55041L5.6515 10.5625H3.65763L2.00707 7.55041H3.96133Z" />
+        <Path d="M6.20938 4H8.49375L10.0651 7.71704H10.1443L11.7156 4H14V10.5625H12.2042V6.76855H12.1514L10.6461 10.5112H9.56331L8.05801 6.74292H8.00519V10.5625H6.20938V4Z" />
+      </Svg>
+    </View>
+  );
+});
+
+RMIcon.displayName = 'RMIcon';
+
+export { RMIcon };

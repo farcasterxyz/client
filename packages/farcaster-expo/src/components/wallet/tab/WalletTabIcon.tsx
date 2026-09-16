@@ -1,0 +1,201 @@
+import {
+  Canvas,
+  Image,
+  Mask,
+  Rect as SkiaRect,
+  useImage,
+} from '@shopify/react-native-skia';
+import React, { useEffect, useState } from 'react';
+import { View } from 'react-native';
+import Animated, {
+  cancelAnimation,
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from 'react-native-reanimated';
+import Svg, { Path } from 'react-native-svg';
+
+import { Text2 } from '../../../components/design-system';
+import { useTheme } from '../../../contexts/ThemeContext';
+import { useWalletTransactions } from '../../../contexts/WalletTransactionsProvider';
+import { useSafeFocusEffect } from '../../../hooks/useSafeFocusEffect';
+
+const spinner = require('./spinner.png');
+
+const ICON_SIZE = 26;
+
+export function WalletTabIcon({
+  selected,
+  iconColor,
+}: {
+  selected?: boolean;
+  iconColor: string;
+}) {
+  const t = useTheme();
+  const progress = useSharedValue(0);
+  const { walletTransactions } = useWalletTransactions();
+
+  const rawPendingTransactionCount = walletTransactions.filter(
+    (tx) => !['confirmed', 'reverted'].includes(tx.status),
+  ).length;
+
+  const [pendingTransactionCount, setPendingTransactionCount] = useState(0);
+  useEffect(() => {
+    if (rawPendingTransactionCount > 0) {
+      setPendingTransactionCount(rawPendingTransactionCount);
+      progress.value = withTiming(1, { duration: 300 });
+    } else {
+      progress.value = withTiming(0, { duration: 300 });
+      setTimeout(() => {
+        setPendingTransactionCount(0);
+      }, 300);
+    }
+  }, [rawPendingTransactionCount, progress]);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      opacity: progress.value,
+      transform: [{ scale: progress.value }],
+    };
+  });
+
+  if (pendingTransactionCount > 0) {
+    return (
+      <Animated.View
+        pointerEvents="none"
+        style={[animatedStyle, { height: ICON_SIZE, width: ICON_SIZE }]}
+      >
+        <WalletTabPendingTxsIcon color={iconColor} />
+        <View
+          style={[
+            t.absolute,
+            t.top0,
+            t.right0,
+            t.left0,
+            t.bottom0,
+            t.justifyCenter,
+            t.itemsCenter,
+          ]}
+        >
+          <Text2 weight="semibold" size="sm">
+            {pendingTransactionCount}
+          </Text2>
+        </View>
+      </Animated.View>
+    );
+  }
+
+  return <WalletTabNoPendingTxsIcon selected={selected} />;
+}
+
+function WalletTabPendingTxsIcon({ color }: { color?: string }) {
+  const spinnerImage = useImage(spinner);
+  const spinnerRotation = useSharedValue(0);
+
+  const spinnerStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ rotate: `${spinnerRotation.value}deg` }],
+    };
+  });
+
+  useSafeFocusEffect(
+    React.useCallback(() => {
+      spinnerRotation.value = withRepeat(
+        withTiming(360, {
+          duration: 500,
+          easing: Easing.linear,
+        }),
+        -1,
+        false,
+      );
+
+      return () => {
+        cancelAnimation(spinnerRotation);
+        spinnerRotation.value = 0;
+      };
+    }, [spinnerRotation]),
+  );
+
+  React.useEffect(() => {
+    return () => spinnerImage?.dispose?.();
+  }, [spinnerImage]);
+
+  return (
+    <View>
+      <Animated.View
+        pointerEvents="none"
+        style={[spinnerStyle, { height: ICON_SIZE, width: ICON_SIZE }]}
+      >
+        <Canvas style={{ height: ICON_SIZE, width: ICON_SIZE }}>
+          <Mask
+            mask={
+              <Image
+                fit="contain"
+                image={spinnerImage}
+                height={ICON_SIZE}
+                width={ICON_SIZE}
+              />
+            }
+          >
+            <SkiaRect
+              color={color}
+              rect={{ height: ICON_SIZE, width: ICON_SIZE, x: 0, y: 0 }}
+            />
+          </Mask>
+        </Canvas>
+      </Animated.View>
+    </View>
+  );
+}
+
+function DefaultIcon() {
+  const t = useTheme();
+
+  return (
+    <Svg width={40} height={40} viewBox="0 0 40 40" fill="none">
+      <Path
+        d="M27.5 14.75H12.5C11.2574 14.75 10.25 15.7574 10.25 17V26C10.25 27.2426 11.2574 28.25 12.5 28.25H27.5C28.7426 28.25 29.75 27.2426 29.75 26V17C29.75 15.7574 28.7426 14.75 27.5 14.75Z"
+        stroke={t.colors.text.primary}
+        strokeWidth={2}
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M27.2825 14.75V13.3437C27.2824 12.9988 27.2062 12.6582 27.0592 12.3462C26.9123 12.0341 26.6984 11.7583 26.4326 11.5385C26.1668 11.3187 25.8558 11.1602 25.5217 11.0744C25.1877 10.9886 24.8388 10.9776 24.5 11.0422L12.155 13.1492C11.6189 13.2514 11.1353 13.5374 10.7875 13.958C10.4397 14.3786 10.2496 14.9074 10.25 15.4531V17.75"
+        stroke={t.colors.text.primary}
+        strokeWidth={2}
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M25.25 23C24.9533 23 24.6633 22.912 24.4166 22.7472C24.17 22.5824 23.9777 22.3481 23.8642 22.074C23.7506 21.7999 23.7209 21.4983 23.7788 21.2074C23.8367 20.9164 23.9796 20.6491 24.1893 20.4393C24.3991 20.2296 24.6664 20.0867 24.9574 20.0288C25.2483 19.9709 25.5499 20.0006 25.824 20.1142C26.0981 20.2277 26.3324 20.42 26.4972 20.6666C26.662 20.9133 26.75 21.2033 26.75 21.5C26.75 21.8978 26.592 22.2794 26.3107 22.5607C26.0294 22.842 25.6478 23 25.25 23Z"
+        fill={t.colors.text.primary}
+      />
+    </Svg>
+  );
+}
+
+function SelectedIcon() {
+  const t = useTheme();
+
+  return (
+    <Svg width={40} height={40} viewBox="0 0 40 40" fill="none">
+      <Path
+        d="M12.4766 12.875H27.4766C27.6518 12.8749 27.8268 12.886 28.0006 12.9083C27.9417 12.4947 27.7997 12.0974 27.583 11.7402C27.3664 11.3831 27.0797 11.0735 26.7402 10.8301C26.4007 10.5868 26.0154 10.4147 25.6076 10.3242C25.1998 10.2338 24.7779 10.2269 24.3673 10.3039L12.0312 12.41H12.0172C11.2428 12.5581 10.5542 12.9962 10.092 13.6348C10.7884 13.1395 11.622 12.8739 12.4766 12.875ZM27.4766 14H12.4766C11.6812 14.0009 10.9186 14.3172 10.3562 14.8796C9.79378 15.4421 9.47743 16.2046 9.47656 17V26C9.47743 26.7954 9.79378 27.5579 10.3562 28.1204C10.9186 28.6828 11.6812 28.9991 12.4766 29H27.4766C28.2719 28.9991 29.0345 28.6828 29.5969 28.1204C30.1593 27.5579 30.4757 26.7954 30.4766 26V17C30.4757 16.2046 30.1593 15.4421 29.5969 14.8796C29.0345 14.3172 28.2719 14.0009 27.4766 14ZM25.25 23C24.9533 23 24.6633 22.912 24.4166 22.7472C24.17 22.5824 23.9777 22.3481 23.8642 22.074C23.7506 21.7999 23.7209 21.4983 23.7788 21.2074C23.8367 20.9164 23.9796 20.6491 24.1893 20.4393C24.3991 20.2296 24.6664 20.0867 24.9574 20.0288C25.2483 19.9709 25.5499 20.0006 25.824 20.1142C26.0981 20.2277 26.3324 20.42 26.4972 20.6666C26.662 20.9133 26.75 21.2033 26.75 21.5C26.75 21.8978 26.592 22.2794 26.3107 22.5607C26.0294 22.842 25.6478 23 25.25 23Z"
+        fill={t.colors.text.primary}
+      />
+      <Path
+        d="M9.5 20.1641V15.5C9.5 14.4842 10.0625 12.7812 12.0148 12.4123C13.6719 12.1016 15.3125 12.1016 15.3125 12.1016C15.3125 12.1016 16.3906 12.8516 15.5 12.8516C14.6094 12.8516 14.6328 14 15.5 14C16.3672 14 15.5 15.1016 15.5 15.1016L12.0078 19.0625L9.5 20.1641Z"
+        fill={t.colors.text.primary}
+      />
+    </Svg>
+  );
+}
+
+function WalletTabNoPendingTxsIcon({ selected }: { selected?: boolean }) {
+  if (selected) {
+    return <SelectedIcon />;
+  } else {
+    return <DefaultIcon />;
+  }
+}

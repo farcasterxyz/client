@@ -1,0 +1,31 @@
+export const fontSizes = {
+  $12: 12,
+  $13: 13,
+  $14: 14,
+  $15: 15,
+  $16: 16,
+  $20: 20,
+  $24: 24,
+  $32: 32,
+  $48: 48,
+  // OLD
+  '2xs': 10,
+  xs: 12,
+  XS: 12,
+  S: 14,
+  sm: 14,
+  B: 15,
+  base: 15,
+  L: 18,
+  lg: 18,
+  xl: 20,
+  '2xl': 24,
+  '3xl': 30,
+  '4xl': 36,
+  '4XL': 36,
+  '5xl': 42,
+  '6xl': 48,
+  '8xl': 64,
+} as const;
+
+export type FontSize = keyof typeof fontSizes;

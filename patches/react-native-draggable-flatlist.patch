@@ -1,0 +1,24 @@
+diff --git a/src/components/DraggableFlatList.tsx b/src/components/DraggableFlatList.tsx
+index 2f59c7a2e544a183b4f501dadbf79df76cc4ccf3..76552c7269cc18c4834f1d572e54f9b33d99c9fd 100644
+--- a/src/components/DraggableFlatList.tsx
++++ b/src/components/DraggableFlatList.tsx
+@@ -402,14 +402,17 @@ function DraggableFlatListInner<T>(props: DraggableFlatListProps<T>) {
+ }
+ 
+ function DraggableFlatList<T>(
+-  props: DraggableFlatListProps<T>,
++  {ListFooterComponent, ListHeaderComponent, ...props}: DraggableFlatListProps<T>,
+   ref?: React.ForwardedRef<FlatList<T>> | null
+ ) {
+   return (
+     <PropsProvider {...props}>
+       <AnimatedValueProvider>
+         <RefProvider flatListRef={ref}>
+-          <MemoizedInner {...props} />
++          <MemoizedInner {...props}
++            ListFooterComponent={ListFooterComponent}
++            ListHeaderComponent={ListHeaderComponent}
++          />
+         </RefProvider>
+       </AnimatedValueProvider>
+     </PropsProvider>

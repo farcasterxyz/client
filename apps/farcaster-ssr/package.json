@@ -1,0 +1,33 @@
+{
+  "name": "farcaster-ssr",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm copy-sitemaps && next dev -p 4000",
+    "copy-sitemaps": "node ../farcaster-web/scripts/validateSitemaps.mjs && rm -rf public/sitemaps && cp -R ../farcaster-web/public/sitemaps public/sitemaps && cp ../farcaster-web/public/sitemaps/sitemap_index.xml public/sitemap.xml && cp ../farcaster-web/public/robots.txt public/robots.txt",
+    "build": "pnpm copy-sitemaps && next build",
+    "start": "next start",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "format": "prettier --write \"**/*.{ts,tsx,js,json}\" --config ../../.prettierrc.js --ignore-path ../../.prettierignore",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@types/node": "20.6.5",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.1.11",
+    "farcaster-client-data": "workspace:*",
+    "farcaster-client-hooks": "workspace:*",
+    "farcaster-web": "workspace:*",
+    "next": "14.2.35",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "viem": "2.39.3"
+  },
+  "devDependencies": {
+    "eslint-config-custom": "workspace:*",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
+    "@typescript/native": "npm:typescript@^7.0.2"
+  },
+  "packageManager": "pnpm@10.8.1"
+}

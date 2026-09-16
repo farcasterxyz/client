@@ -1,0 +1,107 @@
+diff --git a/index.js b/index.js
+index 804c10838cb30f9f9bba84372c8d1741b71c656a..dc0717dc8372204fc87b6e4466c4a163831cbc38 100644
+--- a/index.js
++++ b/index.js
+@@ -1,17 +1,17 @@
+-'use strict';
++"use strict";
+ 
+-var Buffer = require('safe-buffer').Buffer;
+-var Transform = require('stream').Transform;
+-var StringDecoder = require('string_decoder').StringDecoder;
+-var inherits = require('inherits');
++var Buffer = require("safe-buffer").Buffer;
++var Transform = require("readable-stream").Transform;
++var StringDecoder = require("string_decoder").StringDecoder;
++var inherits = require("inherits");
+ 
+ function CipherBase(hashMode) {
+ 	Transform.call(this);
+-	this.hashMode = typeof hashMode === 'string';
++	this.hashMode = typeof hashMode === "string";
+ 	if (this.hashMode) {
+ 		this[hashMode] = this._finalOrDigest;
+ 	} else {
+-		this['final'] = this._finalOrDigest;
++		this["final"] = this._finalOrDigest;
+ 	}
+ 	if (this._final) {
+ 		this.__final = this._final;
+@@ -22,11 +22,12 @@ function CipherBase(hashMode) {
+ }
+ inherits(CipherBase, Transform);
+ 
+-var useUint8Array = typeof Uint8Array !== 'undefined';
+-var useArrayBuffer = typeof ArrayBuffer !== 'undefined'
+-	&& typeof Uint8Array !== 'undefined'
+-	&& ArrayBuffer.isView
+-	&& (Buffer.prototype instanceof Uint8Array || Buffer.TYPED_ARRAY_SUPPORT);
++var useUint8Array = typeof Uint8Array !== "undefined";
++var useArrayBuffer =
++	typeof ArrayBuffer !== "undefined" &&
++	typeof Uint8Array !== "undefined" &&
++	ArrayBuffer.isView &&
++	(Buffer.prototype instanceof Uint8Array || Buffer.TYPED_ARRAY_SUPPORT);
+ 
+ function toBuffer(data, encoding) {
+ 	/*
+@@ -38,7 +39,7 @@ function toBuffer(data, encoding) {
+ 	}
+ 
+ 	// Convert strings to Buffer
+-	if (typeof data === 'string') {
++	if (typeof data === "string") {
+ 		return Buffer.from(data, encoding);
+ 	}
+ 
+@@ -76,15 +77,17 @@ function toBuffer(data, encoding) {
+ 	 * Convert to our current Buffer implementation
+ 	 */
+ 	if (
+-		Buffer.isBuffer(data)
+-			&& data.constructor
+-			&& typeof data.constructor.isBuffer === 'function'
+-			&& data.constructor.isBuffer(data)
++		Buffer.isBuffer(data) &&
++		data.constructor &&
++		typeof data.constructor.isBuffer === "function" &&
++		data.constructor.isBuffer(data)
+ 	) {
+ 		return Buffer.from(data);
+ 	}
+ 
+-	throw new TypeError('The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView.');
++	throw new TypeError(
++		'The "data" argument must be of type string or an instance of Buffer, TypedArray, or DataView.',
++	);
+ }
+ 
+ CipherBase.prototype.update = function (data, inputEnc, outputEnc) {
+@@ -103,15 +106,15 @@ CipherBase.prototype.update = function (data, inputEnc, outputEnc) {
+ 
+ CipherBase.prototype.setAutoPadding = function () {};
+ CipherBase.prototype.getAuthTag = function () {
+-	throw new Error('trying to get auth tag in unsupported state');
++	throw new Error("trying to get auth tag in unsupported state");
+ };
+ 
+ CipherBase.prototype.setAuthTag = function () {
+-	throw new Error('trying to set auth tag in unsupported state');
++	throw new Error("trying to set auth tag in unsupported state");
+ };
+ 
+ CipherBase.prototype.setAAD = function () {
+-	throw new Error('trying to set aad in unsupported state');
++	throw new Error("trying to set aad in unsupported state");
+ };
+ 
+ CipherBase.prototype._transform = function (data, _, next) {
+@@ -153,7 +156,7 @@ CipherBase.prototype._toString = function (value, enc, fin) {
+ 	}
+ 
+ 	if (this._encoding !== enc) {
+-		throw new Error('can’t switch encodings');
++		throw new Error("can’t switch encodings");
+ 	}
+ 
+ 	var out = this._decoder.write(value);

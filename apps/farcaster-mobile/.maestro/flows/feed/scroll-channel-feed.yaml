@@ -1,0 +1,48 @@
+# Performance smoke: fast vertical scroll of a channel feed.
+#
+# Switches the home-feed pager to the `neynar` channel pill (a favorite
+# channel of the test FID — assertion already used by the sign-in
+# flow's home-feed anchor) and then runs the same fast-scroll pattern
+# as scroll-home-feed.yaml.
+#
+# The pager's tab strip stays mounted across page switches, so the
+# `neynar` pill remains visible while the channel-feed content
+# renders below — that's the post-scroll anchor.
+appId: ${APP_ID}
+tags:
+  - smoke
+  - feed
+  - perf
+---
+- launchApp
+
+- extendedWaitUntil:
+    visible:
+      text: 'Home|following|neynar'
+    timeout: 30000
+
+- tapOn: 'neynar'
+
+# Give the pager swap + initial channel-feed fetch a moment to settle
+# before piling on scroll gestures.
+- waitForAnimationToEnd:
+    timeout: 5000
+
+- repeat:
+    times: 8
+    commands:
+      - swipe:
+          direction: UP
+          duration: 200
+
+- repeat:
+    times: 8
+    commands:
+      - swipe:
+          direction: DOWN
+          duration: 200
+
+- extendedWaitUntil:
+    visible:
+      text: 'neynar'
+    timeout: 30000

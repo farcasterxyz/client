@@ -1,0 +1,251 @@
+{
+  "expo": {
+    "name": "Farcaster",
+    "slug": "farcaster",
+    "version": "2.1.15",
+    "orientation": "portrait",
+    "scheme": "farcaster",
+    "userInterfaceStyle": "automatic",
+    "updates": {
+      "fallbackToCacheTimeout": 0,
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD",
+      "url": "https://u.expo.dev/REPLACE_ME"
+    },
+    "ios": {
+      "runtimeVersion": "2.1.8",
+      "buildNumber": "562",
+      "googleServicesFile": "./ios/Farcaster/GoogleService-Info.plist",
+      "associatedDomains": [
+        "applinks:warpcast.com",
+        "webcredentials:warpcast.com",
+        "applinks:farcaster.xyz",
+        "webcredentials:farcaster.xyz"
+      ],
+      "icon": "./src/assets/images/icon-ios.png",
+      "supportsTablet": true,
+      "requireFullScreen": true,
+      "bundleIdentifier": "com.farcaster.mobile-client",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "Farcaster needs your microphone so you can speak in audio Spaces.",
+        "UIBackgroundModes": [
+          "audio"
+        ],
+        "LSApplicationQueriesSchemes": [
+          "message",
+          "readdle-spark",
+          "airmail",
+          "ms-outlook",
+          "googlegmail",
+          "inbox-gmail",
+          "ymail",
+          "superhuman",
+          "yandexmail",
+          "fastmail",
+          "protonmail",
+          "mailto",
+          "cbwallet",
+          "metamask",
+          "rainbow",
+          "twitter",
+          "instagram",
+          "fb",
+          "whatsapp",
+          "tg",
+          "barcelona",
+          "bsky",
+          "youtube",
+          "tiktok",
+          "reddit",
+          "spotify",
+          "discord",
+          "linkedin",
+          "pinterest",
+          "snapchat",
+          "twitch",
+          "soundcloud",
+          "vimeo",
+          "medium",
+          "substack",
+          "patreon",
+          "music",
+          "behance",
+          "dribbble",
+          "flickr",
+          "tumblr",
+          "kick",
+          "letterboxd",
+          "mixcloud",
+          "bandcamp",
+          "giphy",
+          "imgur"
+        ],
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLSchemes": [
+              "farcaster",
+              "com.farcaster.mobile-client"
+            ]
+          }
+        ],
+        "ITSAppUsesNonExemptEncryption": false,
+        "LSApplicationCategoryType": "public.app-category.social-networking",
+        "NSUserActivityTypes": [
+          "INSendMessageIntent"
+        ],
+        "NSAppTransportSecurity": {
+          "NSAllowsLocalNetworking": true
+        },
+        "UISupportedInterfaceOrientations": [
+          "UIInterfaceOrientationPortrait"
+        ]
+      }
+    },
+    "androidStatusBar": {
+      "barStyle": "light-content"
+    },
+    "android": {
+      "runtimeVersion": "2.1.8",
+      "versionCode": 562,
+      "userInterfaceStyle": "automatic",
+      "icon": "./src/assets/images/icon-android.png",
+      "adaptiveIcon": {
+        "foregroundImage": "./src/assets/images/icon-android-adaptive.png",
+        "monochromeImage": "./src/assets/images/icon-android-adaptive.png",
+        "backgroundColor": "#6A3CFF"
+      },
+      "package": "com.farcaster.mobile",
+      "googleServicesFile": "./google-services.json",
+      "permissions": [
+        "android.permission.POST_NOTIFICATIONS",
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.BLUETOOTH",
+        "android.permission.BLUETOOTH_CONNECT",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK",
+        "android.permission.FOREGROUND_SERVICE_MICROPHONE"
+      ],
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "https",
+              "host": "farcaster.xyz"
+            },
+            {
+              "scheme": "farcaster"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ]
+    },
+    "web": {
+      "favicon": "./src/assets/images/favicon-v3.png"
+    },
+    "plugins": [
+      "expo-datadog",
+      "react-native-email-link",
+      [
+        "expo-notifications",
+        {
+          "icon": "./src/assets/images/icon-notifications.png"
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you attach them to your casts.",
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera"
+        }
+      ],
+      [
+        "expo-contacts",
+        {
+          "contactsPermission": "Farcaster uses your contacts to find users you know"
+        }
+      ],
+      "expo-localization",
+      "expo-font",
+      "expo-secure-store",
+      "react-native-compressor",
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow $(PRODUCT_NAME) to use Face ID."
+        }
+      ],
+      "expo-asset",
+      "@react-native-firebase/app-check",
+      [
+        "expo-splash-screen",
+        {
+          "ios": {
+            "image": "./src/assets/images/splash-logo-purple.png",
+            "backgroundColor": "#ffffff",
+            "dark": {
+              "image": "./src/assets/images/splash-logo-purple.png",
+              "backgroundColor": "#101010"
+            }
+          },
+          "android": {
+            "image": "./src/assets/images/splash-logo-purple.png",
+            "backgroundColor": "#ffffff",
+            "dark": {
+              "image": "./src/assets/images/splash-logo-purple.png",
+              "backgroundColor": "#101010"
+            }
+          }
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Allow $(PRODUCT_NAME) to access your location. Your geolocation is never sent to $(PRODUCT_NAME)."
+        }
+      ],
+      [
+        "expo-video",
+        {
+          "supportsBackgroundPlayback": false,
+          "supportsPictureInPicture": false
+        }
+      ],
+      [
+        "react-native-edge-to-edge",
+        {
+          "android": {
+            "parentTheme": "Light"
+          }
+        }
+      ],
+      "expo-audio",
+      [
+        "@livekit/react-native-expo-plugin",
+        {
+          "android": {
+            "audioType": "media"
+          }
+        }
+      ],
+      "@config-plugins/react-native-webrtc",
+      "@react-native-community/datetimepicker",
+      "expo-web-browser",
+      "expo-image",
+      "expo-sharing"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "REPLACE_ME"
+      }
+    },
+    "owner": "farcaster"
+  }
+}
