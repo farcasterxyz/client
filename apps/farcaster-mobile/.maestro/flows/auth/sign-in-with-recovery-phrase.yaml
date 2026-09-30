@@ -1,0 +1,177 @@
+# First test in the suite. Cold-launches the app with cleared state and
+# signs in via recovery phrase. By executing this first (see executionOrder
+# in ../../config.yaml), downstream flows can rely on the app being already
+# signed in — Maestro does not clear app state between flows unless a flow
+# explicitly opts in with `launchApp: clearState: true`.
+#
+# Expected env (set by CI or the e2e:* pnpm scripts):
+#   APP_ID                — iOS bundle id.
+#   E2E_RECOVERY_PHRASE   — BIP-39 mnemonic for the dedicated test FID.
+#
+# Selectors anchor on visible copy for the welcome / OnboardingSignIn
+# screens and on stable testIDs for OnboardingImportWalletScreen:
+#   - testID="onboarding-mnemonic-input" on the Textarea
+#   - testID="onboarding-continue"      on the ButtonV2
+# Both are set in apps/farcaster-mobile/src/screens/OnboardingImportWallet/
+# OnboardingImportWalletScreen.tsx. Those custom components do not
+# propagate `title` / display text to iOS accessibility, so id-based
+# selectors are the reliable path on this screen.
+appId: ${APP_ID}
+tags:
+  - smoke
+  - auth
+---
+- launchApp:
+    clearState: true
+    permissions:
+      notifications: deny
+
+# Let the device settle before the first screen-content check.
+- waitForAnimationToEnd:
+    timeout: 10000
+
+# Wait for the cold-launch screen to render before any further
+# commands. Without this, the conditional runFlow below evaluates
+# against an empty screen and silently no-ops. Anchor on either of
+# the two possible first screens (welcome vs OnboardingSignIn).
+- extendedWaitUntil:
+    visible:
+      text: 'Sign in|Use recovery phrase'
+    timeout: 30000
+
+# If we landed on the welcome screen (not directly on OnboardingSignIn),
+# tap "Sign in" to navigate. Failing loudly (no `optional:`) — if the
+# button isn't visible we want to know rather than silently no-op.
+- runFlow:
+    when:
+      notVisible: 'Use recovery phrase'
+    commands:
+      - tapOn: 'Sign in'
+
+# Wait for the OnboardingSignIn menu item, then tap. 30s timeout
+# because the welcome → OnboardingSignIn transition can take a
+# variable amount of time on real BS devices (0.1s in run
+# 27040065376, ~15s in 27044318826). The AppStoreUpdatePrompt
+# drawer that used to block this on Android is now suppressed
+# at build time via EXPO_PUBLIC_DISABLE_APPSTORE_PROMPT on the
+# `internal` EAS profile (eas.json) — see comment in
+# apps/farcaster-mobile/src/components/prompts/AppStoreUpdatePrompt.tsx.
+- extendedWaitUntil:
+    visible:
+      text: 'Use recovery phrase'
+    timeout: 30000
+- tapOn: 'Use recovery phrase'
+
+# OnboardingImportWalletScreen's Textarea has autoFocus=true, so
+# inputText will be sent to it without an explicit visible-text
+# anchor. The `id: onboarding-mnemonic-input` selector did not match
+# in run 26924282419 despite the testID being forwarded through
+# farcaster-expo (verified in bundle); React Native's TextInput
+# testID does not always propagate to iOS accessibilityIdentifier.
+# Settle the navigation transition and trust autoFocus instead.
+- waitForAnimationToEnd:
+    timeout: 15000
+
+# BrowserStack's setEnvVariables caps each value at 100 chars, which a
+# 24-word BIP-39 phrase exceeds. The phrase is split into three roughly
+# equal chunks at exec time (by .maestro/bin/run-maestro.sh locally
+# and by the mobile-e2e workflow in CI) and typed as five consecutive
+# inputText commands. Maestro's inputText appends to the focused field,
+# so the chunks concatenate into the original phrase with single
+# spaces between them.
+- inputText: ${E2E_RECOVERY_PHRASE_PART1}
+- inputText: ' '
+- inputText: ${E2E_RECOVERY_PHRASE_PART2}
+- inputText: ' '
+- inputText: ${E2E_RECOVERY_PHRASE_PART3}
+- hideKeyboard
+
+# After the mnemonic is in the field, Continue becomes enabled.
+# Wait for it by testID (ButtonV2 wraps TouchableOpacity which
+# forwards testID via the standard RN path that does land as an
+# accessibilityIdentifier), then tap by testID.
+- waitForAnimationToEnd:
+    timeout: 3000
+- extendedWaitUntil:
+    visible:
+      id: 'onboarding-continue'
+    timeout: 10000
+- tapOn:
+    id: 'onboarding-continue'
+
+# After Continue triggers sign-in, three outcomes are possible:
+#   - iOS shows a "Secure with Passkey" screen we have to dismiss
+#     (verified in BS build c4e9aca5).
+#   - Android first surfaces the system POST_NOTIFICATIONS runtime
+#     permission dialog ("Allow Farcaster to send you
+#     notifications?" with Allow / Don't allow buttons; verified in
+#     run 27155808286 BS build c271bfe7… via hierarchy snapshot at
+#     the failure point). The launchApp `permissions:
+#     notifications: deny` only affects pre-install permission
+#     grants, not the Android 13+ runtime request the app makes
+#     after sign-in.
+#   - Otherwise, the home feed renders directly.
+#
+# Wait for *any* of these surfaces to appear, then conditionally
+# dismiss each one. This also absorbs BrowserStack's real-device
+# tap dispatch lag (~10-15s lag between Maestro's reported
+# COMPLETED and the visible tap on the device).
+#
+# 60s budget covers post-Continue rendering on Android real devices.
+# The original 240s budget existed to ride out the Android
+# POST_NOTIFICATIONS dialog, which is now suppressed in internal
+# builds via EXPO_PUBLIC_DISABLE_NOTIFICATION_PROMPT (see
+# apps/farcaster-mobile/src/hooks/pushNotifications/useRequestNotificationsPermission.ts).
+# iOS exits this wait in ~1s when the Passkey screen renders.
+- extendedWaitUntil:
+    visible:
+      text: 'Secure with Passkey|Allow Farcaster|Home|following|neynar'
+    timeout: 60000
+
+# Android: dismiss the system notification-permission dialog.
+# Maestro matches accessibilityText "Don't allow" on the deny
+# button. The '.' in "Don.t" matches both straight (U+0027) and
+# curly (U+2019) apostrophes — the system dialog renders the smart
+# quote on Pixel 7 / Android 13 (verified in the failure-state
+# hierarchy of run 27155808286).
+#
+# Retry once if the dialog is still visible. BS real-device tap
+# dispatch lag occasionally drops a tap, and in run 27165201760's
+# video the dialog stayed up for the full post-Continue wait — we
+# want a second swing before falling back to the Passkey branch /
+# home-feed assert.
+- runFlow:
+    when:
+      visible:
+        text: 'Allow Farcaster to send you notifications'
+    commands:
+      - tapOn:
+          text: 'Don.t allow'
+      - waitForAnimationToEnd:
+          timeout: 3000
+      - runFlow:
+          when:
+            visible:
+              text: 'Allow Farcaster to send you notifications'
+          commands:
+            - tapOn:
+                text: 'Don.t allow'
+
+# iOS: skip the passkey prompt. Same apostrophe rationale.
+- runFlow:
+    when:
+      visible:
+        text: 'Secure with Passkey'
+    commands:
+      - tapOn:
+          text: 'Don.t ask me again'
+
+# Sign-in is the assertion — wait until the home feed has rendered.
+# Cast action icons (Reply / Recast / Like) carry no visible text on
+# this build (confirmed in run 26905182797's Android final-state.png),
+# so anchor on the home-feed header / tab pills instead. "Home" is the
+# header title; "following" / "neynar" are sibling tab pills.
+- extendedWaitUntil:
+    visible:
+      text: 'Home|following|neynar'
+    timeout: 60000

@@ -1,0 +1,51 @@
+diff --git a/util/configHandler.js b/util/configHandler.js
+index 94f1674ea73746f2d06e362ead6d3a8075910c1b..ea7e497a60cbf46e46a8db9447895a792978b539 100644
+--- a/util/configHandler.js
++++ b/util/configHandler.js
+@@ -1,11 +1,42 @@
+-import resolveConfig from 'tailwindcss/resolveConfig';
++import resolveConfig from "tailwindcss/resolveConfig";
++import path from "path";
++import fs from "fs";
+ 
+-let file = require('../stubs/simpleConfig.stub');
++/**
++ * Find a config file in the root directory of the application
++ * @param {string|string[]} configNames - The name(s) of the config file(s) to look for
++ * @returns {string|null} - Path to the found config file or null if not found
++ */
++function findConfig(configNames) {
++	// Handle single config name as a string
++	const fileNames = Array.isArray(configNames) ? configNames : [configNames];
++	const rootDir = process.cwd();
++
++	// Check if any of the config files exist in the root directory
++	for (const fileName of fileNames) {
++		const configPath = path.join(rootDir, fileName);
++
++		try {
++			// Check if the file exists and is readable
++			fs.accessSync(configPath, fs.constants.R_OK);
++			return configPath;
++		} catch (err) {
++			// File doesn't exist or isn't readable, continue checking
++		}
++	}
++
++	return null;
++}
++
++let file = require("../stubs/simpleConfig.stub");
+ 
+ try {
+-    file = require('../../../tailwind.config');
++	const configPath = findConfig("tailwind.config.js");
++	if (configPath) {
++		file = require(configPath);
++	}
+ } catch (e) {}
+ 
+-const {theme} = resolveConfig(file);
++const { theme } = resolveConfig(file);
+ 
+ export default theme;

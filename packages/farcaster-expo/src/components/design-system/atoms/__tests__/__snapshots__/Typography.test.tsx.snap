@@ -1,0 +1,346 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Typography /> Typography with label "Body/ExtraLarge" renders correctly 1`] = `
+<Text
+  color="primary"
+  label="Body/ExtraLarge"
+  style={
+    [
+      {
+        "fontFamily": "farcaster-regular",
+        "fontSize": 20,
+        "letterSpacing": -0.0375,
+        "lineHeight": 28,
+      },
+      {
+        "color": "#121212",
+      },
+    ]
+  }
+  suppressHighlighting={true}
+>
+  Hello, world!
+</Text>
+`;
+
+exports[`<Typography /> Typography with label "Body/ExtraLarge/Strong" renders correctly 1`] = `
+<Text
+  color="primary"
+  label="Body/ExtraLarge/Strong"
+  style={
+    [
+      {
+        "fontFamily": "farcaster-semi-bold",
+        "fontSize": 15,
+        "letterSpacing": -0.0375,
+        "lineHeight": 22,
+      },
+      {
+        "color": "#121212",
+      },
+    ]
+  }
+  suppressHighlighting={true}
+>
+  Hello, world!
+</Text>
+`;
+
+exports[`<Typography /> Typography with label "Body/ExtraSmall" renders correctly 1`] = `
+<Text
+  color="primary"
+  label="Body/ExtraSmall"
+  style={
+    [
+      {
+        "fontFamily": "farcaster-regular",
+        "fontSize": 12,
+        "letterSpacing": 0.06,
+        "lineHeight": 14,
+      },
+      {
+        "color": "#121212",
+      },
+    ]
+  }
+  suppressHighlighting={true}
+>
+  Hello, world!
+</Text>
+`;
+
+exports[`<Typography /> Typography with label "Body/ExtraSmall/Strong" renders correctly 1`] = `
+<Text
+  color="primary"
+  label="Body/ExtraSmall/Strong"
+  style={
+    [
+      {
+        "fontFamily": "farcaster-semi-bold",
+        "fontSize": 12,
+        "letterSpacing": 0.06,
+        "lineHeight": 14,
+      },
+      {
+        "color": "#121212",
+      },
+    ]
+  }
+  suppressHighlighting={true}
+>
+  Hello, world!
+</Text>
+`;
+
+exports[`<Typography /> Typography with label "Body/Large" renders correctly 1`] = `
+<Text
+  color="primary"
+  label="Body/Large"
+  style={
+    [
+      {
+        "fontFamily": "farcaster-regular",
+        "fontSize": 15,
+        "letterSpacing": -0.0375,
+        "lineHeight": 22,
+      },
+      {
+        "color": "#121212",
+      },
+    ]
+  }
+  suppressHighlighting={true}
+>
+  Hello, world!
+</Text>
+`;
+
+exports[`<Typography /> Typography with label "Body/Large/Strong" renders correctly 1`] = `
+<Text
+  color="primary"
+  label="Body/Large/Strong"
+  style={
+    [
+      {
+        "fontFamily": "farcaster-semi-bold",
+        "fontSize": 15,
+        "letterSpacing": -0.0375,
+        "lineHeight": 22,
+      },
+      {
+        "color": "#121212",
+      },
+    ]
+  }
+  suppressHighlighting={true}
+>
+  Hello, world!
+</Text>
+`;
+
+exports[`<Typography /> Typography with label "Body/Medium" renders correctly 1`] = `
+<Text
+  color="primary"
+  label="Body/Medium"
+  style={
+    [
+      {
+        "fontFamily": "farcaster-regular",
+        "fontSize": 14,
+        "letterSpacing": 0.07,
+        "lineHeight": 16,
+      },
+      {
+        "color": "#121212",
+      },
+    ]
+  }
+  suppressHighlighting={true}
+>
+  Hello, world!
+</Text>
+`;
+
+exports[`<Typography /> Typography with label "Body/Medium/Strong" renders correctly 1`] = `
+<Text
+  color="primary"
+  label="Body/Medium/Strong"
+  style={
+    [
+      {
+        "fontFamily": "farcaster-semi-bold",
+        "fontSize": 14,
+        "letterSpacing": 0.07,
+        "lineHeight": 16,
+      },
+      {
+        "color": "#121212",
+      },
+    ]
+  }
+  suppressHighlighting={true}
+>
+  Hello, world!
+</Text>
+`;
+
+exports[`<Typography /> Typography with label "Body/Small" renders correctly 1`] = `
+<Text
+  color="primary"
+  label="Body/Small"
+  style={
+    [
+      {
+        "fontFamily": "farcaster-regular",
+        "fontSize": 13,
+        "letterSpacing": 0.065,
+        "lineHeight": 14,
+      },
+      {
+        "color": "#121212",
+      },
+    ]
+  }
+  suppressHighlighting={true}
+>
+  Hello, world!
+</Text>
+`;
+
+exports[`<Typography /> Typography with label "Body/Small/Strong" renders correctly 1`] = `
+<Text
+  color="primary"
+  label="Body/Small/Strong"
+  style={
+    [
+      {
+        "fontFamily": "farcaster-semi-bold",
+        "fontSize": 13,
+        "letterSpacing": 0.065,
+        "lineHeight": 14,
+      },
+      {
+        "color": "#121212",
+      },
+    ]
+  }
+  suppressHighlighting={true}
+>
+  Hello, world!
+</Text>
+`;
+
+exports[`<Typography /> Typography with label "Heading/Display" renders correctly 1`] = `
+<Text
+  color="primary"
+  label="Heading/Display"
+  style={
+    [
+      {
+        "fontFamily": "farcaster-medium",
+        "fontSize": 32,
+        "letterSpacing": -1.44,
+        "lineHeight": 40,
+      },
+      {
+        "color": "#121212",
+      },
+    ]
+  }
+  suppressHighlighting={true}
+>
+  Hello, world!
+</Text>
+`;
+
+exports[`<Typography /> Typography with label "Heading/ExtraLarge" renders correctly 1`] = `
+<Text
+  color="primary"
+  label="Heading/ExtraLarge"
+  style={
+    [
+      {
+        "fontFamily": "farcaster-heading-semi-bold",
+        "fontSize": 24,
+        "letterSpacing": -0.408,
+        "lineHeight": 32,
+      },
+      {
+        "color": "#121212",
+      },
+    ]
+  }
+  suppressHighlighting={true}
+>
+  Hello, world!
+</Text>
+`;
+
+exports[`<Typography /> Typography with label "Heading/Large" renders correctly 1`] = `
+<Text
+  color="primary"
+  label="Heading/Large"
+  style={
+    [
+      {
+        "fontFamily": "farcaster-heading-semi-bold",
+        "fontSize": 20,
+        "letterSpacing": undefined,
+        "lineHeight": 32,
+      },
+      {
+        "color": "#121212",
+      },
+    ]
+  }
+  suppressHighlighting={true}
+>
+  Hello, world!
+</Text>
+`;
+
+exports[`<Typography /> Typography with label "Heading/Medium" renders correctly 1`] = `
+<Text
+  color="primary"
+  label="Heading/Medium"
+  style={
+    [
+      {
+        "fontFamily": "farcaster-heading-semi-bold",
+        "fontSize": 16,
+        "letterSpacing": -0.075,
+        "lineHeight": 25,
+      },
+      {
+        "color": "#121212",
+      },
+    ]
+  }
+  suppressHighlighting={true}
+>
+  Hello, world!
+</Text>
+`;
+
+exports[`<Typography /> Typography with label "Heading/Small" renders correctly 1`] = `
+<Text
+  color="primary"
+  label="Heading/Small"
+  style={
+    [
+      {
+        "fontFamily": "farcaster-heading-semi-bold",
+        "fontSize": 14,
+        "letterSpacing": -0.07,
+        "lineHeight": 22,
+      },
+      {
+        "color": "#121212",
+      },
+    ]
+  }
+  suppressHighlighting={true}
+>
+  Hello, world!
+</Text>
+`;

@@ -1,0 +1,189 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getTypographyTextStyle basic functionality should return correct styles for Medium/Base typography 1`] = `
+[
+  {
+    "fontFamily": "farcaster-medium",
+    "fontSize": 15,
+    "letterSpacing": -0.25,
+    "lineHeight": 20,
+  },
+]
+`;
+
+exports[`getTypographyTextStyle basic functionality should return correct styles for Medium/S typography 1`] = `
+[
+  {
+    "fontFamily": "farcaster-medium",
+    "fontSize": 14,
+    "letterSpacing": -0.25,
+    "lineHeight": 18,
+  },
+]
+`;
+
+exports[`getTypographyTextStyle basic functionality should return correct styles for Medium/XS typography 1`] = `
+[
+  {
+    "fontFamily": "farcaster-medium",
+    "fontSize": 12,
+    "letterSpacing": -0.09,
+    "lineHeight": 16,
+  },
+]
+`;
+
+exports[`getTypographyTextStyle basic functionality should return correct styles for Semibold/4XL typography 1`] = `
+[
+  {
+    "fontFamily": "farcaster-semi-bold",
+    "fontSize": 36,
+    "letterSpacing": -0.09,
+    "lineHeight": 40,
+  },
+]
+`;
+
+exports[`getTypographyTextStyle basic functionality should return correct styles for Semibold/L typography 1`] = `
+[
+  {
+    "fontFamily": "farcaster-semi-bold",
+    "fontSize": 18,
+    "letterSpacing": -0.25,
+    "lineHeight": 24,
+  },
+]
+`;
+
+exports[`getTypographyTextStyle edge cases should handle additional styles with undefined values 1`] = `
+[
+  {
+    "fontFamily": "farcaster-medium",
+    "fontSize": 12,
+    "letterSpacing": -0.09,
+    "lineHeight": 16,
+  },
+  {
+    "color": undefined,
+    "fontSize": undefined,
+    "fontWeight": "bold",
+  },
+]
+`;
+
+exports[`getTypographyTextStyle edge cases should handle complex nested additional styles 1`] = `
+[
+  {
+    "fontFamily": "farcaster-medium",
+    "fontSize": 12,
+    "letterSpacing": -0.09,
+    "lineHeight": 16,
+  },
+  {
+    "color": "#333333",
+    "textShadowColor": "#000000",
+    "textShadowOffset": {
+      "height": 1,
+      "width": 1,
+    },
+    "textShadowRadius": 2,
+  },
+  {
+    "borderRadius": 4,
+    "paddingHorizontal": 16,
+    "paddingVertical": 8,
+  },
+  {
+    "transform": [
+      {
+        "scale": 1.1,
+      },
+    ],
+  },
+]
+`;
+
+exports[`getTypographyTextStyle edge cases should handle null additional styles 1`] = `
+[
+  {
+    "fontFamily": "farcaster-medium",
+    "fontSize": 12,
+    "letterSpacing": -0.09,
+    "lineHeight": 16,
+  },
+]
+`;
+
+exports[`getTypographyTextStyle edge cases should handle undefined additional styles 1`] = `
+[
+  {
+    "fontFamily": "farcaster-medium",
+    "fontSize": 12,
+    "letterSpacing": -0.09,
+    "lineHeight": 16,
+  },
+]
+`;
+
+exports[`getTypographyTextStyle with additional styles should handle additional styles that override typography properties 1`] = `
+[
+  {
+    "fontFamily": "farcaster-medium",
+    "fontSize": 12,
+    "letterSpacing": -0.09,
+    "lineHeight": 16,
+  },
+  {
+    "fontFamily": "custom-font",
+    "fontSize": 20,
+    "letterSpacing": 1,
+    "lineHeight": 25,
+  },
+]
+`;
+
+exports[`getTypographyTextStyle with additional styles should handle empty additional styles array 1`] = `
+[
+  {
+    "fontFamily": "farcaster-medium",
+    "fontSize": 12,
+    "letterSpacing": -0.09,
+    "lineHeight": 16,
+  },
+]
+`;
+
+exports[`getTypographyTextStyle with additional styles should merge array of additional styles 1`] = `
+[
+  {
+    "fontFamily": "farcaster-medium",
+    "fontSize": 12,
+    "letterSpacing": -0.09,
+    "lineHeight": 16,
+  },
+  {
+    "color": "#00FF00",
+  },
+  {
+    "textAlign": "center",
+  },
+  {
+    "marginTop": 10,
+  },
+]
+`;
+
+exports[`getTypographyTextStyle with additional styles should merge single additional style object 1`] = `
+[
+  {
+    "fontFamily": "farcaster-medium",
+    "fontSize": 12,
+    "letterSpacing": -0.09,
+    "lineHeight": 16,
+  },
+  {
+    "color": "#FF0000",
+    "fontWeight": "bold",
+  },
+]
+`;

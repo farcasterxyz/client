@@ -1,0 +1,16 @@
+{
+  "Simulator Target Bundle": "com.farcaster.mobile-client",
+  "aps": {
+    "alert": {
+      "title": "Farcaster",
+      "body": "New message from someone"
+    },
+    "data": {
+      "type": "unread-direct-casts",
+      "conversationId": "dae8fe1f-0056-4204-89d6-6d9b132f016b",
+      "imageUrl": "https://farcaster.xyz/~/channel-images/random.png"
+    },
+    "badge": 1,
+    "mutable-content": 1
+  }
+}

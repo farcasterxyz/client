@@ -1,0 +1,122 @@
+diff --git a/android/src/main/java/com/reactnativecommunity/webview/RNCWebView.java b/android/src/main/java/com/reactnativecommunity/webview/RNCWebView.java
+--- a/android/src/main/java/com/reactnativecommunity/webview/RNCWebView.java
++++ b/android/src/main/java/com/reactnativecommunity/webview/RNCWebView.java
+@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
+ import androidx.annotation.Nullable;
+ import androidx.webkit.JavaScriptReplyProxy;
+ import androidx.webkit.WebMessageCompat;
++import androidx.webkit.ScriptHandler;
+ import androidx.webkit.WebViewCompat;
+ import androidx.webkit.WebViewFeature;
+ 
+@@ -44,6 +45,7 @@ import com.reactnativecommunity.webview.events.TopMessageEvent;
+ import org.json.JSONException;
+ import org.json.JSONObject;
+ 
++import java.util.Collections;
+ import java.util.List;
+ import java.util.Map;
+ import java.util.Set;
+@@ -58,6 +60,15 @@ public class RNCWebView extends WebView implements LifecycleEventListener {
+     protected @Nullable
+     WebViewCompat.WebMessageListener bridgeListener = null;
+ 
++    /**
++     * Handle returned by WebViewCompat.addDocumentStartJavaScript when we register
++     * injectedJSBeforeContentLoaded via the reliable document-start hook. Non-null
++     * means the script is registered and the legacy onPageStarted/evaluateJavascript
++     * path should skip to avoid double-running.
++     */
++    protected @Nullable
++    ScriptHandler mDocumentStartScriptHandler = null;
++
+     /**
+      * android.webkit.WebChromeClient fundamentally does not support JS injection into frames other
+      * than the main frame, so these two properties are mostly here just for parity with iOS & macOS.
+@@ -313,6 +324,11 @@ public class RNCWebView extends WebView implements LifecycleEventListener {
+     }
+ 
+     public void callInjectedJavaScriptBeforeContentLoaded() {
++        // When the reliable document-start script is registered, Chromium already
++        // runs the injection before any page script. Skip the onPageStarted
++        // evaluateJavascript fallback to avoid running the script twice.
++        if (mDocumentStartScriptHandler != null) return;
++
+         if (getSettings().getJavaScriptEnabled() &&
+                 injectedJSBeforeContentLoaded != null &&
+                 !TextUtils.isEmpty(injectedJSBeforeContentLoaded)) {
+@@ -321,6 +337,45 @@ public class RNCWebView extends WebView implements LifecycleEventListener {
+         }
+     }
+ 
++    /**
++     * Sets injectedJavaScriptBeforeContentLoaded and, when supported, registers it via
++     * WebViewCompat.addDocumentStartJavaScript so the script runs synchronously at
++     * document-start (before any page inline script). This closes a race condition
++     * on Android where the legacy onPageStarted/evaluateJavascript path can lose to
++     * inline <script> tags in <head>, producing inconsistent behavior for hosts that
++     * inject e.g. matchMedia / color-scheme overrides.
++     */
++    public void setInjectedJSBeforeContentLoaded(@Nullable String value) {
++        injectedJSBeforeContentLoaded = value;
++
++        if (!WebViewFeature.isFeatureSupported(WebViewFeature.DOCUMENT_START_SCRIPT)) {
++            // Fall back to onPageStarted -> evaluateJavascript path.
++            return;
++        }
++
++        if (mDocumentStartScriptHandler != null) {
++            try {
++                mDocumentStartScriptHandler.remove();
++            } catch (Exception e) {
++                // Ignore; WebView may already be destroyed.
++            }
++            mDocumentStartScriptHandler = null;
++        }
++
++        if (value == null || TextUtils.isEmpty(value)) return;
++
++        try {
++            mDocumentStartScriptHandler = WebViewCompat.addDocumentStartJavaScript(
++                    this,
++                    "(function() {\n" + value + ";\n})();",
++                    Collections.singleton("*")
++            );
++        } catch (Exception e) {
++            // If registration fails, fall back to the legacy path.
++            mDocumentStartScriptHandler = null;
++        }
++    }
++
+     protected String injectedJavaScriptObject = null;
+ 
+     public void setInjectedJavaScriptObject(String obj) {
+@@ -414,6 +469,14 @@ public class RNCWebView extends WebView implements LifecycleEventListener {
+     }
+ 
+     protected void cleanupCallbacksAndDestroy() {
++        if (mDocumentStartScriptHandler != null) {
++            try {
++                mDocumentStartScriptHandler.remove();
++            } catch (Exception e) {
++                // Ignore; already being destroyed.
++            }
++            mDocumentStartScriptHandler = null;
++        }
+         setWebViewClient(null);
+         destroy();
+     }
+diff --git a/android/src/main/java/com/reactnativecommunity/webview/RNCWebViewManagerImpl.kt b/android/src/main/java/com/reactnativecommunity/webview/RNCWebViewManagerImpl.kt
+--- a/android/src/main/java/com/reactnativecommunity/webview/RNCWebViewManagerImpl.kt
++++ b/android/src/main/java/com/reactnativecommunity/webview/RNCWebViewManagerImpl.kt
+@@ -495,7 +495,9 @@ class RNCWebViewManagerImpl(private val newArch: Boolean = false) {
+ 
+     fun setInjectedJavaScriptBeforeContentLoaded(viewWrapper: RNCWebViewWrapper, value: String?) {
+         val view = viewWrapper.webView
+-        view.injectedJSBeforeContentLoaded = value
++        // Route through setInjectedJSBeforeContentLoaded so the script is registered via
++        // WebViewCompat.addDocumentStartJavaScript when supported (reliable document-start timing).
++        view.setInjectedJSBeforeContentLoaded(value)
+     }
+ 
+     fun setInjectedJavaScriptForMainFrameOnly(viewWrapper: RNCWebViewWrapper, value: Boolean) {

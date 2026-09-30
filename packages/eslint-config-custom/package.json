@@ -1,0 +1,39 @@
+{
+  "name": "eslint-config-custom",
+  "version": "0.0.0",
+  "private": true,
+  "main": "index.js",
+  "type": "module",
+  "exports": {
+    ".": "./index.js",
+    "./base": "./configs/base.js",
+    "./react": "./configs/react.js",
+    "./react-native": "./configs/react-native.js",
+    "./next": "./configs/next.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@eslint/compat": "^1.4.0",
+    "@eslint/js": "^9.36.0",
+    "@next/eslint-plugin-next": "^15.5.4",
+    "eslint-config-prettier": "^9.1.2",
+    "eslint-plugin-ban": "^2.0.0",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^6.1.0",
+    "eslint-plugin-react-native": "^5.0.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-tailwindcss": "^3.18.2",
+    "typescript-eslint": "^8.45.0"
+  },
+  "peerDependencies": {
+    "eslint": "^9.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.36.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

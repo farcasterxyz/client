@@ -1,0 +1,95 @@
+diff --git a/android/src/main/java/expo/modules/image/events/GlideRequestListener.kt b/android/src/main/java/expo/modules/image/events/GlideRequestListener.kt
+index b8cccb5ef..a7ae81232 100644
+--- a/android/src/main/java/expo/modules/image/events/GlideRequestListener.kt
++++ b/android/src/main/java/expo/modules/image/events/GlideRequestListener.kt
+@@ -50,26 +50,31 @@ class GlideRequestListener(
+     dataSource: DataSource,
+     isFirstResource: Boolean
+   ): Boolean {
+-    val intrinsicWidth = (resource as? SVGPictureDrawable)?.svgIntrinsicWidth
+-      ?: resource.intrinsicWidth
+-    val intrinsicHeight = (resource as? SVGPictureDrawable)?.svgIntrinsicHeight
+-      ?: resource.intrinsicHeight
+-
+     val imageWrapper = expoImageViewWrapper.get() ?: return false
+     val appContext = imageWrapper.appContext
+-    appContext.mainQueue.launch {
+-      imageWrapper.onLoad.invoke(
+-        ImageLoadEvent(
+-          cacheType = ImageCacheType.fromNativeValue(dataSource).name.lowercase(Locale.getDefault()),
+-          source = ImageSource(
+-            url = model.toString(),
+-            width = intrinsicWidth,
+-            height = intrinsicHeight,
+-            mediaType = null, // TODO(@lukmccall): add mediaType
+-            isAnimated = resource is Animatable
++    // Reading the intrinsic size of an animated drawable calls FrameSeqDecoder.getBounds(),
++    // which blocks the calling thread until the first frame is decoded. Glide invokes
++    // onResourceReady on the main thread, so reading it here ANRs on slow devices. The size
++    // is only used for the async onLoad event, so read it off the main thread.
++    appContext.backgroundCoroutineScope.launch {
++      val intrinsicWidth = (resource as? SVGPictureDrawable)?.svgIntrinsicWidth
++        ?: resource.intrinsicWidth
++      val intrinsicHeight = (resource as? SVGPictureDrawable)?.svgIntrinsicHeight
++        ?: resource.intrinsicHeight
++      appContext.mainQueue.launch {
++        imageWrapper.onLoad.invoke(
++          ImageLoadEvent(
++            cacheType = ImageCacheType.fromNativeValue(dataSource).name.lowercase(Locale.getDefault()),
++            source = ImageSource(
++              url = model.toString(),
++              width = intrinsicWidth,
++              height = intrinsicHeight,
++              mediaType = null, // TODO(@lukmccall): add mediaType
++              isAnimated = resource is Animatable
++            )
+           )
+         )
+-      )
++      }
+     }
+ 
+     return false
+diff --git a/android/src/main/java/expo/modules/image/ExpoImageViewWrapper.kt b/android/src/main/java/expo/modules/image/ExpoImageViewWrapper.kt
+index 224404e..f92f447 100644
+--- a/android/src/main/java/expo/modules/image/ExpoImageViewWrapper.kt
++++ b/android/src/main/java/expo/modules/image/ExpoImageViewWrapper.kt
+@@ -42,6 +42,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation
+ import java.lang.ref.WeakReference
+ import kotlin.math.abs
+ import kotlin.math.min
++import kotlinx.coroutines.launch
+ 
+ @SuppressLint("ViewConstructor")
+ class ExpoImageViewWrapper(context: Context, appContext: AppContext) : ExpoView(context, appContext) {
+@@ -264,6 +265,30 @@ class ExpoImageViewWrapper(context: Context, appContext: AppContext) : ExpoView(
+     target: ImageViewWrapperTarget,
+     resource: Drawable,
+     isPlaceholder: Boolean = false
++  ) {
++    // Animated drawables (GIF/APNG/WebP, backed by penfeizhou's FrameSeqDecoder) decode their
++    // first frame lazily: the first getIntrinsicWidth()/getBounds() call blocks the caller until
++    // it is ready. displayResource() attaches the drawable (setImageDrawable + start()) on the
++    // main thread, which would trigger that blocking decode there and ANR on slow devices. So for
++    // animated content, force the first-frame decode on a background thread first, then attach.
++    // (The GlideRequestListener fix only moves the onLoad-event size read off-thread and races
++    // this attach, so the main thread can still hit the blocking decode first.)
++    if (resource is Animatable && !isPlaceholder) {
++      appContext.backgroundCoroutineScope.launch {
++        // Touch the intrinsic size off the main thread to force + cache the first frame; the
++        // subsequent main-thread reads during attach/invalidation are then cache hits.
++        runCatching { resource.intrinsicWidth }
++        displayResource(target, resource, isPlaceholder)
++      }
++      return
++    }
++    displayResource(target, resource, isPlaceholder)
++  }
++
++  private fun displayResource(
++    target: ImageViewWrapperTarget,
++    resource: Drawable,
++    isPlaceholder: Boolean = false
+   ) =
+     // The "onResourceReady" function will be triggered when the new resource is available by the Glide.
+     // According to the Glide documentation (https://bumptech.github.io/glide/doc/debugging.html#you-cant-start-or-clear-loads-in-requestlistener-or-target-callbacks),

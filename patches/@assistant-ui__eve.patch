@@ -1,0 +1,36 @@
+diff --git a/dist/convertEveMessages.js b/dist/convertEveMessages.js
+index 6ed6ca0157960cd55edc94c8d7b98b78f272e092..f7f8f4d1c189e9c3a8fe0baad8e3a5d028e69983 100644
+--- a/dist/convertEveMessages.js
++++ b/dist/convertEveMessages.js
+@@ -34 +34 @@ const toMessageStatus = (message, index, messages, options) => {
+-	if (message.metadata?.status === "streaming" || options.isRunning === true && index === messages.length - 1) return ASSISTANT_RUNNING_STATUS;
++	if (options.isRunning === true && (message.metadata?.status === "streaming" || index === messages.length - 1)) return ASSISTANT_RUNNING_STATUS;
+diff --git a/dist/useEveAgentRuntime.js b/dist/useEveAgentRuntime.js
+index 08666aaffc2a9d39a1f167521f0bc13382dac2ce..d66f6d10b23e90d3870d37b8f761f4b2ecb6c522 100644
+--- a/dist/useEveAgentRuntime.js
++++ b/dist/useEveAgentRuntime.js
+@@ -33,2 +33 @@ const useEveAgentRuntime = (options = {}) => {
+-	const hasExecutingTools = Object.values(toolStatuses).some((status) => status?.type === "executing");
+-	const isRunning = agent.status === "submitted" || agent.status === "streaming" || hasExecutingTools;
++	const isRunning = agent.status === "submitted" || agent.status === "streaming";
+diff --git a/src/convertEveMessages.ts b/src/convertEveMessages.ts
+index f987a32f9c263b097fe6980661988242fde28720..aa9ae5b1c44fa134c248abf7fa744fd0cefa6586 100644
+--- a/src/convertEveMessages.ts
++++ b/src/convertEveMessages.ts
+@@ -83,2 +83,2 @@ const toMessageStatus = (
+-    message.metadata?.status === "streaming" ||
+-    (options.isRunning === true && index === messages.length - 1)
++    options.isRunning === true &&
++    (message.metadata?.status === "streaming" || index === messages.length - 1)
+diff --git a/src/useEveAgentRuntime.ts b/src/useEveAgentRuntime.ts
+index ea2c7fe50bab1e96971b4950354a914b851ad8d7..277ab127036b0a32b1aed85853d05ebfe76b9fff 100644
+--- a/src/useEveAgentRuntime.ts
++++ b/src/useEveAgentRuntime.ts
+@@ -101,3 +100,0 @@ export const useEveAgentRuntime = (options: UseEveAgentRuntimeOptions = {}) => {
+-  const hasExecutingTools = Object.values(toolStatuses).some(
+-    (status) => status?.type === "executing",
+-  );
+@@ -106,2 +103 @@ export const useEveAgentRuntime = (options: UseEveAgentRuntimeOptions = {}) => {
+-    agent.status === "streaming" ||
+-    hasExecutingTools;
++    agent.status === "streaming";

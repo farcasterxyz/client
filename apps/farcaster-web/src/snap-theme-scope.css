@@ -1,0 +1,145 @@
+/*
+ * Scoped purple-dawn theme for snap rendering.
+ *
+ * @neynar/ui/styles is imported globally (provides @theme inline mappings,
+ * @source for component class scanning, and base component styles).
+ *
+ * @neynar/ui/themes/purple-dawn is NOT imported globally because it sets
+ * CSS variables on :root (--background, --primary, --muted, etc.) that
+ * conflict with the Merkle app's tailwind.config.js color definitions.
+ *
+ * Instead, we scope the purple-dawn variables inside .snap-theme-scope
+ * so they only apply to snap components.
+ *
+ * TODO: Remove this scoping once the tailwind.config.js is migrated to
+ * CSS-based @theme (tw4 config migration).
+ */
+
+.snap-theme-scope {
+  --font-family: ui-sans-serif, system-ui, sans-serif;
+  --radius: 0.625rem;
+  --surface-blur: 12px;
+
+  --background: oklch(0.96 0.06 290);
+  --foreground: oklch(0.18 0.08 290);
+  --card: oklch(0.93 0.08 290 / 75%);
+  --card-foreground: oklch(0.18 0.08 290);
+  --popover: oklch(0.93 0.08 290 / 75%);
+  --popover-foreground: oklch(0.18 0.08 290);
+  --border: oklch(0.18 0.08 290 / 20%);
+  --input: oklch(0.88 0.06 290);
+  --ring: oklch(0.5 0.18 290);
+  --primary: oklch(0.3 0.09 290);
+  --primary-foreground: oklch(0.98 0.02 290);
+  --secondary: oklch(0.92 0.06 290);
+  --secondary-foreground: oklch(0.18 0.08 290 / 85%);
+  --muted: oklch(0.92 0.06 290);
+  --muted-foreground: oklch(0.18 0.08 290 / 60%);
+  --subtle-foreground: oklch(0.18 0.08 290 / 40%);
+  --accent: oklch(0.9 0.08 290);
+  --accent-foreground: oklch(0.18 0.08 290 / 85%);
+  --destructive: oklch(0.58 0.22 27);
+  --success: oklch(0.55 0.18 145);
+  --warning: oklch(0.65 0.18 65);
+  --info: oklch(0.55 0.18 230);
+
+  /*
+   * The app's tailwind.config.js maps Tailwind color names to app-specific
+   * CSS variables (e.g. border → var(--border-default)). Override those
+   * app variables inside this scope so neynar/ui classes resolve correctly.
+   */
+  --border-default: var(--border);
+  --bg-app: var(--background);
+  --text-default: var(--foreground);
+  --bg-action-primary: var(--primary);
+  --bg-action-secondary: var(--secondary);
+  --bg-muted: var(--muted);
+  --text-muted: var(--muted-foreground);
+  --bg-elevated: var(--accent);
+  --bg-action-danger: var(--destructive);
+
+  font-family: var(--font-family);
+  color: var(--foreground);
+}
+
+.snap-theme-scope [data-slot='item'][data-variant='default'] {
+  border-color: transparent;
+}
+
+.snap-embed-lifted {
+  outline: 2px solid color-mix(in oklch, var(--primary) 50%, transparent);
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 72%),
+    0 16px 28px rgb(15 23 42 / 28%),
+    0 56px 120px rgb(15 23 42 / 58%),
+    0 84px 180px rgb(15 23 42 / 34%);
+}
+
+.dark .snap-embed-lifted {
+  outline-color: color-mix(in oklch, var(--primary) 70%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in oklch, var(--background) 80%, transparent),
+    0 18px 34px rgb(0 0 0 / 74%),
+    0 64px 132px rgb(0 0 0 / 86%),
+    0 96px 196px rgb(0 0 0 / 56%);
+}
+
+.snap-embed-lifted .snap-theme-scope [style*='max-height: 500px'] {
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.snap-embed-lifted .snap-theme-scope button[aria-expanded] {
+  display: none !important;
+}
+
+.snap-theme-scope > div[style*='padding-bottom'] {
+  padding-bottom: 0 !important;
+}
+
+.snap-theme-scope button[aria-expanded] {
+  right: 16px !important;
+  bottom: 12px !important;
+  left: 16px !important;
+  width: auto !important;
+  transform: none !important;
+  border-color: rgb(255 255 255 / 16%) !important;
+  background-color: rgb(18 18 20 / 88%) !important;
+  box-shadow: 0 4px 10px rgb(0 0 0 / 28%) !important;
+  color: #fff !important;
+}
+
+.snap-theme-scope button[aria-expanded='false'] {
+  font-size: 0 !important;
+}
+
+.snap-theme-scope button[aria-expanded='false']::after {
+  content: 'Show Full Snap';
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.dark .snap-theme-scope {
+  --background: oklch(0.145 0.02 290);
+  --foreground: oklch(0.985 0.01 290);
+  --card: oklch(0.205 0.03 290 / 75%);
+  --card-foreground: oklch(0.985 0.01 290);
+  --popover: oklch(0.21 0.035 290 / 75%);
+  --popover-foreground: oklch(0.985 0.01 290);
+  --border: oklch(0.985 0.01 290 / 15%);
+  --input: oklch(0.985 0.01 290 / 12%);
+  --ring: oklch(0.6 0.12 290);
+  --primary: oklch(0.87 0.02 290);
+  --primary-foreground: oklch(0.18 0.025 290);
+  --secondary: oklch(0.26 0.035 290);
+  --secondary-foreground: oklch(0.985 0.01 290 / 85%);
+  --muted: oklch(0.26 0.035 290);
+  --muted-foreground: oklch(0.985 0.01 290 / 60%);
+  --subtle-foreground: oklch(0.985 0.01 290 / 40%);
+  --accent: oklch(0.35 0.06 290);
+  --accent-foreground: oklch(0.985 0.01 290 / 85%);
+  --destructive: oklch(0.704 0.191 22.216);
+  --success: oklch(0.65 0.18 145);
+  --warning: oklch(0.75 0.16 65);
+  --info: oklch(0.65 0.18 230);
+}

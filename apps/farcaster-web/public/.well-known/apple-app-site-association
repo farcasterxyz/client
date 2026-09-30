@@ -1,0 +1,30 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appIDs": [
+          "REPLACE_ME.com.farcaster.mobile-client",
+          "REPLACE_ME.com.farcaster.mobile-client"
+        ],
+        "appID": "REPLACE_ME.com.farcaster.mobile-client",
+        "paths": [
+          "NOT /~/download",
+          "NOT /~/register",
+          "NOT /~/code/*",
+          "/~/r/*/join",
+          "NOT /~/r/*",
+          "NOT /referralCode/*",
+          "NOT /magic-link",
+          "*"
+        ]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": [
+      "REPLACE_ME.com.farcaster.mobile-client",
+      "REPLACE_ME.com.farcaster.mobile-client"
+    ]
+  }
+}

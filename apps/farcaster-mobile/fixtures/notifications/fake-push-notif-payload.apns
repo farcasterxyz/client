@@ -1,0 +1,14 @@
+{
+  "Simulator Target Bundle": "com.farcaster.mobile-client",
+  "aps": {
+    "alert": {
+      "title": "Farcaster",
+      "body": "Here's what's trending today"
+    },
+    "data": {
+      "id": "fake-id-2",
+      "type": "view-notifications"
+    },
+    "badge": 1
+  }
+}

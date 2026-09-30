@@ -1,0 +1,13 @@
+diff --git a/src/react-native/components/snap-image.tsx b/src/react-native/components/snap-image.tsx
+index ba53c1e19f1ed0637e96613ccf9a19d98e739505..a7020cf57af084aa6654fdbd6cfce81b3e1174b2 100644
+--- a/src/react-native/components/snap-image.tsx
++++ b/src/react-native/components/snap-image.tsx
+@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
+   frame: {
+     borderRadius: 8,
+     overflow: "hidden",
+-    backgroundColor: "#f3f4f6",
++    backgroundColor: "transparent",
+   },
+   frameFullWidth: {
+     width: "100%",

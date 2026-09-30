@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android"],
+  "apple": {
+    "modules": ["FarcasterAppLinkingModule"]
+  },
+  "android": {
+    "modules": ["farcaster.modules.appLinking.AppLinkingModule"]
+  }
+}

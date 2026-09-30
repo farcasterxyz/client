@@ -1,0 +1,16 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.farcaster.mobile",
+      "sha256_cert_fingerprints": [
+        "8D:B5:93:29:9C:69:E1:43:3D:DD:58:FE:9B:40:C5:6A:21:F4:5A:31:A2:7E:5A:25:D1:44:49:4D:F8:14:14:8A",
+        "55:84:D5:7E:65:95:3E:6D:A5:B0:04:D6:96:B7:ED:E1:A5:6D:D4:A9:40:F5:65:AF:DB:7C:7B:2C:D7:C8:23:7B",
+        "9F:C4:AA:D7:30:D6:35:50:A2:F1:94:65:71:A1:5F:71:5C:E6:6C:17:D7:9D:4B:68:98:00:91:71:28:C0:32:2E",
+        "FA:C6:17:45:DC:09:03:78:6F:B9:ED:E6:2A:96:2B:39:9F:73:48:F0:BB:6F:89:9B:83:32:66:75:91:03:3B:9C",
+        "C8:0B:60:D0:1B:FA:70:5D:5F:78:64:E4:8A:8D:E5:FB:4C:2D:47:5C:76:1D:F1:70:BA:13:A6:F1:EA:41:FA:DF"
+      ]
+    }
+  }
+]

@@ -1,0 +1,1 @@
+export { NuxRecommendedFollowsScreen } from './NuxRecommendedFollowsScreen';

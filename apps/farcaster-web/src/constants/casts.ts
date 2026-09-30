@@ -1,0 +1,1 @@
+export const MAX_DIRECT_CAST_TEXT_LENGTH = 1024;

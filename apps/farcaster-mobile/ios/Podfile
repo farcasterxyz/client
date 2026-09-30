@@ -1,0 +1,115 @@
+require File.join(File.dirname(`node --print "require.resolve('expo/package.json')"`), "scripts/autolinking")
+require File.join(File.dirname(`node --print "require.resolve('react-native/package.json')"`), "scripts/react_native_pods")
+
+require 'json'
+podfile_properties = JSON.parse(File.read(File.join(__dir__, 'Podfile.properties.json'))) rescue {}
+
+def ccache_enabled?(podfile_properties)
+  return ENV['USE_CCACHE'] == '1' if ENV['USE_CCACHE']
+  podfile_properties['apple.ccacheEnabled'] == 'true'
+end
+
+ENV['EX_DEV_CLIENT_NETWORK_INSPECTOR'] ||= podfile_properties['EX_DEV_CLIENT_NETWORK_INSPECTOR']
+
+# NEYN-11640: react-native-skia ships precompiled simulator slices that
+# require iOS 16.0+, so simulator-profile builds force the deployment
+# target up. All other profiles use the value configured in
+# Podfile.properties.json's `ios.deploymentTarget`, defaulting to 15.1
+# when it isn't set — Skia's device slice still supports that floor.
+ios_deployment_target = if ENV['EAS_BUILD_PROFILE'] == 'simulator'
+  '16.0'
+else
+  podfile_properties['ios.deploymentTarget'] || '15.1'
+end
+platform :ios, ios_deployment_target
+install! 'cocoapods',
+  :deterministic_uuids => false
+
+prepare_react_native_project!
+
+$RNFirebaseAsStaticFramework = true
+
+target 'Farcaster' do
+  use_expo_modules!
+
+  config_command = [
+    'node',
+    '--no-warnings',
+    '--eval',
+    'require(\'expo/bin/autolinking\')',
+    'expo-modules-autolinking',
+    'react-native-config',
+    '--json',
+    '--platform',
+    'ios'
+  ]
+
+  config = use_native_modules!(config_command)
+
+  use_frameworks! :linkage => podfile_properties['ios.useFrameworks'].to_sym if podfile_properties['ios.useFrameworks']
+  use_frameworks! :linkage => ENV['USE_FRAMEWORKS'].to_sym if ENV['USE_FRAMEWORKS']
+
+  pod 'CryptoSwift', '~> 1.6'
+  pod 'SQLite.swift', '~> 0.14'
+  pod 'AppCheckCore', '11.2.0'
+  pod 'GoogleUtilities', :modular_headers => true
+
+  # Pin MMKV to 2.4.0. react-native-mmkv only constrains `MMKV (>= 1.3.3)`, so
+  # CocoaPods re-resolves and floats MMKV/MMKVCore to the newest release on
+  # every install (the pnpm path hash changes, bypassing the Podfile.lock pin).
+  # MMKVCore 2.4.1 (2026-07-30) has an iOS compile regression — `memset_s`
+  # undeclared under the iOS 26 SDK (Tencent/MMKV#1675) — and also changes
+  # storage internals, so hold at 2.4.0 until we upgrade deliberately. Both are
+  # pinned because MMKV 2.4.0 itself depends on `MMKVCore (~> 2.4.0)`, which
+  # would still float MMKVCore to 2.4.1.
+  pod 'MMKV', '2.4.0'
+  pod 'MMKVCore', '2.4.0'
+
+  use_react_native!(
+    :path => config[:reactNativePath],
+    :hermes_enabled => podfile_properties['expo.jsEngine'] == nil || podfile_properties['expo.jsEngine'] == 'hermes',
+    # An absolute path to your application root.
+    :app_path => "#{Pod::Config.instance.installation_root}/..",
+    :privacy_file_aggregation_enabled => podfile_properties['apple.privacyManifestAggregationEnabled'] != 'false',
+  )
+
+  post_install do |installer|
+    react_native_post_install(
+      installer,
+      config[:reactNativePath],
+      :mac_catalyst_enabled => false,
+      :ccache_enabled => ccache_enabled?(podfile_properties),
+    )
+
+    # This is necessary for Xcode 14, because it signs resource bundles by default
+    # when building for devices.
+    installer.target_installation_results.pod_target_installation_results
+      .each do |pod_name, target_installation_result|
+      target_installation_result.resource_bundle_targets.each do |resource_bundle_target|
+        resource_bundle_target.build_configurations.each do |config|
+          config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+        end
+      end
+    end
+
+    # Propagate REACT_NATIVE_PATH to all Pods targets. The hermes-engine podspec's
+    # script_phase references $REACT_NATIVE_PATH but no Pod xcconfig sets it by
+    # default; with pnpm's hashed paths, autodetection fails and the script
+    # attempts to source `/scripts/xcode/with-environment.sh` (empty + literal).
+    # Use absolute path so it resolves regardless of script-phase CWD/SRCROOT
+    # — `config[:reactNativePath]` is relative to ios/, but Pod target script
+    # phases run with CWD=PODS_ROOT (ios/Pods/), which would short the path by
+    # one `../`.
+    rn_path = File.expand_path(config[:reactNativePath], Pod::Config.instance.installation_root)
+
+    # Fix fmt consteval and Folly aligned allocation incompatibilities with
+    # Xcode 26 / newer Clang.
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        config.build_settings['OTHER_CPLUSPLUSFLAGS'] = '$(inherited) -DFMT_USE_CONSTEVAL=0 -faligned-allocation'
+        config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'c++20'
+        config.build_settings['REACT_NATIVE_PATH'] = rn_path
+      end
+    end
+  end
+end

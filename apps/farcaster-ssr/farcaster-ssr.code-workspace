@@ -1,0 +1,44 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "extensions": {
+    "recommendations": ["TypeScriptTeam.native-preview"]
+  },
+  "settings": {
+    "js/ts.experimental.useTsgo": true,
+    "js/ts.tsdk.path": "./node_modules/@typescript/native",
+    "files.exclude": {
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/CVS": true,
+      "**/.DS_Store": true,
+      "**/Thumbs.db": true,
+      ".next": true,
+      "node_modules": true
+    },
+    "workbench.colorCustomizations": {
+      "activityBar.activeBackground": "#d09d8a",
+      "activityBar.background": "#d09d8a",
+      "activityBar.foreground": "#15202b",
+      "activityBar.inactiveForeground": "#15202b99",
+      "activityBarBadge.background": "#e8f6ec",
+      "activityBarBadge.foreground": "#15202b",
+      "commandCenter.border": "#15202b99",
+      "sash.hoverBorder": "#d09d8a",
+      "statusBar.background": "#c17f66",
+      "statusBar.foreground": "#15202b",
+      "statusBarItem.hoverBackground": "#ae6346",
+      "statusBarItem.remoteBackground": "#c17f66",
+      "statusBarItem.remoteForeground": "#15202b",
+      "titleBar.activeBackground": "#c17f66",
+      "titleBar.activeForeground": "#15202b",
+      "titleBar.inactiveBackground": "#c17f6699",
+      "titleBar.inactiveForeground": "#15202b99"
+    },
+    "peacock.color": "#c17f66"
+  }
+}

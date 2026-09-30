@@ -1,0 +1,7 @@
+# ASDF version manager.
+# Specify the desired versions of all the tools this repository requires, then
+# run:
+#
+#  asdf install
+
+nodejs 20.19.5

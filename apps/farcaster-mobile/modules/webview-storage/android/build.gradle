@@ -1,0 +1,27 @@
+plugins {
+  id 'com.android.library'
+  id 'expo-module-gradle-plugin'
+}
+
+group = 'farcaster.modules.webViewStorage'
+version = '1.0.0'
+
+android {
+  namespace 'farcaster.modules.webViewStorage'
+  defaultConfig {
+    versionCode 1
+    versionName "1.0.0"
+  }
+}
+
+repositories {
+  mavenCentral()
+  google()
+}
+
+dependencies {
+  // WebStorageCompat.deleteBrowsingData + the DELETE_BROWSING_DATA feature gate.
+  // Matches the version react-native-webview resolves
+  // (ReactNativeWebView_webkitVersion); the API landed in 1.13.0.
+  implementation 'androidx.webkit:webkit:1.14.0'
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>aps-environment</key>
+	<string>development</string>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:warpcast.com</string>
+		<string>webcredentials:warpcast.com</string>
+		<string>applinks:farcaster.xyz</string>
+		<string>webcredentials:farcaster.xyz</string>
+	</array>
+	<key>com.apple.developer.devicecheck.appattest-environment</key>
+	<string>production</string>
+	<key>com.apple.developer.usernotifications.communication</key>
+	<true/>
+	<key>keychain-access-groups</key>
+	<array>
+		<string>REPLACE_ME.com.farcaster.mobile-client</string>
+		<string>$(AppIdentifierPrefix)com.farcaster.mobile-client</string>
+	</array>
+</dict>
+</plist>

@@ -1,0 +1,13 @@
+diff --git a/ios/CoinbaseWalletSDKExpo.podspec b/ios/CoinbaseWalletSDKExpo.podspec
+index 875fc68526d090affe089d37202bf319107c0845..abef85875ee7426a79b6c1492e194664b1821251 100644
+--- a/ios/CoinbaseWalletSDKExpo.podspec
++++ b/ios/CoinbaseWalletSDKExpo.podspec
+@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
+   s.license        = package['license']
+   s.author         = package['author']
+   s.homepage       = package['homepage']
+-  s.platform       = :ios, '13.0'
++  s.platform       = :ios, '15.1'
+   s.swift_version  = '5.4'
+   s.source         = { git: 'https://github.com/coinbase/wallet-mobile-sdk' }
+   s.static_framework = true

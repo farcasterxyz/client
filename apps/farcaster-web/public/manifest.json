@@ -1,0 +1,41 @@
+{
+  "name": "Farcaster",
+  "short_name": "Farcaster",
+  "description": "A sufficiently decentralized social network.",
+  "background_color": "#ffffff",
+  "categories": ["social"],
+  "display": "standalone",
+  "icons": [
+    {
+      "purpose": "any",
+      "src": "512x512-v2.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "purpose": "any",
+      "src": "1024x1024-v2.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    }
+  ],
+  "share_target": {
+    "action": "/~/compose",
+    "enctype": "multipart/form-data",
+    "method": "POST",
+    "params": {
+      "text": "text"
+    }
+  },
+  "start_url": ".",
+  "theme_color": "#ffffff",
+  "scope": "/",
+  "protocols": {
+    "farcaster": {
+      "matches": "https://farcaster.xyz/*"
+    }
+  },
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  }
+}

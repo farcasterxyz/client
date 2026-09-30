@@ -1,0 +1,6 @@
+/** 90 days in ms */
+const SNAP_INTERACTED_URLS_TTL_MS = 90 * 24 * 60 * 60 * 1000;
+
+const SNAP_INTERACTED_URLS_STORAGE_KEY = 'snap.interactedUrls.v1';
+
+export { SNAP_INTERACTED_URLS_STORAGE_KEY, SNAP_INTERACTED_URLS_TTL_MS };

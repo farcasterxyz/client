@@ -1,0 +1,13 @@
+/build
+node_modules
+**/build
+**/Dockerfile
+**/node_modules
+npm-debug.log
+tmp
+.dockerignore
+.env
+.gitignore
+.github
+.git
+.vscode

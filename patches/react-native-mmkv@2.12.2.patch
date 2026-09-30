@@ -1,0 +1,44 @@
+diff --git a/MMKV/README.md b/MMKV/README.md
+deleted file mode 100644
+index 7aead196dcbb9a264ecd58a88f9380211d604373..0000000000000000000000000000000000000000
+diff --git a/android/build.gradle b/android/build.gradle
+index d91238762ab58c649b262f1135588b765db235b8..d655cd61a22367ef5980cb65afc2e419b85b2422 100644
+--- a/android/build.gradle
++++ b/android/build.gradle
+@@ -91,7 +91,9 @@ android {
+     externalNativeBuild {
+       cmake {
+         cppFlags "-O2 -frtti -fexceptions -Wall -Wno-unused-variable -fstack-protector-all"
+-        arguments "-DANDROID_STL=c++_shared"
++        // NEYN-9519: keep flexible page sizes enabled until MMKV v4 migration.
++        arguments "-DANDROID_STL=c++_shared",
++                  "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
+         abiFilters (*reactNativeArchitectures())
+       }
+     }
+diff --git a/lib/commonjs/createMMKV.js b/lib/commonjs/createMMKV.js
+index b9b9d69a585570b2929a2cebbad35c36df1b7dc9..e4769f591bbb96aa7f3fa5da67c073b85bfb65df 100644
+--- a/lib/commonjs/createMMKV.js
++++ b/lib/commonjs/createMMKV.js
+@@ -38,7 +38,7 @@ const createMMKV = config => {
+     }
+ 
+     // Check if we are running on-device (JSI)
+-    if (global.nativeCallSyncHook == null || MMKVModule.install == null) {
++    if (MMKVModule.install == null) {
+       throw new Error('Failed to create a new MMKV instance: React Native is not running on-device. MMKV can only be used when synchronous method invocations (JSI) are possible. If you are using a remote debugger (e.g. Chrome), switch to an on-device debugger (e.g. Flipper) instead.');
+     }
+ 
+diff --git a/lib/module/createMMKV.js b/lib/module/createMMKV.js
+index 644840da7b021b34deef93e89c8b68bbaf488546..f59d4367885234ca7c5b6c50650aebb2d15082e6 100644
+--- a/lib/module/createMMKV.js
++++ b/lib/module/createMMKV.js
+@@ -32,7 +32,7 @@ export const createMMKV = config => {
+     }
+ 
+     // Check if we are running on-device (JSI)
+-    if (global.nativeCallSyncHook == null || MMKVModule.install == null) {
++    if (MMKVModule.install == null) {
+       throw new Error('Failed to create a new MMKV instance: React Native is not running on-device. MMKV can only be used when synchronous method invocations (JSI) are possible. If you are using a remote debugger (e.g. Chrome), switch to an on-device debugger (e.g. Flipper) instead.');
+     }
+ 

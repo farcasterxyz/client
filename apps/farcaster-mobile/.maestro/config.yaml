@@ -1,0 +1,31 @@
+# Shared Maestro workspace config for the farcaster-mobile app.
+# Per-flow `appId` still applies; this file only configures inclusion rules
+# and execution order.
+#
+# Required env vars (see fixtures/test-account.env.example for the full list):
+#   APP_ID                  — iOS bundle id or Android package, set per-platform by CI / local scripts.
+#   E2E_RECOVERY_PHRASE     — 12/24 word mnemonic for the dedicated test FID. The FID is derived at sign-in.
+#   MAESTRO_RUN_ID          — auto-generated per run to disambiguate created content.
+
+flows:
+  - 'flows/**'
+
+# Order matters: sign-in walks the recovery-phrase onboarding once and
+# leaves the app signed in. Subsequent flows launch into that state without
+# `clearState`, so they skip the slow mnemonic-entry path and reuse the
+# same BrowserStack session (one BS session per platform; per-session
+# minutes amortize across the whole suite). If sign-in fails, everything
+# downstream fails — by design.
+#
+# Read-only flows run before write flows so a regression on the cheap
+# path fails the suite before the test FID starts mutating state.
+executionOrder:
+  flowsOrder:
+    - sign-in-with-recovery-phrase
+    - tap-first-cast
+    - scroll-home-feed
+    - scroll-channel-feed
+    - rapid-tab-switch
+    - open-close-cast
+    - like-first-cast
+    - publish-cast

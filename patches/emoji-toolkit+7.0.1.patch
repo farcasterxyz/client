@@ -1,0 +1,94 @@
+diff --git a/node_modules/emoji-toolkit/lib/js/joypixels.js b/node_modules/emoji-toolkit/lib/js/joypixels.js
+index 8db82e3..d46ffc0 100644
+--- a/node_modules/emoji-toolkit/lib/js/joypixels.js
++++ b/node_modules/emoji-toolkit/lib/js/joypixels.js
+@@ -249,45 +249,51 @@
+     // will output unicode from shortname
+     // useful for sending emojis back to mobile devices
+     ns.shortnameToUnicode = function(str) {
++        // PATCH [07/06/22] (goksu): 
++        // This was so slow on M1 Electron builds!
++        // Mostly because the regex searching for unicodes are taking a really long time.
++        // However for our use case we only need the native emojis and we really don't need the unicode
++        // conversation hence by-passing all that logic. 
++        return ns.convert(ns.emojiList[str].uc_full.toUpperCase())
+         // replace regular shortnames first
+-        var unicode,fname;
+-        str = str.replace(ns.regShortNames, function(shortname) {
+-            if( (typeof shortname === 'undefined') || (shortname === '') ) {
+-                // if the shortname is empty, return the entire match
+-                return shortname;
+-            }
+-            if (!(shortname in ns.emojiList)) {
+-                // if the shortname does not exist as primary, check alternates
+-                if (!(shortname in ns.altShortNames)) {
+-                    // if the shortname doesnt exist, return the entire match
+-                    return shortname;
+-                }
+-                //set shortname as parent
+-                shortname = ns.altShortNames[shortname];
+-            }
+-            unicode = ns.emojiList[shortname].uc_full.toUpperCase();
+-            fname = ns.emojiList[shortname].uc_base;
+-            return ns.convert(unicode);
+-        });
+-
+-        // if ascii smileys are turned on, then we'll replace them!
+-        if (ns.ascii) {
+-
+-            var asciiRX = ns.riskyMatchAscii ? ns.regAsciiRisky : ns.regAscii;
+-
+-            str = str.replace(asciiRX, function(entire, m1, m2, m3) {
+-                if( (typeof m3 === 'undefined') || (m3 === '') || (!(ns.unescapeHTML(m3) in ns.asciiList)) ) {
+-                    // if the ascii doesnt exist just return the entire match
+-                    return entire;
+-                }
+-
+-                m3 = ns.unescapeHTML(m3);
+-                unicode = ns.asciiList[m3].toUpperCase();
+-                return m2+ns.convert(unicode);
+-            });
+-        }
+-
+-        return str;
++        // var unicode,fname;
++        // str = str.replace(ns.regShortNames, function(shortname) {
++        //     if( (typeof shortname === 'undefined') || (shortname === '') ) {
++        //         // if the shortname is empty, return the entire match
++        //         return shortname;
++        //     }
++        //     if (!(shortname in ns.emojiList)) {
++        //         // if the shortname does not exist as primary, check alternates
++        //         if (!(shortname in ns.altShortNames)) {
++        //             // if the shortname doesnt exist, return the entire match
++        //             return shortname;
++        //         }
++        //         //set shortname as parent
++        //         shortname = ns.altShortNames[shortname];
++        //     }
++        //     unicode = ns.emojiList[shortname].uc_full.toUpperCase();
++        //     fname = ns.emojiList[shortname].uc_base;
++        //     return ns.convert(unicode);
++        // });
++
++        // // if ascii smileys are turned on, then we'll replace them!
++        // if (ns.ascii) {
++
++        //     var asciiRX = ns.riskyMatchAscii ? ns.regAsciiRisky : ns.regAscii;
++
++        //     str = str.replace(asciiRX, function(entire, m1, m2, m3) {
++        //         if( (typeof m3 === 'undefined') || (m3 === '') || (!(ns.unescapeHTML(m3) in ns.asciiList)) ) {
++        //             // if the ascii doesnt exist just return the entire match
++        //             return entire;
++        //         }
++
++        //         m3 = ns.unescapeHTML(m3);
++        //         unicode = ns.asciiList[m3].toUpperCase();
++        //         return m2+ns.convert(unicode);
++        //     });
++        // }
++
++        // return str;
+     };
+ 
+     ns.shortnameToImage = function(str) {

@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "farcaster-cryptography-react-native": [
+        "./src/index"
+      ]
+    },
+    "types": [
+      "vitest/globals"
+    ],
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react",
+    "lib": [
+      "esnext"
+    ],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "esnext",
+    "rootDir": "./src"
+  }
+}

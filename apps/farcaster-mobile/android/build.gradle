@@ -1,0 +1,76 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+  repositories {
+    google()
+    mavenCentral()
+  }
+  dependencies {
+    classpath 'com.google.gms:google-services:4.4.1'
+    classpath('com.android.tools.build:gradle')
+    classpath('com.facebook.react:react-native-gradle-plugin')
+    classpath('org.jetbrains.kotlin:kotlin-gradle-plugin')
+    classpath 'androidx.benchmark:benchmark-baseline-profile-gradle-plugin:1.3.4'
+    // Datadog Gradle plugin — provides the uploadMapping<Variant> tasks that
+    // upload R8/Proguard mapping files for native-crash de-obfuscation in RUM.
+    // Applied + configured in app/build.gradle. Version matches expo-datadog's
+    // pin for our dd-sdk stack. (Manual wiring: committed native dirs, no
+    // `expo prebuild`, so the expo-datadog config plugin is inert.)
+    classpath 'com.datadoghq:dd-sdk-android-gradle-plugin:1.22.0'
+  }
+}
+
+def reactNativeAndroidDir = new File(
+  providers.exec {
+    workingDir(rootDir)
+    commandLine("node", "--print", "require.resolve('react-native/package.json')")
+  }.standardOutput.asText.get().trim(),
+  "../android"
+)
+
+allprojects {
+  repositories {
+    maven {
+      // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
+      url(reactNativeAndroidDir)
+    }
+
+    google()
+    mavenCentral()
+    maven { url 'https://www.jitpack.io' }
+  }
+}
+
+subprojects {
+  tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+      // Keep Kotlin/Javac targets aligned to avoid per-module JVM mismatch failures.
+      jvmTarget = "17"
+    }
+  }
+}
+
+apply plugin: "expo-root-project"
+apply plugin: "com.facebook.react.rootproject"
+
+// TODO(mobile-kotlin-deprecation-cleanup): Remove this suppression block once upstream fixes land in
+// react-native-iap and react-native-menu_menu.
+// Tracking ticket: MOBILE-TECHDEBT-KOTLIN-DEPRECATIONS.
+subprojects {
+  if (
+    name == "react-native-iap" ||
+    name == "react-native-menu_menu"
+  ) {
+    tasks.configureEach { task ->
+      if (task.name.toLowerCase().contains("kotlin")) {
+        if (task.hasProperty("kotlinOptions")) {
+          task.kotlinOptions.allWarningsAsErrors = false
+          task.kotlinOptions.freeCompilerArgs += ["-Xsuppress-warning=DEPRECATION"]
+        }
+        if (task.hasProperty("compilerOptions")) {
+          task.compilerOptions.allWarningsAsErrors.set(false)
+        }
+      }
+    }
+  }
+}

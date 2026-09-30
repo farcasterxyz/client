@@ -1,0 +1,29 @@
+import React, { FC, memo } from 'react';
+import { ViewStyle } from 'react-native';
+import Svg, { Path } from 'react-native-svg';
+
+type GNIconProps = {
+  color: string;
+  width: number;
+  height: number;
+  style?: ViewStyle[];
+};
+
+const GNIcon: FC<GNIconProps> = memo(({ color, width, height, style }) => {
+  return (
+    <Svg
+      width={width}
+      height={height}
+      viewBox="0 0 14 14"
+      fill={color}
+      style={style}
+    >
+      <Path d="M4.72113 6.0076H6.28412C6.16453 4.83555 5.12717 4 3.78111 4C2.24594 4 1 5.08365 1 7.01141C1 8.85931 2.12913 10 3.79224 10C5.28292 10 6.35086 9.06464 6.35086 7.46768V6.65779H3.82561V7.78707H4.86019C4.84628 8.29468 4.49586 8.61977 3.80336 8.61977C3.0024 8.61977 2.5908 8.01521 2.5908 6.98859C2.5908 5.97624 3.03578 5.38023 3.81449 5.38023C4.2984 5.38023 4.62657 5.60837 4.72113 6.0076Z" />
+      <Path d="M12 4.07985H10.4537V7.13688H10.4092L8.38455 4.07985H7.07187V9.92015H8.61817V6.85171H8.65154L10.7096 9.92015H12V4.07985Z" />
+    </Svg>
+  );
+});
+
+GNIcon.displayName = 'GNIcon';
+
+export { GNIcon };
