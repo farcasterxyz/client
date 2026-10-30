@@ -160,7 +160,7 @@
     "path-to-regexp": "6.3.0",
     "posthog-react-native": "4.39.3",
     "posthog-react-native-session-replay": "1.5.1",
-    "qs": "6.16.0",
+    "qs": "6.16.1",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-error-boundary": "4.1.2",
