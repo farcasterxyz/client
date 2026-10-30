@@ -70,7 +70,7 @@
     "posthog-js": "^1.347.1",
     "process": "^0.11.10",
     "qrcode": "^1.5.3",
-    "qs": "6.16.0",
+    "qs": "6.16.1",
     "react": "19.0.0",
     "react-aria-components": "^1.6.0",
     "react-currency-input-field": "^3.8.0",
