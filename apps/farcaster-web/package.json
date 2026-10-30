@@ -93,7 +93,7 @@
     "uuid": "^11.1.1",
     "viem": "2.39.3",
     "wagmi": "^3.1.0",
-    "zod": "^4.3.6"
+    "zod": "^4.6.6"
   },
   "scripts": {
     "validate-sitemaps": "node scripts/validateSitemaps.mjs",

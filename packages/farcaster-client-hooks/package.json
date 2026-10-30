@@ -31,7 +31,7 @@
   },
   "peerDependencies": {
     "viem": "2.x",
-    "zod": "^4.3.6"
+    "zod": "^4.6.6"
   },
   "devDependencies": {
     "@types/flatbuffers": "1.10.1",
@@ -43,7 +43,7 @@
     "typescript": "npm:@typescript/typescript6@^6.0.2",
     "viem": "2.39.3",
     "vitest": "4.1.12",
-    "zod": "^4.3.6",
+    "zod": "^4.6.6",
     "@typescript/native": "npm:typescript@^7.0.2"
   }
 }
