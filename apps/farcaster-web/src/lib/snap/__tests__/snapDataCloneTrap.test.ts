@@ -306,7 +306,7 @@ describe('logSnapParseError', () => {
     ).not.toThrow();
     // Two console.errors: the primary diagnostic + the trap-failed breadcrumb.
     expect(consoleSpy.mock.calls.length).toBeGreaterThanOrEqual(1);
-    const tags = consoleSpy.mock.calls.map((c) => c[0]);
+    const tags = consoleSpy.mock.calls.map((c: unknown[]) => c[0]);
     expect(tags).toContain('[snap-parse-error:trap-failed]');
   });
 
@@ -1101,7 +1101,7 @@ describe('logSnapResponseError', () => {
         trackEvent,
       }),
     ).not.toThrow();
-    const tags = consoleSpy.mock.calls.map((c) => c[0]);
+    const tags = consoleSpy.mock.calls.map((c: unknown[]) => c[0]);
     expect(tags).toContain('[snap-response-error:trap-failed]');
   });
 });

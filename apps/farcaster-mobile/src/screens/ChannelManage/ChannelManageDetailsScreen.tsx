@@ -4,6 +4,7 @@ import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import {
   ImageUploadError,
+  replaceNewlinesWithSpaces,
   useChannel,
   useUpdateChannel,
 } from 'farcaster-client-hooks';
@@ -132,11 +133,11 @@ const ChannelManageDetailsScreen = buildScreen<ChannelManageDetailsScreenProps>(
         }
 
         if (name !== channel.name) {
-          params.name = name.trim().replace('\n', ' ');
+          params.name = replaceNewlinesWithSpaces(name.trim());
         }
 
         if (description !== channel.description) {
-          params.description = description.trim().replace('\n', ' ');
+          params.description = replaceNewlinesWithSpaces(description.trim());
         }
 
         if (
@@ -154,7 +155,7 @@ const ChannelManageDetailsScreen = buildScreen<ChannelManageDetailsScreenProps>(
         }
 
         if (description !== channel.description) {
-          params.description = description.trim().replace('\n', ' ');
+          params.description = replaceNewlinesWithSpaces(description.trim());
         }
 
         if (Object.keys(params).length > 0) {

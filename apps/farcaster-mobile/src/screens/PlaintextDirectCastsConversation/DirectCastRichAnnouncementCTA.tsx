@@ -1,6 +1,7 @@
 import { openBrowserAsync } from 'expo-web-browser';
 import { AnalyticsEvent } from 'farcaster-analytics';
 import { ApiRichAnnouncementDirectCastMessagePayload } from 'farcaster-client-data';
+import { isFarcasterAppUrl } from 'farcaster-client-hooks';
 import React from 'react';
 import { Pressable } from 'react-native';
 
@@ -35,11 +36,7 @@ const DirectCastRichAnnouncementCTA: React.FC<DirectCastRichAnnouncementCTAProps
         target: payload.actionTarget,
       });
 
-      if (
-        payload.actionTarget.startsWith('https://warpcast.com') ||
-        payload.actionTarget.startsWith('https://farcaster.xyz') ||
-        payload.actionTarget.startsWith('farcaster://')
-      ) {
+      if (isFarcasterAppUrl(payload.actionTarget)) {
         try {
           const parsedUrl = new URL(payload.actionTarget);
 

@@ -237,3 +237,28 @@ export function sanitizeUrl(
     return null;
   }
 }
+
+const FARCASTER_APP_HOSTNAMES = new Set(['warpcast.com', 'farcaster.xyz']);
+
+/**
+ * Whether a URL targets the Farcaster app: an https link on a Farcaster
+ * hostname, or a farcaster:// deep link. The hostname is compared exactly so
+ * lookalikes such as https://warpcast.com.example.com are rejected.
+ */
+export function isFarcasterAppUrl(url: string): boolean {
+  if (url.startsWith('farcaster://')) {
+    return true;
+  }
+
+  try {
+    const { protocol, hostname } = new URL(url);
+    return protocol === 'https:' && FARCASTER_APP_HOSTNAMES.has(hostname);
+  } catch {
+    return false;
+  }
+}
+
+/** Replaces every newline in the text with a single space. */
+export function replaceNewlinesWithSpaces(text: string): string {
+  return text.replace(/\n/g, ' ');
+}

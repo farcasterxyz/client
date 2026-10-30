@@ -1,5 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ApiChannel } from 'farcaster-client-data';
+import { replaceNewlinesWithSpaces } from 'farcaster-client-hooks';
 import React, { useCallback, useState } from 'react';
 
 import { buildScreen } from '~/components/Screen';
@@ -32,7 +33,7 @@ const EditChannelDescriptionScreen =
           onChannlLoad={onChannelLoad}
           getUpdateAttributes={() =>
             // We don't allow new lines - convert to spaces
-            ({ description: description.trim().replace('\n', ' ') })
+            ({ description: replaceNewlinesWithSpaces(description.trim()) })
           }
           saveDisabled={() => false}
         >

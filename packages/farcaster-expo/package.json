@@ -88,14 +88,14 @@
     "farcaster-babel-plugins": "workspace:*",
     "jest": "^29.7.0",
     "jest-expo": "~55.0.17",
-    "moment": "2.x",
+    "moment": "2.31.0",
     "react": "19.2.0",
     "react-native": "0.83.6",
     "react-test-renderer": "19.2.0",
     "ts-jest": "29.3.2",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
     "viem": "2.39.3",
-    "vitest": "^3.1.1",
+    "vitest": "4.1.12",
     "wagmi": "^3.1.0",
     "@typescript/native": "npm:typescript@^7.0.2"
   }
