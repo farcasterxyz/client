@@ -9,7 +9,6 @@ import { LoginMagicLinkModal } from '~/components/modals/LoginMagicLinkModal';
 import { LoginModal } from '~/components/modals/LoginModal';
 import { Page } from '~/components/page/Page';
 import { useAnalytics } from '~/contexts/AnalyticsProvider';
-import { isMobile } from '~/utils/navigatorUtils';
 
 import LandingVideo from './LandingVideo.mp4';
 
@@ -134,27 +133,16 @@ export function HomeLandingPage() {
                 where you own your identity.
               </div>
               <div className="mt-[35px] flex flex-col space-y-3">
-                {isMobile() ? (
-                  <ExternalLink
-                    href="https://link.farcaster.xyz/download"
-                    title="Download Farcaster"
-                  >
-                    <div className="flex w-full items-center justify-center rounded-[300px] bg-[#7959FF] px-[36px] py-[10px] ">
-                      <div className="text-[16px] text-light">Sign up</div>
-                    </div>
-                  </ExternalLink>
-                ) : (
-                  <Link
-                    to="signup"
-                    params={{}}
-                    searchParams={{}}
-                    title="Download Farcaster"
-                  >
-                    <div className="flex w-full items-center justify-center rounded-[300px] bg-[#7959FF] px-[36px] py-[10px]">
-                      <div className="text-[16px] text-light">Sign up</div>
-                    </div>
-                  </Link>
-                )}
+                <Link
+                  to="signup"
+                  params={{}}
+                  searchParams={{}}
+                  title="Download Farcaster"
+                >
+                  <div className="flex w-full items-center justify-center rounded-[300px] bg-[#7959FF] px-[36px] py-[10px]">
+                    <div className="text-[16px] text-light">Sign up</div>
+                  </div>
+                </Link>
                 <div className="flex flex-row items-center space-x-2 py-2">
                   <div className="h-px grow bg-[rgba(255,255,255,0.5)]" />
                   <div className="text-sm text-[rgba(255,255,255,0.5)]">or</div>
