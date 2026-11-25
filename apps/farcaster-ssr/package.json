@@ -13,18 +13,16 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@types/node": "20.6.5",
-    "@types/react": "19.2.14",
-    "@types/react-dom": "19.1.11",
     "farcaster-client-data": "workspace:*",
     "farcaster-client-hooks": "workspace:*",
     "farcaster-web": "workspace:*",
     "next": "15.5.28",
     "react": "19.0.0",
-    "react-dom": "19.0.0",
-    "viem": "2.39.3"
+    "react-dom": "19.0.0"
   },
   "devDependencies": {
+    "@types/node": "20.6.5",
+    "@types/react": "19.2.14",
     "eslint-config-custom": "workspace:*",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
     "@typescript/native": "npm:typescript@^7.0.2"
