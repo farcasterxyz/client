@@ -128,7 +128,7 @@
     "prettier-plugin-tailwindcss": "^0.5.13",
     "tailwindcss": "^4.2.2",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
-    "vite": "^6.4.3",
+    "vite": "^6.4.5",
     "vite-plugin-node-polyfills": "^0.25.0",
     "vitest": "4.1.12",
     "@typescript/native": "npm:typescript@^7.0.2"
