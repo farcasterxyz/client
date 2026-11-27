@@ -38,14 +38,11 @@ export default defineConfig({
         manualChunks: {
           // Split heavy vendor libraries into separate chunks
           'vendor-viem': ['viem'],
-          'vendor-wagmi': ['wagmi', '@wagmi/core', '@wagmi/connectors'],
-          'vendor-solana': ['@solana/web3.js'],
-          'vendor-privy': ['@privy-io/react-auth'],
+          'vendor-wagmi': ['wagmi'],
           'vendor-draftjs': [
             'draft-js',
             '@draft-js-plugins/editor',
             '@draft-js-plugins/mention',
-            '@draft-js-plugins/emoji',
             '@draft-js-plugins/linkify',
           ],
           'vendor-emoji': [

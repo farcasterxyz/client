@@ -53,15 +53,9 @@
     "react-native": "*"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "7.22.15",
-    "@commitlint/config-conventional": "17.7.0",
     "@react-native-async-storage/async-storage": "2.1.2",
     "@react-native/babel-preset": "^0.74.89",
-    "@types/react": "19.2.14",
-    "@types/react-dom": "19.1.11",
-    "commitlint": "17.7.1",
     "eslint-config-custom": "workspace:*",
-    "pod-install": "0.1.39",
     "prettier": "3.0.3",
     "react": "19.0.0",
     "react-native": "0.79.4",
@@ -69,11 +63,6 @@
     "typescript": "npm:@typescript/typescript6@^6.0.2",
     "vitest": "4.1.12",
     "@typescript/native": "npm:typescript@^7.0.2"
-  },
-  "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
   },
   "react-native-builder-bob": {
     "source": "src",

@@ -17,8 +17,6 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "devDependencies": {
-    "@types/lodash": "4.14.199",
-    "@types/qs": "6.9.8",
     "@types/sjcl": "1.0.34",
     "eslint-config-custom": "workspace:*",
     "fake-indexeddb": "4.0.2",

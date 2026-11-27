@@ -34,10 +34,8 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@types/flatbuffers": "1.10.1",
     "@types/lodash": "4.14.199",
     "@types/react": "19.2.14",
-    "@types/react-dom": "19.1.11",
     "eslint-config-custom": "workspace:*",
     "tsconfig": "workspace:*",
     "typescript": "npm:@typescript/typescript6@^6.0.2",
