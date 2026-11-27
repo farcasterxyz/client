@@ -61,7 +61,7 @@
     "motion": "^12.16.0",
     "ox": "^0.6.3",
     "posthog-js": "^1.347.1",
-    "qs": "6.16.0",
+    "qs": "6.16.1",
     "react": "19.0.0",
     "react-aria-components": "^1.6.0",
     "react-currency-input-field": "^3.8.0",
